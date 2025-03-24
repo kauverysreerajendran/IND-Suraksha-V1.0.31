@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "702823223934",
+    "project_id": "suraksha-ind",
+    "storage_bucket": "suraksha-ind.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:702823223934:android:0d7ce91280ee8c34813e2f",
+        "android_client_info": {
+          "package_name": "com.pinesphere.indheart"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs6aup-fPDYjFcsDpuWbj49uQI87zXLw0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
