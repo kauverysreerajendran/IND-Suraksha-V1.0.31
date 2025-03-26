@@ -7,7 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-  StatusBar,
+  Linking
 } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
@@ -336,18 +336,21 @@ const PatientProfile: React.FC = () => {
             )}
           </LinearGradient>
 
-          <TouchableOpacity
-            style={styles.feedbackButton}
-            onPress={handleFeedbackSubmit}
-          >
-            <Ionicons
-              name="checkmark-circle"
-              size={20}
-              color="#1cb1d2"
-              style={styles.icon}
-            />
-            <Text style={styles.feedbackButtonText}>Submit Feedback</Text>
-          </TouchableOpacity>
+          <View style={styles.buttonContainer}>
+  <TouchableOpacity
+    style={[styles.feedbackButton, styles.feedbackButton]}
+    onPress={handleFeedbackSubmit}
+  >
+    <Text style={styles.feedbackButtonText}>Submit Feedback</Text>
+  </TouchableOpacity>
+
+  <TouchableOpacity
+  style={[styles.deleteButton, styles.deleteButton]}
+  onPress={() => Linking.openURL("https://docs.google.com/forms/d/1IzWQ1SzZGthvVB5vFo6ETyd2K59cV_68_ppvOHwbsJ4/edit")}
+>
+  <Text style={styles.deleteButtonText}>Delete Account</Text>
+</TouchableOpacity>
+</View>
         </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -357,6 +360,45 @@ const PatientProfile: React.FC = () => {
 export default PatientProfile;
 
 const styles = StyleSheet.create({
+
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "center", // Center align the buttons horizontally
+    alignItems: "center", // Center align the buttons vertically
+    marginTop: 15,
+    marginBottom: 5,
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+  },
+  feedbackButton: {
+    backgroundColor: "#3a8cb4",
+    borderRadius: 30,
+    marginHorizontal: 5,
+  },
+  deleteButton: {
+    backgroundColor: "#f15252",
+    borderRadius: 30,
+    marginHorizontal: 5,
+  },
+  feedbackButtonText: {
+    color: "#fffcfc",
+    fontSize: 16,
+    fontWeight: "600",
+    textAlign: "center",
+    padding: 13,
+    
+  },
+  deleteButtonText: {
+    color: "#fffcfc",
+    fontSize: 16,
+    fontWeight: "600",
+    textAlign: "center",
+    padding: 13,
+    
+  },
+ 
+  
+ 
   container: {
     flex: 1,
     backgroundColor: "#fff",
@@ -469,28 +511,9 @@ const styles = StyleSheet.create({
     marginLeft: 8, // Space between icon and text
   },
 
-  feedbackButton: {
-    flexDirection: "row", // Align items horizontally
-    alignItems: "center", // Center icon and text vertically
-    justifyContent: "center", // Center the content within the button
-    //backgroundColor: "#2797cb", // Light grey background
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    borderRadius: 20,
-    //elevation: 3, // Add some shadow for a tile effect
-    marginTop: 15, // Space above the button
-    width: "90%", // Adjust width as needed
-    alignSelf: "center", // Center the button in its parent
-  },
 
-  feedbackButtonText: {
-    color: "#2797cb",
-    fontSize: 20,
-    fontWeight: "600",
-    textAlign: "center",
-    marginLeft: 5,
-    textDecorationLine: "underline",
-  },
+
+ 
   icon: {
     marginRight: 0,
   },

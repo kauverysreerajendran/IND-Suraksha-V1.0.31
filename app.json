@@ -2,7 +2,7 @@
   "expo": {
     "name": "Suraksha IND",
     "slug": "ind-heart",
-    "version": "1.0.3",
+    "version": "1.0.7",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "indheart",
@@ -13,11 +13,11 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/splash.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.pinesphere.indheart",
-      "versionCode": 2
+      "versionCode": 7
     },
     "web": {
       "bundler": "metro",
