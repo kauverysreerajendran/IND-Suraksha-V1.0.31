@@ -346,7 +346,7 @@ const PatientProfile: React.FC = () => {
 
   <TouchableOpacity
   style={[styles.deleteButton, styles.deleteButton]}
-  onPress={() => Linking.openURL("https://docs.google.com/forms/d/1IzWQ1SzZGthvVB5vFo6ETyd2K59cV_68_ppvOHwbsJ4/edit")}
+  onPress={() => Linking.openURL("https://sites.google.com/view/indheartsuraksha/home")}
 >
   <Text style={styles.deleteButtonText}>Delete Account</Text>
 </TouchableOpacity>

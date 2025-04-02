@@ -16,8 +16,6 @@ import com.facebook.soloader.SoLoader
 import expo.modules.ApplicationLifecycleDispatcher
 import expo.modules.ReactNativeHostWrapper
 import com.rnfs.RNFSPackage
-import com.google.firebase.FirebaseApp  // ✅ Required import added
-
 
 
 
@@ -56,8 +54,6 @@ class MainApplication : Application(), ReactApplication {
       load()
     }
     ApplicationLifecycleDispatcher.onApplicationCreate(this)
-    // ✅ Crash fix added here for Firebase Messaging Service
-    FirebaseApp.initializeApp(this)
   }
 
   override fun onConfigurationChanged(newConfig: Configuration) {
