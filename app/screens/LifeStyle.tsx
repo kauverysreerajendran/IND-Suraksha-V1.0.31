@@ -124,7 +124,7 @@ const LifeStyleMonitoring: React.FC<WalkingProps> = ({ navigation }) => {
     try {
       console.log("Fetching patient details for phone:", phone);
       const response = await axios.get(
-        `https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${phone}/`
+        `https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${phone}/`
       );
 
       // Set only patient_id and diet
@@ -278,7 +278,7 @@ const LifeStyleMonitoring: React.FC<WalkingProps> = ({ navigation }) => {
     try {
       // Make the POST request to your Django API
       const response = await axios.post(
-        "https://v6fdr37z-8000.inc1.devtunnels.ms/patient/lifestyle-data/",
+        "https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/lifestyle-data/",
         payload
       );
 
@@ -343,6 +343,8 @@ const LifeStyleMonitoring: React.FC<WalkingProps> = ({ navigation }) => {
         visible={alertVisible} // Controls visibility of the custom alert
         onClose={() => setAlertVisible(false)} // Close the alert when the user presses OK
       />
+  
+      {/* Cancel Confirmation Alert */}
       <CustomAlert
         title="Cancel"
         message="Are you sure you want to cancel?"
@@ -354,7 +356,19 @@ const LifeStyleMonitoring: React.FC<WalkingProps> = ({ navigation }) => {
         }}
         onNo={() => setCancelAlertVisible(false)}
       />
-
+  
+      {/* ✅ Success Alert */}
+      <CustomAlert
+      title="Success"
+      message="Walking data saved successfully!"
+      visible={successAlertVisible}
+      // onClose={() => setSuccessAlertVisible(false)} // closes on OK
+      onClose={() => {
+        setSuccessAlertVisible(false);
+        navigation.navigate("PatientDashboardPage");
+      }}
+      
+    />
       <SafeAreaView style={styles.safeArea}>
         {/* Adjust StatusBar visibility */}
         <StatusBar
@@ -362,7 +376,7 @@ const LifeStyleMonitoring: React.FC<WalkingProps> = ({ navigation }) => {
           backgroundColor="transparent" // Make the background transparent
           translucent={true} // Make status bar translucent
         />
-
+  
         <View style={styles.container}>
           <ScrollView
             contentContainerStyle={styles.scrollContainer}

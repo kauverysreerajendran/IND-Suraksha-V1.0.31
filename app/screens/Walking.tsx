@@ -192,7 +192,7 @@ const Walking: React.FC<WalkingProps> = ({ navigation }) => {
   const fetchPatientDetails = async (phone: string) => {
     try {
       const response = await axios.get(
-        `https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${phone}/`
+        `https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${phone}/`
       );
 
       setPatientDetails({
@@ -203,7 +203,7 @@ const Walking: React.FC<WalkingProps> = ({ navigation }) => {
 
       // Fetch clinical data for the patient to get the date of operation
       const clinicalResponse = await axios.get(
-        `https://v6fdr37z-8000.inc1.devtunnels.ms/api/api/clinical-data/?patient_id=${response.data.patient_id}/`
+        `https://ind-heart-suraksha-digitalocean-11.onrender.com/api/api/clinical-data/?patient_id=${response.data.patient_id}/`
       );
 
       // Assuming that you want the first record for simplicity
@@ -324,7 +324,7 @@ const Walking: React.FC<WalkingProps> = ({ navigation }) => {
     console.log({ date, distance, hours, minutes, difficultyText });
 
     // Check if the form is filled
-    if (!date || !distance || !hours || !difficultyText) {
+    if (!date) {
       setAlertTitle(languageText.errorTitle);
       setAlertMessage(languageText.errorMessage);
       setCustomAlertVisible(true); // Show custom alert
@@ -333,7 +333,7 @@ const Walking: React.FC<WalkingProps> = ({ navigation }) => {
 
     try {
       const response = await axios.post(
-        "https://v6fdr37z-8000.inc1.devtunnels.ms/patient/walking-data/",
+        "https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/walking-data/",
         {
           // Prepare data to send
           patient_id: patientDetails?.patient_id,
@@ -667,6 +667,14 @@ const Walking: React.FC<WalkingProps> = ({ navigation }) => {
                 <Text style={styles.modalTitle}>
                   {languageText.congratulations}
                 </Text>
+
+<TouchableOpacity
+                    style={styles.closeButton}
+                    onPress={() => setShowCongrats(false)}
+                  >
+                    <Text style={styles.closeButtonText}>✖</Text>
+                  </TouchableOpacity>
+
                 <Text style={styles.modalText}>{languageText.dailyGoal}</Text>
                 <TouchableOpacity
                   onPress={() => setShowCongrats(false)}
@@ -674,6 +682,8 @@ const Walking: React.FC<WalkingProps> = ({ navigation }) => {
               </View>
             </View>
           </Modal>
+
+
           {/* Footer Buttons */}
           <View style={styles.footer}>
             <TouchableOpacity
@@ -972,7 +982,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalView: {
-    width: 300,
+    width: 350,
     height: 260,
     padding: 10,
     backgroundColor: "#fff",
@@ -1002,6 +1012,20 @@ const styles = StyleSheet.create({
     resizeMode: "contain", // Adjusts how the image fits in the specified dimensions
     marginBottom: 5, // Optional: adds space below the image
   },
+  closeButton: {
+    position: 'absolute',
+    top: 20,
+    right: 30,
+    zIndex: 1,
+    padding: 5,
+  },
+  
+  closeButtonText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#eb4646',
+  },
+  
 });
 
 export default Walking;

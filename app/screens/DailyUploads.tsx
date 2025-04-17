@@ -131,7 +131,7 @@ const DailyUploads: React.FC = () => {
   const fetchPatientDetails = async (phone: string) => {
     try {
       const response = await axios.get(
-        `https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${phone}/`
+        `https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${phone}/`
       );
       setPatientDetails(response.data);
     } catch (error) {
@@ -162,7 +162,7 @@ const DailyUploads: React.FC = () => {
     if (patientDetails) {
       try {
         const response = await axios.get(
-          `https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${patientDetails.patient_id}/sleep-data/`
+          `https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${patientDetails.patient_id}/sleep-data/`
         );
         setHasSleepData(response.data.exists);
       } catch (error) {
@@ -179,7 +179,7 @@ const DailyUploads: React.FC = () => {
     if (patientDetails) {
       try {
         const response = await axios.get(
-          `https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${patientDetails.patient_id}/vegdiet-data/`
+          `https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${patientDetails.patient_id}/vegdiet-data/`
         );
         setHasvegDietData(response.data.exists);
       } catch (error) {
@@ -195,7 +195,7 @@ const DailyUploads: React.FC = () => {
     if (patientDetails) {
       try {
         const response = await axios.get(
-          `https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${patientDetails.patient_id}/nonvegdiet-data/`
+          `https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${patientDetails.patient_id}/nonvegdiet-data/`
         );
         setHasnonvegDietData(response.data.exists);
       } catch (error) {
@@ -211,7 +211,7 @@ const DailyUploads: React.FC = () => {
     if (patientDetails) {
       try {
         const response = await axios.get(
-          `https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${patientDetails.patient_id}/water-data/`
+          `https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${patientDetails.patient_id}/water-data/`
         );
         setWaterIntake(response.data.exists);
       } catch (error) {
@@ -228,7 +228,7 @@ const DailyUploads: React.FC = () => {
     if (patientDetails) {
       try {
         const response = await axios.get(
-          `https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${patientDetails.patient_id}/daily-exercise-data/`
+          `https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${patientDetails.patient_id}/daily-exercise-data/`
         );
         setExerciseData(response.data.exists);
       } catch (error) {
@@ -245,7 +245,7 @@ const DailyUploads: React.FC = () => {
     if (patientDetails) {
       try {
         const response = await axios.get(
-          `https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${patientDetails.patient_id}/walking-data/`
+          `https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${patientDetails.patient_id}/walking-data/`
         );
         setWalkingData(response.data.exists);
       } catch (error) {
@@ -262,7 +262,7 @@ const DailyUploads: React.FC = () => {
     if (patientDetails) {
       try {
         const response = await axios.get(
-          `https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${patientDetails.patient_id}/yoga-data/`
+          `https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${patientDetails.patient_id}/yoga-data/`
         );
         setYogaData(response.data.exists);
       } catch (error) {
@@ -279,7 +279,7 @@ const DailyUploads: React.FC = () => {
     if (patientDetails) {
       try {
         const response = await axios.get(
-          `https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${patientDetails.patient_id}/medicine-data/`
+          `https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${patientDetails.patient_id}/medicine-data/`
         );
         setMedicineData(response.data.exists);
       } catch (error) {

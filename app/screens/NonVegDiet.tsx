@@ -161,7 +161,7 @@ useFocusEffect(
     try {
       console.log("Fetching patient details for phone:", phone);
       const response = await axios.get(
-        `https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${phone}/`
+        `https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${phone}/`
       );
 
       // Set only patient_id and diet
@@ -319,7 +319,7 @@ useFocusEffect(
 
       try {
         const response = await axios.post(
-          "https://v6fdr37z-8000.inc1.devtunnels.ms/patient/nonvegetarian-diets/",
+          "https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/nonvegetarian-diets/",
           requestData
         );
         console.log("NonVegetarian diet saved successfully:", response.data);
@@ -409,7 +409,7 @@ useFocusEffect(
   
       try {
         const response = await axios.post(
-          "https://v6fdr37z-8000.inc1.devtunnels.ms/patient/nonvegetarian-diets/",
+          "https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/nonvegetarian-diets/",
           requestData
         );
         console.log("NonVegetarian diet saved successfully:", response.data);

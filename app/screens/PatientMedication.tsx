@@ -96,7 +96,7 @@ const PatientMedication: React.FC = () => {
         const storedPhoneNumber = await AsyncStorage.getItem("phoneNumber");
         if (storedPhoneNumber) {
           const response = await axios.get(
-            `https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${storedPhoneNumber}/`
+            `https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${storedPhoneNumber}/`
           );
           const patient_id = response.data.patient_id;
           fetchMedications(patient_id);
@@ -113,7 +113,7 @@ const PatientMedication: React.FC = () => {
   const fetchMedications = async (patient_id: string) => {
     try {
       const response = await axios.get(
-        `https://v6fdr37z-8000.inc1.devtunnels.ms/api/api/medical-manager/?patient_id=${patient_id}`
+        `https://ind-heart-suraksha-digitalocean-11.onrender.com/api/api/medical-manager/?patient_id=${patient_id}`
       );
       if (response.data.length === 0) {
         console.log("No medication data available.");
@@ -197,7 +197,7 @@ const PatientMedication: React.FC = () => {
 
       // Make the POST request to save each medication instance
       const response = await axios.post(
-        "https://v6fdr37z-8000.inc1.devtunnels.ms/patient/medications/",
+        "https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/medications/",
         selectedMedicationsToSave
       );
 

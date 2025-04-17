@@ -42,7 +42,7 @@ const App = () => {
           await AsyncStorage.setItem('authToken', token);
 
           // Send the token to your backend (optional)
-          await axios.post('https://v6fdr37z-8000.inc1.devtunnels.ms/patient/api/save-token/', {
+          await axios.post('https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/api/save-token/', {
             token: token,
             group_name: 'Patient'
           });

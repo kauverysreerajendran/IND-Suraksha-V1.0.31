@@ -124,7 +124,7 @@ const WaterPage: React.FC = () => {
     try {
       console.log("Fetching patient details for phone:", phone);
       const response = await axios.get(
-        `https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${phone}/`
+        `https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${phone}/`
       );
 
       // Set only patient_id and diet
@@ -245,7 +245,7 @@ const WaterPage: React.FC = () => {
 
     try {
       const response = await axios.post(
-        `https://v6fdr37z-8000.inc1.devtunnels.ms/patient/water-data/`,
+        `https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/water-data/`,
         {
           patient_id: patientDetails?.patient_id,
           date: formattedDate,
@@ -470,12 +470,23 @@ const WaterPage: React.FC = () => {
             <View style={styles.modalOverlay}>
               <View style={styles.modalView}>
                 <Image
-                  source={require("../../assets/images/congratulation.png")} // Replace with your image path
+                  source={require("../../assets/images/congratulation.png")}
                   style={styles.congratulationsImage}
                 />
-                <Text style={styles.modalTitle}>
-                  {languageText.congratulations}
-                </Text>
+
+                {/* Title + Close Button in one row */}
+                <View style={styles.modalHeader}>
+                  <Text style={styles.modalTitle}>
+                    {languageText.congratulations}
+                  </Text>
+                  <TouchableOpacity
+                    style={styles.closeButton}
+                    onPress={() => setShowCongrats(false)}
+                  >
+                    <Text style={styles.closeButtonText}>✖</Text>
+                  </TouchableOpacity>
+                </View>
+
                 <Text style={styles.modalText}>{languageText.dailyGoal}</Text>
               </View>
             </View>
@@ -568,11 +579,8 @@ const WaterPage: React.FC = () => {
             />
           )}
 
-          <Text style={styles.instructionText}>
-            {languageText.instructionText}
-          </Text>
           <View style={styles.tumblerIconsContainer}>
-            {[500, 1000, 1500, 2000, 2500, 3000].map((amount) => (
+            {[200, 400, 800, 1000, 1500, 2000, 2500, 3000].map((amount) => (
               <TouchableOpacity
                 key={amount}
                 style={[
@@ -605,6 +613,9 @@ const WaterPage: React.FC = () => {
             ))}
           </View>
 
+          <Text style={styles.instructionText}>
+            {languageText.instructionText}
+          </Text>
           <View style={styles.footer}>
             <TouchableOpacity
               style={styles.submitButton}
@@ -712,15 +723,15 @@ const styles = StyleSheet.create({
     height: 200,
     borderWidth: 2,
     borderColor: "#4682B4",
-    borderTopWidth: 0, // Remove top border line
-    borderBottomLeftRadius: 20, // Rounded bottom corners
-    borderBottomRightRadius: 20, // Rounded bottom corners
-    borderTopLeftRadius: 30, // Adjust to move top corners outward
-    borderTopRightRadius: 30, // Adjust to move top corners outward
+    borderTopWidth: 0,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
     backgroundColor: "#fff",
     overflow: "hidden",
-    position: "relative", // Ensure positioning of fill is relative to this container
-    paddingBottom: 20, // Create a visible gap at the top of the filling
+    position: "relative",
+    paddingBottom: 20,
   },
 
   fill: {
@@ -782,14 +793,17 @@ const styles = StyleSheet.create({
   tumblerIconsContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
+    flexWrap: "wrap",
     width: "100%",
-    padding: 20,
-    marginTop: 20,
-    bottom: 60,
+    padding: 30,
+    marginTop: -35,
+    bottom: -10,
   },
   tumblerIcon: {
-    justifyContent: "center",
+    width: "22%", // Fits 4 items per row with space-around
+    marginBottom: 20, // Adds vertical space between rows
     alignItems: "center",
+    justifyContent: "center",
   },
   icon: {
     width: 50,
@@ -884,7 +898,6 @@ const styles = StyleSheet.create({
   },
   instructionText: {
     fontSize: 12,
-    top: 100,
     color: "#fff",
     fontWeight: "600",
     textAlign: "center",
@@ -942,7 +955,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-  modalView: {
+  /*  modalView: {
     width: 300,
     height: 260,
     padding: 10,
@@ -954,18 +967,50 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     alignItems: "center",
+  }, */
+
+  modalView: {
+    width: "85%",
+    backgroundColor: "white",
+    borderRadius: 70,
+    padding: 20,
+    alignItems: "center",
   },
+
+  modalHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+  },
+  closeButton: {
+    position: "absolute",
+    bottom: 120,
+    right: 10,
+    zIndex: 1,
+    padding: 5,
+  },
+
+  closeButtonText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#de3d3d",
+  },
+
   modalTitle: {
     fontSize: 28,
     fontWeight: "bold",
     color: "#4CAF50",
     marginBottom: 10,
+    marginLeft: 50,
   },
   modalText: {
     fontSize: 20,
     textAlign: "center",
     fontWeight: "bold",
     marginBottom: 10,
+
+    padding: 5,
   },
   congratulationsImage: {
     width: 100,

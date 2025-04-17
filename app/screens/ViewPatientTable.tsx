@@ -85,7 +85,7 @@ const ViewPatientTablePage: React.FC = () => {
     const fetchPatientProfiles = async () => {
       try {
         const response = await axios.get(
-          "https://v6fdr37z-8000.inc1.devtunnels.ms/api/api/patients/"
+          "https://ind-heart-suraksha-digitalocean-11.onrender.com/api/api/patients/"
         ); // Adjust the URL to your API endpoint
 
         const sortedProfiles = response.data.sort(
@@ -161,7 +161,7 @@ const ViewPatientTablePage: React.FC = () => {
         return;
       }
   
-      const response = await fetch("https://v6fdr37z-8000.inc1.devtunnels.ms/api/patients/download/");
+      const response = await fetch("https://ind-heart-suraksha-digitalocean-11.onrender.com/api/patients/download/");
       if (!response.ok) throw new Error(`Failed to download Excel file. Status: ${response.status}`);
   
       const blob = await response.blob();
@@ -208,7 +208,7 @@ const ViewPatientTablePage: React.FC = () => {
           onPress: async () => {
             try {
               await axios.delete(
-                `https://v6fdr37z-8000.inc1.devtunnels.ms/api/api/patients/${patientID}/`
+                `https://ind-heart-suraksha-digitalocean-11.onrender.com/api/api/patients/${patientID}/`
               ); // Adjust the URL to your API endpoint
               setPatientProfiles((prevProfiles) =>
                 prevProfiles.filter(
@@ -249,7 +249,7 @@ const ViewPatientTablePage: React.FC = () => {
           try {
             if (deletePatientID) {
               await axios.delete(
-                `https://v6fdr37z-8000.inc1.devtunnels.ms/api/api/patients/${deletePatientID}/`
+                `https://ind-heart-suraksha-digitalocean-11.onrender.com/api/api/patients/${deletePatientID}/`
               ); // Adjust the URL to your API endpoint
               setPatientProfiles((prevProfiles) =>
                 prevProfiles.filter(

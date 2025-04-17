@@ -41,7 +41,7 @@ const ReviewFeedbackScreen: React.FC = () => {
     const fetchFeedback = async () => {
       try {
         const response = await axios.get(
-          "https://v6fdr37z-8000.inc1.devtunnels.ms/patient/user-feedback-data/"
+          "https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/user-feedback-data/"
         );
         // Map the response data to include uploadedAt field
         const feedbackData = response.data.map((item: any) => ({

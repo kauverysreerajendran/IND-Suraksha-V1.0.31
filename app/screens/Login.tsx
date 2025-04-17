@@ -58,7 +58,7 @@ const LoginPage: React.FC = () => {
     animate();
   }, [scale]);
 
-  const handleLogin = async () => {
+ /*  const handleLogin = async () => {
     if (phoneNumber.length !== 10) {
       setAlertTitle("Error");
       setAlertMessage("Phone number must be exactly 10 digits.");
@@ -68,7 +68,7 @@ const LoginPage: React.FC = () => {
 
     try {
       const response = await fetch(
-        "https://v6fdr37z-8000.inc1.devtunnels.ms/api/api/login_with_mobile/",
+        "https://ind-heart-suraksha-digitalocean-11.onrender.com/api/api/login_with_mobile/",
         {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -93,11 +93,65 @@ const LoginPage: React.FC = () => {
     } catch (error) {
       console.error("Error in handleLogin:", error);
       setAlertTitle("Error");
-      setAlertMessage("Failed to log in. Please try again later.");
+      //setAlertMessage("Failed to log in. Please try again later.");
+      setAlertMessage("Please Check Your Internet Connection.");
+      setAlertVisible(true);
+    }
+  }; */
+
+  const handleLogin = async () => {
+    if (phoneNumber.length !== 10) {
+      setAlertTitle("Error");
+      setAlertMessage("Phone number must be exactly 10 digits.");
+      setAlertVisible(true);
+      return;
+    }
+  
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000); // 8s timeout
+  
+      const response = await fetch(
+        "https://ind-heart-suraksha-digitalocean-11.onrender.com/api/api/login_with_mobile/",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({ phone_number: phoneNumber }).toString(),
+          signal: controller.signal,
+        }
+      );
+  
+      clearTimeout(timeoutId);
+  
+      const data = await response.json();
+  
+      if (data.status === "success") {
+        await AsyncStorage.setItem("phoneNumber", phoneNumber);
+        if (data.user_type === "Admin") {
+          navigation.navigate("AdminDashboardPage");
+        } else {
+          navigation.navigate("PatientDashboardPage");
+        }
+      } else {
+        setAlertTitle("Error");
+        setAlertMessage(data.message);
+        setAlertVisible(true);
+      }
+    } catch (error: unknown) {
+      console.error("Error in handleLogin:", error);
+      setAlertTitle("Error");
+  
+      if (error instanceof DOMException && error.name === "AbortError") {
+        setAlertMessage("Request timed out. Please check your internet connection.");
+      } else {
+        setAlertMessage("Please check your internet connection.");
+      }
+  
       setAlertVisible(true);
     }
   };
-
+  
+  
   return (
     <SafeAreaView style={styles.safeArea}>
       <CustomAlert

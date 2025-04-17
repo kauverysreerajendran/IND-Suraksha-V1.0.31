@@ -112,7 +112,7 @@ const SleepRitualsPage: React.FC = () => {
     try {
       console.log("Fetching patient details for phone:", phone);
       const response = await axios.get(
-        `https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${phone}/`
+        `https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${phone}/`
       );
 
       // Set only patient_id and diet
@@ -226,7 +226,7 @@ const SleepRitualsPage: React.FC = () => {
 
       try {
         const response = await axios.post(
-          "https://v6fdr37z-8000.inc1.devtunnels.ms/patient/sleep-rituals/",
+          "https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/sleep-rituals/",
           requestData
         );
         console.log("Rituals saved successfully:", response.data);
@@ -328,7 +328,7 @@ const SleepRitualsPage: React.FC = () => {
 
       try {
         const response = await axios.post(
-          "https://v6fdr37z-8000.inc1.devtunnels.ms/patient/sleep-rituals/",
+          "https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/sleep-rituals/",
           requestData
         );
         console.log("Rituals saved successfully:", response.data);

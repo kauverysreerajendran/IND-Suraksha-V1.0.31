@@ -65,15 +65,15 @@ const NotificationPage: React.FC = () => {
       const storedPhoneNumber = await AsyncStorage.getItem("phoneNumber"); // Fetch stored phone number
     
       await Promise.all([
-        checkData(`https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${patientDetails.patient_id}/sleep-data/`, "sleep", "SleepRitualsPage"),
-        checkData(`https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${storedPhoneNumber}/vegdiet-data/`, "veg diet", "VegDietPage"),  // Using phone number
-        checkData(`https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${storedPhoneNumber}/nonvegdiet-data/`, "non-veg diet", "NonVegDietPage"), // Using phone number
-        checkData(`https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${patientDetails.patient_id}/water-data/`, "water", "WaterPage"),
-        checkData(`https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${patientDetails.patient_id}/daily-exercise-data/`, "exercise", "DailyExercise"),
-        checkData(`https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${patientDetails.patient_id}/walking-data/`, "walking", "Walking"),
-        checkData(`https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${patientDetails.patient_id}/yoga-data/`, "yoga", "YogaPage"),
-        checkData(`https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${patientDetails.patient_id}/medicine-data/`, "medicine", "PatientMedication"),
-        checkData(`https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${patientDetails.patient_id}/lifestyle-data/`, "lifestyle", "LifestyleMonitoring"),
+        checkData(`https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${patientDetails.patient_id}/sleep-data/`, "sleep", "SleepRitualsPage"),
+        checkData(`https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${storedPhoneNumber}/vegdiet-data/`, "veg diet", "VegDietPage"),  // Using phone number
+        checkData(`https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${storedPhoneNumber}/nonvegdiet-data/`, "non-veg diet", "NonVegDietPage"), // Using phone number
+        checkData(`https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${patientDetails.patient_id}/water-data/`, "water", "WaterPage"),
+        checkData(`https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${patientDetails.patient_id}/daily-exercise-data/`, "exercise", "DailyExercise"),
+        checkData(`https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${patientDetails.patient_id}/walking-data/`, "walking", "Walking"),
+        checkData(`https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${patientDetails.patient_id}/yoga-data/`, "yoga", "YogaPage"),
+        checkData(`https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${patientDetails.patient_id}/medicine-data/`, "medicine", "PatientMedication"),
+        checkData(`https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${patientDetails.patient_id}/lifestyle-data/`, "lifestyle", "LifestyleMonitoring"),
       ]);
     
     
@@ -93,7 +93,7 @@ const NotificationPage: React.FC = () => {
 
   const fetchPatientDetails = async (phone: string) => {
     try {
-      const response = await axios.get(`https://v6fdr37z-8000.inc1.devtunnels.ms/patient/patient/${phone}/`);
+      const response = await axios.get(`https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${phone}/`);
       setPatientDetails({
         patient_id: response.data.patient_id,
         diet: response.data.diet,
