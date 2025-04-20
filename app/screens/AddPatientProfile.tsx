@@ -88,7 +88,7 @@ const AddPatientProfile: React.FC = () => {
     const fetchNextPatientID = async () => {
       try {
         const response = await fetch(
-          "https://ind-heart-suraksha-digitalocean-11.onrender.com/api/api/get-next-patient-id/"
+          "https://indheart.pinesphere.in/api/api/get-next-patient-id/"
         );
         const data = await response.json();
         setPatientID(data.next_patient_id);

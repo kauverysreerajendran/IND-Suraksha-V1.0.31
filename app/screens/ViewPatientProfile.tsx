@@ -43,7 +43,7 @@ const ViewPatientProfile: React.FC = () => {
     const fetchPatientData = async () => {
       try {
         const response = await axios.get(
-          `https://ind-heart-suraksha-digitalocean-11.onrender.com/api/api/patients/${patientID}/`
+          `https://indheart.pinesphere.in/api/api/patients/${patientID}/`
         );
         setPatientData(response.data);
         // Fetch related data after patient data is loaded
@@ -59,7 +59,7 @@ const ViewPatientProfile: React.FC = () => {
     const fetchClinicalData = async () => {
       try {
         const response = await axios.get(
-          `https://ind-heart-suraksha-digitalocean-11.onrender.com/api/api/clinical-data/?patient_id=${patientID}`
+          `https://indheart.pinesphere.in/api/api/clinical-data/?patient_id=${patientID}`
         );
         setClinicalData(response.data);
       } catch (error) {
@@ -70,7 +70,7 @@ const ViewPatientProfile: React.FC = () => {
     const fetchMetabolicData = async () => {
       try {
         const response = await axios.get(
-          `https://ind-heart-suraksha-digitalocean-11.onrender.com/api/api/metabolic-data/?patient_id=${patientID}`
+          `https://indheart.pinesphere.in/api/api/metabolic-data/?patient_id=${patientID}`
         );
         setMetabolicData(response.data);
       } catch (error) {

@@ -19,7 +19,7 @@ const texts = {
       "Phone number already verified. Automatically logging you in.", // Admin message
     phoneAlreadyVerifiedPatient:
       "Phone number already verified. Automatically logging you in.", // Patient message
-    
+
     dashboard: "Dashboard",
     expertAdvice:
       "For expert opinions and support, consult your doctor without hesitation", // Add the quote in English
@@ -71,12 +71,6 @@ const texts = {
     nutritiousSprouts: "Nutritious Sprouts",
     crispFreshSalads: "Crisp Fresh Salads",
     vitalGreens: "Vital Greens",
-    guava: "Guava",
-    orange: "Orange",
-    apple: "Apple",
-    grapes: "Grapes",
-    muskmelon: "Muskmelon",
-    watermelon: "Watermelon",
     others: "Others",
     legumesConsumption: "Legumes/Pulses Consumption",
     greenGram: "Green Gram",
@@ -89,7 +83,12 @@ const texts = {
     legumeOther: "Others",
     otherEatablesPlaceholder: "Enter Other Eatables",
     piecesPlaceholder: "No of Piece",
-    
+    guavapiecesPlaceholder: "Enter Guava Pieces",
+    orangepiecesPlaceholder: "Enter Orange Pieces",
+    applepiecesPlaceholder: "Enter Apple Pieces",
+    grapespiecesPlaceholder: "Enter Grapes Pieces",
+    watermelonpiecesPlaceholder: "Enter Watermelon Pieces",
+    muskmelonpiecesPlaceholder: "Enter Muskmelon Pieces",
     fruitNamePlaceholder: "Enter fruit name",
     successMessage: "Your vegetarian diet has been saved successfully!",
     entryExists: "The dietary entry for this date has already been saved.",
@@ -97,7 +96,7 @@ const texts = {
     valuesRequired: "Please enter values.",
     issueSavingDiet:
       "There was an issue saving your vegetarian diet. Please try again.",
-      issueSavingSleep:
+    issueSavingSleep:
       "There was an issue saving your Sleep Rituals. Please try again.",
     unexpectedError: "An unexpected error occurred. Please try again.",
     error: "Error",
@@ -303,16 +302,20 @@ const texts = {
     dwOne: "Drink at least10 glasses of water. Consume low fat milk.",
     healthyMindset: "Healthy Mind Set",
     restandsleep: "Rest and Sleep",
-    rasOne: "Avoid watching Television and mobile phone for at least an hour before bed time",
+    rasOne:
+      "Avoid watching Television and mobile phone for at least an hour before bed time",
     rasTwo: "Make your bed room quiet and dark for comfortable sleep",
     rasThree: "Take a 30 minute nap after lunch",
     rasFour: "Go to bed and wakeup at same time everyday",
     rasFive: "Drink warm milk before going to sleep",
     avoidaandsTitle: "Avoid Alcohol and Smoking",
-    avoidandsOne: "Reducing or totally stopping alcohol is helpful in reducing the central obesity",
-    avoidandsTwo: "The empty calorie intake is reduced greatly by avoiding alcohol.",
+    avoidandsOne:
+      "Reducing or totally stopping alcohol is helpful in reducing the central obesity",
+    avoidandsTwo:
+      "The empty calorie intake is reduced greatly by avoiding alcohol.",
     avoidandsThree: "Stop smoking to reduce the risk of Heart Disease",
-    avoidandsFour: "Timely medical care and life style modification will helps to maintain healthy life",
+    avoidandsFour:
+      "Timely medical care and life style modification will helps to maintain healthy life",
     hmOne:
       "To maintain a healthy mind set focus on changing what you can, and learn to accept and adjust what you cannot.",
     hmTwo: "Practice yoga and deep breathing regularly",
@@ -366,7 +369,8 @@ const texts = {
     dietTen: "Avoid unhealthy snacks as much as possible.",
     myFoodPlateTitle: "My Food Plate",
     foodPlateOne: "Whole Grains",
-    plateContentOne: "Consume a variety of whole grains, Unhusked rice, Wheat brain, Finger millet, Pearl Millet, Little Millet, Kodo Millet",
+    plateContentOne:
+      "Consume a variety of whole grains, Unhusked rice, Wheat brain, Finger millet, Pearl Millet, Little Millet, Kodo Millet",
     tiles: {
       wholeGrains: {
         title: "Whole Grains",
@@ -397,7 +401,6 @@ const texts = {
         title: "Liquid Consumption",
         description: "Drink 300 ml of low-fat milk and plenty of water",
       },
-     
     },
     supportTitle: "Support Teams",
     principalInvestigatorName: "Prof. Dr. S. Madhavi",
@@ -422,17 +425,22 @@ const texts = {
     alertSuccessMessage: "Your data saved successfully.",
     sleepSuccessAlertMessage: "Your sleep data saved successfully.",
     sleepExistingErrorMessage: "Sleep data for this date already exists.",
-    noPatientInfoError: "No patient details available. Please make sure you're logged in.",
+    noPatientInfoError:
+      "No patient details available. Please make sure you're logged in.",
     nonVegSuccessAlert: "Your non-vegetarian diet has been saved successfully!",
-    nonVegExistingErrorMessage: "The dietary entry for this date has already been saved.",
+    nonVegExistingErrorMessage:
+      "The dietary entry for this date has already been saved.",
     existingAlert: "The date for the dietary entry is required",
     missingAlert: "Please provide all required values",
-    tryAgainAlert: "There was an issue saving your non-vegetarian diet. Please try again",
+    tryAgainAlert:
+      "There was an issue saving your non-vegetarian diet. Please try again",
     alertWater: "Please select a date for the water intake",
-    dateAlreadySavedWater: "Submission failed: This date has already been saved for this patient.",
+    dateAlreadySavedWater:
+      "Submission failed: This date has already been saved for this patient.",
     defaultErrorMessage: "Failed to submit water intake",
     defaultErrorYogaMessage: "Failed to submit Yoga Details.",
-    noResponseFromServer: "No response from server. Please check your connection.",
+    noResponseFromServer:
+      "No response from server. Please check your connection.",
     medicationAlertTitle: "Missing required fields",
     specifyDifficulties: "Specify Difficulties...",
     medicationSuccessAlert: "Medication details saved successfully!",
@@ -457,8 +465,9 @@ const texts = {
     specifyReason: "காரணத்தை குறிக்கவும்:",
     specifyDifficulties: "சிக்கல்களை குறிக்கவும்...",
     defaultErrorYogaMessage: "உங்கள் யோகா விவரங்களைச் சமர்ப்பிக்க முடியவில்லை",
-    issueSavingSleep: "உங்கள் உறக்கச் சடங்குகளைச் சேமிப்பதில் சிக்கல். மீண்டும் முயற்சிக்கவும்",
-    
+    issueSavingSleep:
+      "உங்கள் உறக்கச் சடங்குகளைச் சேமிப்பதில் சிக்கல். மீண்டும் முயற்சிக்கவும்",
+
     noMedicationDataText: "மருந்து பற்றிய தரவு எதுவும் இல்லை",
     note: "குறிப்பு:",
     medicationNote: "உங்கள் மருந்துகளை அட்டவணையில் கொண்டுகொள்ளவும்",
@@ -467,20 +476,26 @@ const texts = {
     duplicateEntry: "நகல் நுழைவு",
     alreadyExists: "இந்த தேதிக்கான தரவு ஏற்கனவே உள்ளது",
     medicationSuccessAlert: "மருந்து விவரங்கள் வெற்றிகரமாக சேமிக்கப்பட்டன!",
-    
+
     medicationAlertTitle: "தேவையான புலங்கள் காணப்படவில்லை",
-    noResponseFromServer: "சேவையரில் பதில் இல்லை. உங்கள் இணைப்பை சரிபார்க்கவும்.",
+    noResponseFromServer:
+      "சேவையரில் பதில் இல்லை. உங்கள் இணைப்பை சரிபார்க்கவும்.",
     defaultErrorMessage: "நீர் சேமிக்க முடியவில்லை",
-    dateAlreadySavedWater: "இந்த தேதிக்கான நீர் தரவு ஏற்கனவே சேமிக்கப்பட்டுள்ளது",
+    dateAlreadySavedWater:
+      "இந்த தேதிக்கான நீர் தரவு ஏற்கனவே சேமிக்கப்பட்டுள்ளது",
     alertWater: "நீங்கள் உங்கள் நீர்க்கான தேதியைத் தேர்ந்தெடுக்கவும்",
-    tryAgainAlert: "உங்கள் செயல்பாடு சேமிக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்",
+    tryAgainAlert:
+      "உங்கள் செயல்பாடு சேமிக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்",
     missingAlert: "அனைத்து தேவையான மதிப்புகளை உள்ளிடவும்.",
     existingAlert: "இந்த டயட்டரி நுழைவுக்கான தேதி தேவை",
-    nonVegExistingErrorMessage: "இந்த தேதிக்கு உணவு ஏற்கனவே சேமிக்கப்பட்டுள்ளது.",
+    nonVegExistingErrorMessage:
+      "இந்த தேதிக்கு உணவு ஏற்கனவே சேமிக்கப்பட்டுள்ளது.",
     nonVegSuccessAlert: "உங்கள் செயல்பாடு வெற்றிகரமாக சேமிக்கப்பட்டது!",
-    noPatientInfoError: "சேமிக்கப்பட்ட தரவு விவரங்கள் எதுவும் கிடைக்கவில்லை. நீங்கள் சரியாக உள்நுழைந்துள்ளீர்களா என்பதை உறுதிப்படுத்தவும்",
+    noPatientInfoError:
+      "சேமிக்கப்பட்ட தரவு விவரங்கள் எதுவும் கிடைக்கவில்லை. நீங்கள் சரியாக உள்நுழைந்துள்ளீர்களா என்பதை உறுதிப்படுத்தவும்",
     sleepExistingErrorMessage: "இந்த தேதிக்கு உறக்கம் தரவு ஏற்கனவே உள்ளது.",
-    sleepSuccessAlertMessage: "உங்கள் உறக்கம் தரவு வெற்றிகரமாக சேமிக்கப்பட்டது.",
+    sleepSuccessAlertMessage:
+      "உங்கள் உறக்கம் தரவு வெற்றிகரமாக சேமிக்கப்பட்டது.",
     valuesRequired: "தயவுசெய்து மதிப்புகளை உள்ளிடவும்.",
     alertCancelTitle: "ரத்து செய்",
     alertCancelMessage: "நீங்கள் உறுதிப்படுத்த விரும்புகிறீர்களா?",
@@ -532,12 +547,13 @@ const texts = {
       },
       liquidConsumption: {
         title: "திரவ உணவு",
-        description: "300 மில்லி குறைந்த கொழுப்பான பால் மற்றும் அதிகமான நீர் குடிக்கவும்",
+        description:
+          "300 மில்லி குறைந்த கொழுப்பான பால் மற்றும் அதிகமான நீர் குடிக்கவும்",
       },
     },
-  
-  
-    plateContentOne: "பலவகையான முழு தானியங்கள், உமி நீக்காத அரிசி, கோதுமை மூளை, விரல் தினை, முத்து தினை, சிறிய தினை, கோடோ தினை ஆகியவற்றை உட்கொள்ளுங்கள்.",
+
+    plateContentOne:
+      "பலவகையான முழு தானியங்கள், உமி நீக்காத அரிசி, கோதுமை மூளை, விரல் தினை, முத்து தினை, சிறிய தினை, கோடோ தினை ஆகியவற்றை உட்கொள்ளுங்கள்.",
     myFoodPlateTitle: "எனது உணவு தட்டு",
     dietaryTitle: "உணவுமுறை",
     dietOne:
@@ -589,15 +605,19 @@ const texts = {
     restFive:
       "இரவு வெதுவெதுப்பான பால் மற்றும் சிறு பிரார்த்தனை போன்ற பழக்கங்கள் நல்ல தூக்கம் பெற உதவும்",
     rest: "தூக்கம்",
-    rasOne: "தொலைக்காட்சி மற்றும் கைப்பேசி உபயோகத்தைத் தூங்க 1 மணிநேரம் முன் அணைக்கவும்",
-    rasTwo: "தூய்மையான படுக்கை, குறைந்த வெளிச்சம், மற்றும் இதமான இசை நல்ல தூக்கத்தை வர வைக்கிறது",
+    rasOne:
+      "தொலைக்காட்சி மற்றும் கைப்பேசி உபயோகத்தைத் தூங்க 1 மணிநேரம் முன் அணைக்கவும்",
+    rasTwo:
+      "தூய்மையான படுக்கை, குறைந்த வெளிச்சம், மற்றும் இதமான இசை நல்ல தூக்கத்தை வர வைக்கிறது",
     rasThree: "மதிய உணவுக்குப் பின் அரைமணி நேரம் உறங்க உடலுக்கு உகந்தது",
     rasFour: "தினசரி ஒரே நேரத்தில் தூங்கவும்",
-    rasFive: "இரவு வெதுவெதுப்பான பால் மற்றும் சிறு பிராத ;தனை போன்ற பழக்கங்கள் நல்ல தூக்கம் பெற உதவும்.",
+    rasFive:
+      "இரவு வெதுவெதுப்பான பால் மற்றும் சிறு பிராத ;தனை போன்ற பழக்கங்கள் நல்ல தூக்கம் பெற உதவும்.",
     avoidaandsTitle: "மது மற்றும் புகைபிடிப்பதை தவிர்க்கவும்",
     avoidandsOne: "புகைபிடித்தல் மற்றும் மது அருந்துவதை அறவே தவிர்க்க வேண்டும்",
-    avoidandsTwo: "மருத்துவச் சிகிச்சையுடன் சரியான வாழக்கை முறை மாற்றத்தை மேற்கொள்வதால் மீண்டும் மாரடைப்பு வருவதைத் தவிர்க்கலாம்.",
-    avoidandsThree:"இதய நோய் அபாயத்தைக் குறைக்க புகைப்பிடிப்பதை நிறுத்துங்கள்",
+    avoidandsTwo:
+      "மருத்துவச் சிகிச்சையுடன் சரியான வாழக்கை முறை மாற்றத்தை மேற்கொள்வதால் மீண்டும் மாரடைப்பு வருவதைத் தவிர்க்கலாம்.",
+    avoidandsThree: "இதய நோய் அபாயத்தைக் குறைக்க புகைப்பிடிப்பதை நிறுத்துங்கள்",
     avoidandsFour: "ஆரோக்கியமான இதயத்துடன் நல்வாழ்வு வாழ வாழ்த்துகள்",
     hmOne:
       "ஆரோக்கியமான மனநிலை இருப்பதற்கு நம்மால் முடிந்தவற்றை மாற்ற முயற்சிக்க வேண்டும்  மாற்ற முடியாதவற்றை அப்படியே ஏற்றுக் கொள்ளப் பழகினால் நல்லது.",
@@ -795,8 +815,15 @@ const texts = {
     nuts: "முந்திரிக்காய்",
     legumeOther: "மற்றவை",
     otherEatablesPlaceholder: "மற்ற உணவுகளுக்கான பெயரை உள்ளிடவும்",
-    
-    piecesPlaceholder: "எண்ணிக்கை", 
+
+    piecesPlaceholder: "எண்ணிக்கை",
+    orangepiecesPlaceholder: "ஆரஞ்சு எண்ணிக்கை",
+    applepiecesPlaceholder: "ஆப்பிள் எண்ணிக்கை",
+    grapespiecesPlaceholder: "திராட்சை எண்ணிக்கை",
+    muskmelonpiecesPlaceholder: "முலாம்பழம் எண்ணிக்கை",
+    watermelonpiecesPlaceholder: "தர்பூசணி எண்ணிக்கை",
+    guavapiecesPlaceholder: "பேரிக்காய் எண்ணிக்கை",
+
     fruitNamePlaceholder: "பழத்தின் பெயரை உள்ளிடவும்",
     //otherEatablesPlaceholder: "மற்ற உணவுகள் உள்ளிடவும் ",
     successMessage: "உங்கள் சைவ உணவு வெற்றிகரமாக சேமிக்கப்பட்டுள்ளது",

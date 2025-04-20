@@ -136,7 +136,7 @@ const VegDietPage: React.FC = () => {
     try {
       console.log("Fetching patient details for phone:", phone);
       const response = await axios.get(
-        `https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/patient/${phone}/`
+        `https://indheart.pinesphere.in/patient/patient/${phone}/`
       );
 
       // Set only patient_id and diet
@@ -193,7 +193,7 @@ const VegDietPage: React.FC = () => {
     setResponses((prevResponses) =>
       prevResponses.map((response, i) =>
         i === index ? { ...response, yes: true, quantity: "" } : response
-  )
+      )
     );
   };
 
@@ -303,7 +303,7 @@ const VegDietPage: React.FC = () => {
 
       try {
         const response = await axios.post(
-          "https://ind-heart-suraksha-digitalocean-11.onrender.com/patient/vegetarian-diets/",
+          "https://indheart.pinesphere.in/patient/vegetarian-diets/",
           requestData
         );
         console.log("Vegetarian diet saved successfully:", response.data);
@@ -512,7 +512,9 @@ const VegDietPage: React.FC = () => {
                     <View style={styles.quantityContainer}>
                       <TextInput
                         style={[styles.quantityInput, { paddingLeft: 25 }]}
-                        placeholder={texts[language].NutrientIntakeQuantityPlaceholder}
+                        placeholder={
+                          texts[language].NutrientIntakeQuantityPlaceholder
+                        }
                         /* placeholder={
                           card.title === nutrientTitles.crispFreshSalads
                             ? texts[language].NutrientIntakeQuantityPlaceholder // Special placeholder for Salad
@@ -532,11 +534,9 @@ const VegDietPage: React.FC = () => {
                       /> */}
                     </View>
                   )}
-                  
                 </View>
               </View>
             ))}
-            
 
             {/* Fruits Picker */}
 
@@ -547,7 +547,7 @@ const VegDietPage: React.FC = () => {
               <View style={styles.guavaContainer}>
                 <TextInput
                   style={styles.guavaQty}
-                  placeholder={texts[language].piecesPlaceholder}
+                  placeholder={texts[language].guavapiecesPlaceholder}
                   keyboardType="numeric"
                   value={quantities.guava}
                   onChangeText={(text) =>
@@ -561,13 +561,13 @@ const VegDietPage: React.FC = () => {
                   source={require("../../assets/images/guava.png")}
                   style={styles.guavaImage}
                 />
-                <Text style={styles.guavaTitle}>{languageText.guava}</Text>
+                <Text style={styles.guavaTitle}></Text>
               </View>
-
+              {/* Orange */}
               <View style={styles.orangeContainer}>
                 <TextInput
                   style={styles.orangeQty}
-                  placeholder={texts[language].piecesPlaceholder}
+                  placeholder={texts[language].orangepiecesPlaceholder}
                   keyboardType="numeric"
                   value={quantities.orange}
                   onChangeText={(text) =>
@@ -581,13 +581,14 @@ const VegDietPage: React.FC = () => {
                   source={require("../../assets/images/orange.png")}
                   style={styles.orangeImage}
                 />
-                <Text style={styles.orangeTitle}>{languageText.orange}</Text>
+                <Text style={styles.orangeTitle}></Text>
               </View>
-
+                   
+                   {/* Apple */}
               <View style={styles.appleContainer}>
                 <TextInput
                   style={styles.appleQty}
-                  placeholder={texts[language].piecesPlaceholder}
+                  placeholder={texts[language].applepiecesPlaceholder}
                   keyboardType="numeric"
                   value={quantities.apple}
                   onChangeText={(text) =>
@@ -601,13 +602,13 @@ const VegDietPage: React.FC = () => {
                   source={require("../../assets/images/apple.png")}
                   style={styles.appleImage}
                 />
-                <Text style={styles.appleTitle}>{languageText.apple}</Text>
               </View>
 
+              {/* Grapes */}
               <View style={styles.grapesContainer}>
                 <TextInput
                   style={styles.grapesQty}
-                  placeholder={texts[language].piecesPlaceholder}
+                  placeholder={texts[language].grapespiecesPlaceholder}
                   keyboardType="numeric"
                   value={quantities.grapes}
                   onChangeText={(text) =>
@@ -621,13 +622,13 @@ const VegDietPage: React.FC = () => {
                   source={require("../../assets/images/grapes.png")}
                   style={styles.grapesImage}
                 />
-                <Text style={styles.grapesTitle}>{languageText.grapes}</Text>
               </View>
 
+              {/* Muskmelon */}
               <View style={styles.muskmelonContainer}>
                 <TextInput
                   style={styles.muskmelonQty}
-                  placeholder={texts[language].piecesPlaceholder}
+                  placeholder={texts[language].muskmelonpiecesPlaceholder}
                   keyboardType="numeric"
                   value={quantities.muskmelon}
                   onChangeText={(text) =>
@@ -642,14 +643,15 @@ const VegDietPage: React.FC = () => {
                   style={styles.muskmelonImage}
                 />
                 <Text style={styles.muskmelonTitle}>
-                  {languageText.muskmelon}
+                  
                 </Text>
               </View>
 
+              {/* Watermelon */}
               <View style={styles.watermelonContainer}>
                 <TextInput
                   style={styles.watermelonQty}
-                  placeholder={texts[language].piecesPlaceholder}
+                  placeholder={texts[language].watermelonpiecesPlaceholder}
                   keyboardType="numeric"
                   value={quantities.watermelon}
                   onChangeText={(text) =>
@@ -664,10 +666,9 @@ const VegDietPage: React.FC = () => {
                   style={styles.watermelonImage}
                 />
                 <Text style={styles.watermelonTitle}>
-                  {languageText.watermelon}
+              
                 </Text>
               </View>
-
               <View style={styles.othersContainer}>
                 <Text style={styles.fruitOtherLabel}></Text>
 
@@ -722,7 +723,9 @@ const VegDietPage: React.FC = () => {
 
                 <TextInput
                   style={styles.legumeInput}
-                  placeholder={texts[language].NutrientIntakeQuantityPlaceholder}
+                  placeholder={
+                    texts[language].NutrientIntakeQuantityPlaceholder
+                  }
                   keyboardType="numeric"
                   value={legumes.greenGram}
                   onChangeText={(text) =>
@@ -742,7 +745,9 @@ const VegDietPage: React.FC = () => {
                 </LinearGradient>
                 <TextInput
                   style={styles.legumeInput}
-                  placeholder={texts[language].NutrientIntakeQuantityPlaceholder}
+                  placeholder={
+                    texts[language].NutrientIntakeQuantityPlaceholder
+                  }
                   keyboardType="numeric"
                   value={legumes.chickpea}
                   onChangeText={(text) =>
@@ -760,7 +765,9 @@ const VegDietPage: React.FC = () => {
                 </LinearGradient>
                 <TextInput
                   style={styles.legumeInput}
-                  placeholder={texts[language].NutrientIntakeQuantityPlaceholder}
+                  placeholder={
+                    texts[language].NutrientIntakeQuantityPlaceholder
+                  }
                   keyboardType="numeric"
                   value={legumes.soybean}
                   onChangeText={(text) =>
@@ -778,7 +785,9 @@ const VegDietPage: React.FC = () => {
                 </LinearGradient>
                 <TextInput
                   style={styles.legumeInput}
-                  placeholder={texts[language].NutrientIntakeQuantityPlaceholder}
+                  placeholder={
+                    texts[language].NutrientIntakeQuantityPlaceholder
+                  }
                   keyboardType="numeric"
                   value={legumes.cowpea}
                   onChangeText={(text) =>
@@ -796,7 +805,9 @@ const VegDietPage: React.FC = () => {
                 </LinearGradient>
                 <TextInput
                   style={styles.legumeInput}
-                  placeholder={texts[language].NutrientIntakeQuantityPlaceholder}
+                  placeholder={
+                    texts[language].NutrientIntakeQuantityPlaceholder
+                  }
                   keyboardType="numeric"
                   value={legumes.channa}
                   onChangeText={(text) =>
@@ -816,7 +827,9 @@ const VegDietPage: React.FC = () => {
                 </LinearGradient>
                 <TextInput
                   style={styles.legumeInput}
-                  placeholder={texts[language].NutrientIntakeQuantityPlaceholder}
+                  placeholder={
+                    texts[language].NutrientIntakeQuantityPlaceholder
+                  }
                   keyboardType="numeric"
                   value={legumes.kidneybeans}
                   onChangeText={(text) =>
@@ -834,7 +847,9 @@ const VegDietPage: React.FC = () => {
                 </LinearGradient>
                 <TextInput
                   style={styles.legumeInput}
-                  placeholder={texts[language].NutrientIntakeQuantityPlaceholder}
+                  placeholder={
+                    texts[language].NutrientIntakeQuantityPlaceholder
+                  }
                   keyboardType="numeric"
                   value={legumes.nuts}
                   onChangeText={(text) => handleLegumeCountChange("nuts", text)}
@@ -860,7 +875,9 @@ const VegDietPage: React.FC = () => {
                 />
                 <TextInput
                   style={styles.legumeInputQty}
-                  placeholder={texts[language].NutrientIntakeQuantityPlaceholder} // Ensure language is set correctly
+                  placeholder={
+                    texts[language].NutrientIntakeQuantityPlaceholder
+                  } // Ensure language is set correctly
                   keyboardType="numeric"
                   value={legumes.qty}
                   onChangeText={(text) => handleLegumeCountChange("qty", text)}
@@ -988,7 +1005,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignItems: "center", // Center items horizontally
   },
-
   fruitsTitle: {
     fontSize: 20,
     fontWeight: "bold",
@@ -1063,7 +1079,7 @@ const styles = StyleSheet.create({
     width: "100%",
     textAlign: "center",
     marginTop: 10,
-    fontSize: 12,
+    fontSize: 14,
   },
   quantityIcon: {
     position: "absolute",
@@ -1120,6 +1136,7 @@ const styles = StyleSheet.create({
   },
 
   guavaContainer: {
+    justifyContent: "space-between",
     borderRadius: 15,
     padding: 10,
     backgroundColor: "#D0F0C0", // Set a visible color
@@ -1136,16 +1153,16 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   guavaQty: {
-    width: "38%",
+    width: "45%",
     textAlign: "center",
-    left: 180,
+    left: 150,
     top: 5,
     height: 40,
     backgroundColor: "#E8F8E0",
     borderRadius: 30,
     marginTop: 5,
     marginLeft: 5,
-    fontSize: 12,
+    fontSize: 14,
   },
   orangeContainer: {
     borderRadius: 15,
@@ -1163,10 +1180,11 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   orangeQty: {
-    fontSize: 12,
-    width: "38%",
+    fontSize: 14,
+    width: "45%",
     textAlign: "center",
     right: 0,
+    left: 15,
     top: 5,
     height: 40,
     backgroundColor: "#FFF0E0",
@@ -1190,10 +1208,10 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   appleQty: {
-    fontSize: 12,
-    width: "38%",
+    fontSize: 14,
+    width: "45%",
     textAlign: "center",
-    left: 180,
+    left: 150,
     top: 5,
     height: 40,
     backgroundColor: "#FAD1DB",
@@ -1217,11 +1235,12 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   grapesQty: {
-    fontSize: 12,
-    width: "38%",
+    fontSize: 14,
+    width: "45%",
     textAlign: "center",
     alignItems: "center",
     right: 0,
+    left: 15,
     top: 5,
     height: 40,
     backgroundColor: "#F1F2FD",
@@ -1234,7 +1253,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     padding: 10,
     backgroundColor: "#C5D3C1",
-    height: 80,
+    height: 85,
     width: "100%",
     marginBottom: 20,
   },
@@ -1246,10 +1265,10 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   muskmelonQty: {
-    fontSize: 12,
-    width: "38%",
+    fontSize: 14,
+    width: "45%",
     textAlign: "center",
-    left: 200,
+    left: 170,
     top: 5,
     height: 40,
     backgroundColor: "#E0E9DE",
@@ -1273,10 +1292,11 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   watermelonQty: {
-    fontSize: 12,
-    width: "38%",
+    fontSize: 14,
+    width: "45%",
     textAlign: "center",
     right: 0,
+    left: 15,
     top: 5,
     height: 40,
     backgroundColor: "#D9F2E0",
@@ -1288,7 +1308,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     padding: 10,
     backgroundColor: "#FFFACD",
-    height: 130,
+    height: 100,
     width: "100%",
     marginBottom: 20,
   },
@@ -1304,7 +1324,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 180,
     top: 25,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
 
     padding: 5,
@@ -1314,7 +1334,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 150,
     top: 25,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
 
     padding: 5,
@@ -1323,7 +1343,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 190,
     top: 25,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
 
     padding: 5,
@@ -1332,7 +1352,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 160,
     top: 25,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
 
     padding: 5,
@@ -1341,7 +1361,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 140,
     top: 10,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
 
     padding: 5,
@@ -1350,7 +1370,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 150,
     bottom: 30,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     color: "black",
 
@@ -1421,7 +1441,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   legumeInput: {
-    fontSize: 10,
+    fontSize: 14,
     width: "40%",
     height: 40,
     borderWidth: 1,
@@ -1474,10 +1494,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
   },
- 
-  
+
   legumeInputOther: {
-    fontSize: 12,
+    fontSize: 14,
     width: "100%",
     height: 60,
     borderWidth: 1,
@@ -1498,7 +1517,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   legumeInputQty: {
-    fontSize: 12,
+    fontSize: 14,
     width: "100%",
     height: 40,
     borderWidth: 1,
@@ -1520,15 +1539,14 @@ const styles = StyleSheet.create({
     marginBottom: 8, // Space between inputs
   },
   othersFruitName: {
-    fontSize: 12,
+    fontSize: 14,
     flex: 1,
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 5,
     padding: 8,
     marginRight: 10,
-    // Increase line height if necessary for better spacing inside
-    lineHeight: 12,
+    lineHeight: 27,
     paddingVertical: 5, // Adjust vertical padding to give more space for the placeholder text
   },
 

@@ -92,7 +92,7 @@ const AddClinicalProfilePage: React.FC = () => {
     const fetchPatientIDs = async () => {
       try {
         const response = await fetch(
-          "https://ind-heart-suraksha-digitalocean-11.onrender.com/api/api/get-existing-patient-ids/"
+          "https://indheart.pinesphere.in/api/api/get-existing-patient-ids/"
         );
         const data = await response.json();
         const options = data.patient_ids.map((id: string) => ({
