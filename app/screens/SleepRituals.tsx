@@ -189,107 +189,7 @@ const SleepRitualsPage: React.FC = () => {
     }
   };
 
-  /*  const handleSubmit = async () => {
-    if (!selectedRituals.size) {
-      //Alert.alert("Error", "Please enter values.", [{ text: "OK" }]);
-      setAlertTitle("Error");
-      setAlertMessage("Please enter values.");
-      return;
-    }
 
-    if (!selectedDate) {
-      //Alert.alert("Error", "Date is required.", [{ text: "OK" }]);
-      setAlertTitle("Error");
-      setAlertMessage("Date is required.");
-      return;
-    }
-
-    if (patientDetails) {
-      const formattedDate = selectedDate
-        ? selectedDate.toISOString().split("T")[0]
-        : null;
-
-      const requestData = {
-        patient_id: patientDetails.patient_id,
-        date: formattedDate,
-        warm_milk: selectedRituals.has(languageText.warmMilk),
-        foot_massage: selectedRituals.has(languageText.footMassage),
-        quiet_environment: selectedRituals.has(languageText.quietEnvironment),
-        screen_time_management: selectedRituals.has(
-          languageText.screenTimeManagement
-        ),
-        bedtime_regularity: selectedRituals.has(languageText.bedtimeRegularity),
-        sleep_breaks: savedBreaks || 0,
-        nap_duration_hours: hours || 0,
-        nap_duration_minutes: minutes || 0,
-      };
-
-      try {
-        const response = await axios.post(
-          "https://indheart.pinesphere.in/patient/sleep-rituals/",
-          requestData
-        );
-        console.log("Rituals saved successfully:", response.data);
-
-        // Show success alert
-        Alert.alert(
-          "Success",
-          "Your sleep rituals have been saved successfully!",
-          [
-            {
-              text: "OK",
-              onPress: () => {
-                // Check the value of patientDetails.diet and navigate accordingly
-                if (patientDetails.diet === "Both") {
-                  navigation.navigate("VegDietPage"); // Navigate to VegDiet
-                } else if (patientDetails.diet === "Vegetarian") {
-                  navigation.navigate("VegDietPage"); // Navigate to VegDiet
-                } else if (patientDetails.diet === "Non-Vegetarian") {
-                  navigation.navigate("NonVegDietPage"); // Navigate to NonVegDietPage
-                } else {
-                  // Optional: Handle unexpected diet values
-                  console.warn("Unexpected diet value:", patientDetails.diet);
-                }
-              },
-            },
-          ]
-        );
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          // Handle specific backend error messages
-          const errorMessages = error.response?.data || {};
-          if (
-            errorMessages.non_field_errors &&
-            errorMessages.non_field_errors.includes(
-              "The fields patient_id, date must make a unique set."
-            )
-          ) {
-            Alert.alert("Error", "Date of rituals already saved.", [
-              { text: "OK" },
-            ]);
-          } else {
-            const errorMessageText = errorMessages.non_field_errors
-              ? errorMessages.non_field_errors.join(", ")
-              : "There was an issue saving your sleep rituals. Please try again.";
-
-            Alert.alert("Error", errorMessageText, [{ text: "OK" }]);
-          }
-        } else {
-          Alert.alert(
-            "Error",
-            "An unexpected error occurred. Please try again.",
-            [{ text: "OK" }]
-          );
-        }
-      }
-    } else {
-      Alert.alert(
-        "Error",
-        "No patient details available. Please make sure you're logged in.",
-        [{ text: "OK" }]
-      );
-    }
-  }; */
 
   const handleSubmit = async () => {
     if (!selectedRituals.size) {
@@ -358,10 +258,21 @@ const SleepRitualsPage: React.FC = () => {
             setAlertMessage(errorMessageText);
             setAlertVisible(true); // Display the custom alert
           }
-        } else {
-          setAlertTitle(languageText.errorTitle);
-          setAlertMessage(languageText.unexpectedError);
-          setAlertVisible(true); // Display the custom alert
+        } else if (error instanceof Error) {
+          const isNetworkError =
+            error.message.includes("Network request failed") ||
+            error.message.includes("TypeError: Network") ||
+            error.message.includes("fetch");
+  
+          if (isNetworkError) {
+            setAlertTitle(languageText.errorTitle);
+            setAlertMessage("Network Failed - Please Check Your Internet Connection");
+            setAlertVisible(true); // Display the custom alert
+          } else {
+            setAlertTitle(languageText.errorTitle);
+            setAlertMessage(languageText.unexpectedError);
+            setAlertVisible(true); // Display the custom alert
+          }
         }
       }
     } else {

@@ -457,7 +457,7 @@ const WaterPage: React.FC = () => {
                   : "தமிழில் படிக்க"}
               </Text>
             </TouchableOpacity>
-            <Text style={styles.title}>{languageText.waterConsumption}</Text>
+            {/* <Text style={styles.title}>{languageText.waterConsumption}</Text> */}
           </View>
 
           {/* Custom Congratulation Modal */}
@@ -580,7 +580,7 @@ const WaterPage: React.FC = () => {
           )}
 
           <View style={styles.tumblerIconsContainer}>
-            {[200, 400, 800, 1000, 1500, 2000, 2500, 3000].map((amount) => (
+            {[200, 800, 1000, 2000].map((amount) => (
               <TouchableOpacity
                 key={amount}
                 style={[
@@ -662,7 +662,7 @@ const styles = StyleSheet.create({
     bottom: -50,
   },
 
-  translateContainer: {
+ /*  translateContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -675,8 +675,15 @@ const styles = StyleSheet.create({
     top: 10,
     padding: 10,
     marginLeft: 5,
+  }, */
+  translateContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between", // Align date on the left and translate button on the right
+    alignItems: "center",
+    width: "100%", // Full width for responsiveness
+    paddingHorizontal: 15, // Add padding to prevent content from touching edges
+    marginTop: 10,
   },
-
   translateButton: {
     position: "absolute",
 
@@ -700,7 +707,7 @@ const styles = StyleSheet.create({
     width: 340, // Adjust width for the circular container
     height: 330, // Adjust height for the circular container
     justifyContent: "center",
-    bottom: 30,
+    bottom: 10,
     alignItems: "center",
     borderRadius: 330 / 2, // Make it circular
     backgroundColor: "#fff", // Light background color
@@ -851,13 +858,16 @@ const styles = StyleSheet.create({
     left: 55,
   },
   dateText: {},
+
   footer: {
     flexDirection: "row",
     justifyContent: "space-around",
     paddingVertical: 10,
     backgroundColor: "transparent",
     top: 10,
-    marginBottom: 10,
+    marginBottom: -30,
+    paddingBottom: -20,
+    paddingTop: 10,
   },
 
   submitButton: {
@@ -870,6 +880,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     padding: 10,
     textAlign: "center",
+   
   },
   clearButton: {
     flex: 1,

@@ -57,7 +57,7 @@ const UserFeedbackForm: React.FC = () => {
     fetchPhoneNumber();
   }, []);
 
-  const fetchPatientDetails = async (phone: string) => {
+    const fetchPatientDetails = async (phone: string) => {
     try {
       const response = await axios.get(
         `https://indheart.pinesphere.in/patient/patient/${phone}/`
@@ -67,63 +67,23 @@ const UserFeedbackForm: React.FC = () => {
         diet: response.data.diet,
         name: response.data.name,
       });
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error fetching patient details:", error);
+  
+      if (error instanceof Error) {
+        const isNetworkError =
+          error.message.includes("Network request failed") ||
+          error.message.includes("TypeError: Network") ||
+          error.message.includes("fetch");
+  
+        if (isNetworkError) {
+          setAlertTitle("Network Error");
+          setAlertMessage("Network Failed - Please Check Your Internet Connection");
+          setAlertVisible(true); // Show the custom alert
+        }
+      }
     }
   };
-
- /*  const handleSubmit = async () => {
-    // Get the current date in 'YYYY-MM-DD' format
-    const currentDate = new Date().toISOString().split('T')[0]; // Format: 'YYYY-MM-DD'
-  
-    try {
-      const response = await axios.post(`https://indheart.pinesphere.in/patient/user-feedback-data/`, {
-        patient_id: patientDetails?.patient_id,
-        feedback: feedback,
-        rating: rating,
-        date: currentDate, // Include the current date
-      });
-  
-      if (response.status === 201) {
-         Alert.alert(
-          "Your feedback data submitted!"
-        ); 
-         // Clear the form fields
-      setFeedback(""); // Reset feedback to an empty string
-      setRating(0);    // Reset rating to its initial state (0)
-      } else {
-        // If the status code is not 201
-        throw new Error(`Unexpected response code: ${response.status}`);
-      }
-    } catch (error) {
-      let errorMessage = "Failed to submit user feedback.";
-  
-      if (axios.isAxiosError(error)) {
-        if (error.response) {
-          // Check if the error message indicates a unique constraint violation
-          if (error.response.data.non_field_errors) {
-            errorMessage = "Submission failed: This date has already been saved for this patient.";
-          } else {
-            // General error response
-            errorMessage = error.response.data.detail || "Failed to submit user feedback.";
-          }
-        } else if (error.request) {
-          // No response received
-          errorMessage = "No response from server. Please check your connection.";
-        }
-      } else {
-        // Non-Axios or general error
-        errorMessage = (error as Error).message;
-      }
-  
-      // Show the error popup with the error message
-      Alert.alert(
-        "Error",
-        errorMessage,
-        [{ text: "OK" }]
-      );
-    }
-  }; */
   
   const handleSubmit = async () => {
     // Get the current date in 'YYYY-MM-DD' format

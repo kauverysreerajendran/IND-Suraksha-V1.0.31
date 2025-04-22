@@ -104,13 +104,28 @@ const AddClinicalProfilePage: React.FC = () => {
           // Set the last patient ID as the default selected patient ID
           setPatientID(options[options.length - 1].value);
         }
-      } catch (error) {
-        //Alert.alert("Error", "Failed to fetch patient IDs.");
+      } catch (error: unknown) {
+        console.error("Error fetching patient IDs:", error);
+  
+        let message = "Something went wrong. Please try again later.";
+  
+        if (error instanceof Error) {
+          const isNetworkError =
+            error.message.includes("Network request failed") ||
+            error.message.includes("TypeError: Network") ||
+            error.message.includes("fetch");
+  
+          message = isNetworkError
+            ? "Network Failed - Please Check Your Internet Connection"
+            : error.message;
+        }
+  
         setAlertTitle("Error");
-        setAlertMessage("Failed to fetch patient IDs.");
+        setAlertMessage(message);
+        setAlertVisible(true);
       }
     };
-
+  
     fetchPatientIDs();
   }, []);
 
@@ -192,10 +207,24 @@ const AddClinicalProfilePage: React.FC = () => {
       setSuccessAlertVisible(true);
       handleClear(); // Clear the form after successful submission
     } catch (error: any) {
-      setErrorMessage(
-        error.message || "An error occurred while saving the data."
-      );
-      setErrorAlertVisible(true);
+      console.error("Error saving clinical data:", error);
+  
+      let message = "An error occurred while saving the data.";
+  
+      if (error instanceof Error) {
+        const isNetworkError =
+          error.message.includes("Network request failed") ||
+          error.message.includes("TypeError: Network") ||
+          error.message.includes("fetch");
+  
+        message = isNetworkError
+          ? "Network Failed - Pls check connection"
+          : error.message;
+      }
+  
+      setAlertTitle("Error");
+      setAlertMessage(message);
+      setAlertVisible(true);
     }
   };
 

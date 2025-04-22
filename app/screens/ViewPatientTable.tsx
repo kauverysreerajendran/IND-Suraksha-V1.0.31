@@ -53,12 +53,14 @@ const ViewPatientTablePage: React.FC = () => {
   const jumpAnimation = useRef(new Animated.Value(0)).current;
   const [menuVisible, setMenuVisible] = useState(false);
 
-   // ✅ Request Storage Permission (Android)
+  // ✅ Request Storage Permission (Android)
   const requestStoragePermission = async () => {
     if (Platform.OS !== "android") return true; // iOS doesn't need permissions
 
     if (Platform.Version >= 30) {
-      console.log("✅ Android 11+ detected. Using Scoped Storage, no permission needed.");
+      console.log(
+        "✅ Android 11+ detected. Using Scoped Storage, no permission needed."
+      );
       return true;
     }
 
@@ -112,9 +114,21 @@ const ViewPatientTablePage: React.FC = () => {
 
         setPatientProfiles(response.data);
         setLoading(false);
-      } catch (error) {
+      } catch (error: unknown) {
         console.error("Failed to load patient profiles:", error);
-        setError("Failed to load patient profiles");
+    
+        if (error instanceof Error) {
+          const isNetworkError =
+            error.message.includes("Network request failed") ||
+            error.message.includes("TypeError: Network") ||
+            error.message.includes("fetch");
+    
+          if (isNetworkError) {
+            setError("Network Failed - Please Check Your Internet Connection");
+          } else {
+            setError("Failed to load patient profiles");
+          }
+        }
         setLoading(false);
       }
     };
@@ -141,12 +155,12 @@ const ViewPatientTablePage: React.FC = () => {
     navigation.navigate("AddMetabolicProfilePage");
   };
 
-
   // ✅ Convert Blob to Base64
   const blobToBase64 = (blob: Blob): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result?.toString().split(",")[1] ?? "");
+      reader.onloadend = () =>
+        resolve(reader.result?.toString().split(",")[1] ?? "");
       reader.onerror = reject;
       reader.readAsDataURL(blob);
     });
@@ -157,42 +171,65 @@ const ViewPatientTablePage: React.FC = () => {
       console.log("=== Starting Excel download request ===");
       const hasPermission = await requestStoragePermission();
       if (!hasPermission) {
-        Alert.alert("Permission Denied", "Storage access is required to download files.");
+        Alert.alert(
+          "Permission Denied",
+          "Storage access is required to download files."
+        );
         return;
       }
-  
-      const response = await fetch("https://indheart.pinesphere.in/api/patients/download/");
-      if (!response.ok) throw new Error(`Failed to download Excel file. Status: ${response.status}`);
-  
+
+      const response = await fetch(
+        "https://indheart.pinesphere.in/api/patients/download/"
+      );
+      if (!response.ok)
+        throw new Error(
+          `Failed to download Excel file. Status: ${response.status}`
+        );
+
       const blob = await response.blob();
       const base64Data = await blobToBase64(blob);
-  
+
       // ✅ Define the initial filename
       const downloadsDir = RNFS.DownloadDirectoryPath;
       let fileName = "patient_data.xlsx";
       let fileUri = `${downloadsDir}/${fileName}`;
       let counter = 1;
-  
+
       // ✅ Check if file exists and rename accordingly
       while (await RNFS.exists(fileUri)) {
         fileName = `patient_data(${counter}).xlsx`;
         fileUri = `${downloadsDir}/${fileName}`;
         counter++;
       }
-  
+
       // ✅ Save the new file
       await RNFS.writeFile(fileUri, base64Data, "base64");
-  
+
       console.log(`✅ File saved at: ${fileUri}`);
-      Alert.alert("Download Successful", `Excel file saved as ${fileName} in Downloads.`);
-    } catch (error) {
-      console.error("❌ Download Error:", error instanceof Error ? error.message : String(error));
-      Alert.alert("Download Failed", `Error: ${error instanceof Error ? error.message : String(error)}`);
+      Alert.alert(
+        "Download Successful",
+        `Excel file saved as ${fileName} in Downloads.`
+      );
+    } catch (error: unknown) {
+      console.error(
+        "❌ Download Error:",
+        error instanceof Error ? error.message : String(error)
+      );
+  
+      const isNetworkError =
+        error instanceof Error &&
+        (error.message.includes("Network request failed") ||
+          error.message.includes("TypeError: Network") ||
+          error.message.includes("fetch"));
+  
+      Alert.alert(
+        "Download Failed",
+        isNetworkError
+          ? "Network Failed - Please Check Your Internet Connection"
+          : `Error: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   };
-  
-  
-
 
   /* const handleDelete = (patientID: string) => {
     Alert.alert(

@@ -215,8 +215,25 @@ const Walking: React.FC<WalkingProps> = ({ navigation }) => {
             : null
         );
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error fetching patient details:", error);
+  
+      if (error instanceof Error) {
+        const isNetworkError =
+          error.message.includes("Network request failed") ||
+          error.message.includes("TypeError: Network") ||
+          error.message.includes("fetch");
+  
+        if (isNetworkError) {
+          setAlertTitle("Network Error");
+          setAlertMessage("Network Failed - Please Check Your Internet Connection");
+          setAlertVisible(true); // Show the custom alert
+        } else {
+          setAlertTitle("Error");
+          setAlertMessage("Failed to fetch patient details.");
+          setAlertVisible(true); // Show the custom alert
+        }
+      }
     }
   };
 
@@ -372,18 +389,24 @@ const Walking: React.FC<WalkingProps> = ({ navigation }) => {
           errorMessage =
             "No response from server. Please check your connection.";
         }
-      } else {
-        // Non-Axios or general error
-        errorMessage = (error as Error).message;
+      } else if (error instanceof Error) {
+        const isNetworkError =
+          error.message.includes("Network request failed") ||
+          error.message.includes("TypeError: Network") ||
+          error.message.includes("fetch");
+  
+        if (isNetworkError) {
+          errorMessage = "Network Failed - Please Check Your Internet Connection";
+        } else {
+          errorMessage = error.message;
+        }
       }
-
-      // Show the error message in custom alert
+  
       setAlertTitle(languageText.errorTitle);
       setAlertMessage(errorMessage);
       setCustomAlertVisible(true); // Show custom alert for the error
     }
   };
-
   const handleClear = () => {
     setCurrentSteps(0);
     setDistance("");

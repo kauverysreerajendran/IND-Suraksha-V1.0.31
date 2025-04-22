@@ -130,75 +130,27 @@ const YogaPage: React.FC<WalkingProps> = ({ navigation }) => {
 
         // Remove id if not needed
       });
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error fetching patient details:", error);
+  
+      if (error instanceof Error) {
+        const isNetworkError =
+          error.message.includes("Network request failed") ||
+          error.message.includes("TypeError: Network") ||
+          error.message.includes("fetch");
+  
+        if (isNetworkError) {
+          setAlertTitle("Network Error");
+          setAlertMessage("Network Failed - Please Check Your Internet Connection");
+          setAlertVisible(true); // Show the custom alert
+        } else {
+          setAlertTitle("Error");
+          setAlertMessage("Failed to fetch patient details.");
+          setAlertVisible(true); // Show the custom alert
+        }
+      }
     }
   };
-  // Handler functions for buttons
-  /*  const handleSubmit = async () => {
-    if (!patientDetails || !selectedDate) {
-      //Alert.alert("Error", "Please make sure all fields are filled.");
-      setAlertTitle("Error");
-      setAlertMessage("Please make sure all fields are filled.");
-      setAlertVisible(true);
-      return;
-    }
-
-    try {
-      const payload = {
-        patient_id: patientDetails.patient_id,
-        date: selectedDate.toISOString().split("T")[0], // Format date as YYYY-MM-DD
-        performed_yoga: yogaToday === "yes", // Convert "yes" to true and "no" to false
-        duration_hours: parseInt(durationHours, 10) || 0,
-        duration_minutes: parseInt(durationMinutes, 10) || 0,
-        mindful_yoga: mindfulYoga === "yes", // Convert "yes" to true and "no" to false
-      };
-
-      console.log("Payload:", payload);
-
-      const response = await axios.post(
-        "https://indheart.pinesphere.in/patient/yoga-data/",
-        payload
-      );
-
-      if (response.status === 201) {
-        Alert.alert("Success", "Yoga activity saved successfully!", [
-          {
-            text: "OK",
-            onPress: () => navigation.navigate("LifestyleMonitoring"),
-          },
-        ]);
-      } else {
-        Alert.alert("Error", "Failed to save yoga activity.");
-      }
-    } catch (error) {
-      let errorMessage = "Failed to submit Walking Details.";
-
-      if (axios.isAxiosError(error)) {
-        if (error.response) {
-          // Check if the error message indicates a unique constraint violation
-          if (error.response.data.non_field_errors) {
-            errorMessage =
-              "Submission failed: This date has already been saved for this patient.";
-          } else {
-            // General error response
-            errorMessage =
-              error.response.data.detail || "Failed to submit water intake.";
-          }
-        } else if (error.request) {
-          // No response received
-          errorMessage =
-            "No response from server. Please check your connection.";
-        }
-      } else {
-        // Non-Axios or general error
-        errorMessage = (error as Error).message;
-      }
-
-      // Show the same success popup with the error message
-      Alert.alert("Error", errorMessage, [{ text: "OK" }]);
-    }
-  }; */
 
   const handleSubmit = async () => {
     if (!patientDetails || !selectedDate) {

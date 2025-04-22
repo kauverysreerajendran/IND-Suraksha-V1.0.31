@@ -13,10 +13,10 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { BarChart } from "react-native-chart-kit";
 
-
-// Custom Text component to disable font scaling globally 
-const Text = (props: any) => { return <RNText {...props} allowFontScaling={false} />; };
-
+// Custom Text component to disable font scaling globally
+const Text = (props: any) => {
+  return <RNText {...props} allowFontScaling={false} />;
+};
 
 interface PatientDetails {
   patient_id: string;
@@ -34,7 +34,9 @@ const ActivitiesBottomMenu = () => {
 
   const [walkingData, setWalkingData] = useState([0, 0, 0, 0, 0, 0, 0]);
   const [error, setError] = useState("");
-  const [patientDetails, setPatientDetails] = useState<PatientDetails | null>(null);
+  const [patientDetails, setPatientDetails] = useState<PatientDetails | null>(
+    null
+  );
   const [weekReport, setWeekReport] = useState<WeekReportItem[]>([]); // Use the defined type here
 
   useEffect(() => {
@@ -54,8 +56,21 @@ const ActivitiesBottomMenu = () => {
         `https://indheart.pinesphere.in/patient/patient/${phone}/`
       );
       setPatientDetails(response.data);
-    } catch (error) {
-      console.error("Error fetching patient details:", error);
+    } catch (err) {
+      console.error("Error fetching patient details:", err);
+
+      // Handle network error
+      const isNetworkError =
+        err instanceof Error &&
+        (err.message.includes("Network Error") ||
+          err.message.includes("timeout") ||
+          err.message.includes("fetch"));
+
+      setError(
+        isNetworkError
+          ? "Network Failed - Pls check connection"
+          : "Failed to fetch patient details."
+      );
     }
   };
 
@@ -104,6 +119,18 @@ const ActivitiesBottomMenu = () => {
         } catch (err) {
           console.error("Error fetching walking data:", err);
           setError("Failed to fetch walking data.");
+          // Handle network error
+          const isNetworkError =
+            err instanceof Error &&
+            (err.message.includes("Network Error") ||
+              err.message.includes("timeout") ||
+              err.message.includes("fetch"));
+
+          setError(
+            isNetworkError
+              ? "Network Failed - Pls check connection"
+              : "Failed to fetch walking data."
+          );
         }
       };
 
@@ -186,7 +213,7 @@ const ActivitiesBottomMenu = () => {
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <View style={styles.container}>
             <Text style={styles.title}>Walking Metrics</Text>
-            
+
             {/* Walking Metrics Chart */}
             <View style={styles.chartContainer}>
               <BarChart
@@ -198,8 +225,8 @@ const ActivitiesBottomMenu = () => {
                     },
                   ],
                 }}
-                width={screenWidth - 40}  // Slightly reduced width to prevent overflow
-                height={250}  // Increased height for better spacing
+                width={screenWidth - 40} // Slightly reduced width to prevent overflow
+                height={250} // Increased height for better spacing
                 yAxisLabel=""
                 yAxisSuffix=" km"
                 chartConfig={{
@@ -211,7 +238,7 @@ const ActivitiesBottomMenu = () => {
                   labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
                   style: {
                     borderRadius: 16,
-                    marginLeft: 15,  // Add extra margin to prevent cropping on the left
+                    marginLeft: 15, // Add extra margin to prevent cropping on the left
                   },
                   propsForDots: {
                     r: "6",
@@ -222,7 +249,7 @@ const ActivitiesBottomMenu = () => {
                 style={{
                   marginVertical: 8,
                   borderRadius: 16,
-                  marginLeft: 20,  // Adjusted to give more space on the left
+                  marginLeft: 20, // Adjusted to give more space on the left
                   marginRight: 10,
                 }}
               />
@@ -250,7 +277,10 @@ const ActivitiesBottomMenu = () => {
                 weekReport.map((item, index) => (
                   <View
                     key={index}
-                    style={[styles.row, { backgroundColor: getRowColor(item.id) }]}
+                    style={[
+                      styles.row,
+                      { backgroundColor: getRowColor(item.id) },
+                    ]}
                   >
                     <Text style={styles.cell}>{item.day}</Text>
                     <Text style={styles.cell}>{item.date}</Text>

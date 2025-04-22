@@ -379,6 +379,8 @@ const styles = StyleSheet.create({
   translateContainer: {
     position: "absolute",
     marginLeft: 180,
+    paddingTop: 10,
+    paddingBottom: 10,
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "transparent",
@@ -397,15 +399,19 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 3,
-    marginLeft: 45,
+    marginLeft: 25,
+    paddingTop: 10,
+    paddingBottom: 10,
   },
 
   buttonTranslateText: {
     color: "#4169E1",
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: "600",
     textAlign: "center",
-    marginLeft: 6,
+    marginLeft: 10,
+    paddingRight: 5,
+    
   },
   scrollContainer: {
     flexGrow: 1,

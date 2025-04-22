@@ -92,13 +92,28 @@ const AddPatientProfile: React.FC = () => {
         );
         const data = await response.json();
         setPatientID(data.next_patient_id);
-      } catch (error) {
-        //Alert.alert("Error", "Failed to fetch the next patient ID.");
+      } catch (error: unknown) {
+        console.error("Error fetching the next patient ID:", error);
+  
+        let message = "Failed to fetch the next patient ID.";
+  
+        if (error instanceof Error) {
+          const isNetworkError =
+            error.message.includes("Network request failed") ||
+            error.message.includes("TypeError: Network") ||
+            error.message.includes("fetch");
+  
+          message = isNetworkError
+            ? "Network Failed - Pls check connection"
+            : error.message;
+        }
+  
         setAlertTitle("Error");
-        setAlertMessage("Failed to fetch the next patient ID.");
+        setAlertMessage(message);
+        setAlertVisible(true);
       }
     };
-
+  
     fetchNextPatientID();
   }, []);
 
@@ -161,14 +176,27 @@ const AddPatientProfile: React.FC = () => {
       setAlertVisible(true); // Show the custom alert
       handleClear(); // Clear the form after successful submission
       navigation.navigate("AddClinicalProfilePage"); // Navigate to AddClinicalProfile screen
-    } catch (error: any) {
+    } catch (error: unknown) {
+      console.error("Error saving patient data:", error);
+  
+      let message = "An error occurred while saving the data.";
+  
+      if (error instanceof Error) {
+        const isNetworkError =
+          error.message.includes("Network request failed") ||
+          error.message.includes("TypeError: Network") ||
+          error.message.includes("fetch");
+  
+        message = isNetworkError
+          ? "Network Failed - Pls check connection"
+          : error.message;
+      }
+  
       setAlertTitle("Error");
-      setAlertMessage(
-        error.message || "An error occurred while saving the data."
-      );
+      setAlertMessage(message);
       setAlertVisible(true);
     }
-
+  
     setIsSubmitting(false);
   };
 

@@ -107,13 +107,28 @@ const AddMetabolicProfilePage: React.FC = () => {
           // Set the last patient ID as the default selected patient ID
           setPatientID(options[options.length - 1].value);
         }
-      } catch (error) {
-        //Alert.alert("Error", "Failed to fetch patient IDs.");
+      } catch (error: unknown) {
+        console.error("Error fetching patient IDs:", error);
+  
+        let message = "Something went wrong. Please try again later.";
+  
+        if (error instanceof Error) {
+          const isNetworkError =
+            error.message.includes("Network request failed") ||
+            error.message.includes("TypeError: Network") ||
+            error.message.includes("fetch");
+  
+          message = isNetworkError
+            ? "Network Failed - Pls check connection"
+            : error.message;
+        }
+  
         setAlertTitle("Error");
-        setAlertMessage("Failed to fetch patient IDs.");
+        setAlertMessage(message);
+        setAlertVisible(true);
       }
     };
-
+  
     fetchPatientIDs();
   }, []);
 
@@ -148,19 +163,32 @@ const AddMetabolicProfilePage: React.FC = () => {
           // Clear the fields if no data is found for the selected patient
           handleClear();
         }
-      } catch (error) {
-        //Alert.alert("Error", "Failed to fetch metabolic data.");
+      } catch (error: unknown) {
+        console.error("Error fetching metabolic data:", error);
+  
+        let message = "Something went wrong. Please try again later.";
+  
+        if (error instanceof Error) {
+          const isNetworkError =
+            error.message.includes("Network request failed") ||
+            error.message.includes("TypeError: Network") ||
+            error.message.includes("fetch");
+  
+          message = isNetworkError
+            ? "Network Failed - Pls check connection"
+            : error.message;
+        }
+  
         setAlertTitle("Error");
-        setAlertMessage("Failed to fetch metabolic data.");
-        console.error("Error fetching metabolic data:", error); // Log the error
+        setAlertMessage(message);
+        setAlertVisible(true);
       }
     };
-
+  
     if (patientID) {
       fetchMetabolicData(patientID);
     }
   }, [patientID]);
-
   const handleSave = async () => {
     if (
       !patientID ||
@@ -209,10 +237,24 @@ const AddMetabolicProfilePage: React.FC = () => {
       setSuccessAlertVisible(true);
       handleClear(); // Clear the form after successful submission
     } catch (error: any) {
-      setErrorMessage(
-        error.message || "An error occurred while saving the data."
-      );
-      setErrorAlertVisible(true);
+      console.error("Error saving metabolic data:", error);
+  
+      let message = "An error occurred while saving the data.";
+  
+      if (error instanceof Error) {
+        const isNetworkError =
+          error.message.includes("Network request failed") ||
+          error.message.includes("TypeError: Network") ||
+          error.message.includes("fetch");
+  
+        message = isNetworkError
+          ? "Network Failed - Pls check connection"
+          : error.message;
+      }
+  
+      setAlertTitle("Error");
+      setAlertMessage(message);
+      setAlertVisible(true);
     }
   };
 

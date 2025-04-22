@@ -88,10 +88,25 @@ const PatientProfile: React.FC = () => {
     );
   }, [isTranslatingToTamil]);
 
-  const handleFeedbackSubmit = () => {
-    console.log("Submit Feedback button pressed");
-    // You can add your feedback submission logic here
-    navigation.navigate("UserFeedbackForm"); // Adjust navigation to your feedback screen
+    const handleFeedbackSubmit = async () => {
+    try {
+      console.log("Submit Feedback button pressed");
+      // Add your feedback submission logic here
+      navigation.navigate("UserFeedbackForm"); // Adjust navigation to your feedback screen
+    } catch (error: unknown) {
+      console.error("Error submitting feedback:", error);
+  
+      if (error instanceof Error) {
+        const isNetworkError =
+          error.message.includes("Network request failed") ||
+          error.message.includes("TypeError: Network") ||
+          error.message.includes("fetch");
+  
+        if (isNetworkError) {
+          console.error("Network Failed - Please Check Your Internet Connection");
+        }
+      }
+    }
   };
 
   return (

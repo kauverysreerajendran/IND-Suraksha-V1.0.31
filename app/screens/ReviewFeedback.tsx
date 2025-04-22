@@ -52,11 +52,22 @@ const ReviewFeedbackScreen: React.FC = () => {
           rating: item.rating,
         }));
         setFeedbackList(feedbackData);
-      } catch (error) {
+      } catch (error: unknown) {
         console.error("Error fetching feedback data:", error);
+  
+        if (error instanceof Error) {
+          const isNetworkError =
+            error.message.includes("Network request failed") ||
+            error.message.includes("TypeError: Network") ||
+            error.message.includes("fetch");
+  
+          if (isNetworkError) {
+            console.error("Network Failed - Please Check Your Internet Connection");
+          }
+        }
       }
     };
-
+  
     fetchFeedback();
   }, []);
 

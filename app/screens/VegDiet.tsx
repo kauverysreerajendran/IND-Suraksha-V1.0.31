@@ -143,10 +143,24 @@ const VegDietPage: React.FC = () => {
       setPatientDetails({
         patient_id: response.data.patient_id, // Keep this as your unique identifier
         diet: response.data.diet,
-        // Remove id if not needed
       });
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error fetching patient details:", error);
+
+      if (error instanceof Error) {
+        const isNetworkError =
+          error.message.includes("Network request failed") ||
+          error.message.includes("TypeError: Network") ||
+          error.message.includes("fetch");
+
+        if (isNetworkError) {
+          setAlertTitle("Network Error");
+          setAlertMessage(
+            "Network Failed - Please Check Your Internet Connection"
+          );
+          setAlertVisible(true); // Show the custom alert
+        }
+      }
     }
   };
 
@@ -342,21 +356,26 @@ const VegDietPage: React.FC = () => {
             setAlertTitle(texts[language].error);
             setAlertMessage(texts[language].issueSavingDiet);
           }
-        } else {
-          setAlertTitle(texts[language].error);
-          setAlertMessage(texts[language].unexpectedError);
+        } else if (error instanceof Error) {
+          const isNetworkError =
+            error.message.includes("Network request failed") ||
+            error.message.includes("TypeError: Network") ||
+            error.message.includes("fetch");
+
+          if (isNetworkError) {
+            setAlertTitle("Network Error");
+            setAlertMessage(
+              "Network Failed - Please Check Your Internet Connection"
+            );
+          } else {
+            setAlertTitle(texts[language].error);
+            setAlertMessage(texts[language].unexpectedError);
+          }
         }
         setAlertVisible(true); // Show the custom alert message
       }
     }
   };
-
-  /* const handleCancel = () => {
-    Alert.alert("Cancel", "Are you sure you want to cancel?", [
-      { text: "No", style: "cancel" },
-      { text: "Yes", onPress: () => navigation.navigate("DailyUploads") }, // Navigate to PatientDashboard
-    ]);
-  }; */
 
   const handleCancel = () => {
     // Trigger the custom alert instead of the default Alert
@@ -583,8 +602,8 @@ const VegDietPage: React.FC = () => {
                 />
                 <Text style={styles.orangeTitle}></Text>
               </View>
-                   
-                   {/* Apple */}
+
+              {/* Apple */}
               <View style={styles.appleContainer}>
                 <TextInput
                   style={styles.appleQty}
@@ -642,9 +661,7 @@ const VegDietPage: React.FC = () => {
                   source={require("../../assets/images/musk.png")}
                   style={styles.muskmelonImage}
                 />
-                <Text style={styles.muskmelonTitle}>
-                  
-                </Text>
+                <Text style={styles.muskmelonTitle}></Text>
               </View>
 
               {/* Watermelon */}
@@ -665,9 +682,7 @@ const VegDietPage: React.FC = () => {
                   source={require("../../assets/images/watermelon.png")}
                   style={styles.watermelonImage}
                 />
-                <Text style={styles.watermelonTitle}>
-              
-                </Text>
+                <Text style={styles.watermelonTitle}></Text>
               </View>
               <View style={styles.othersContainer}>
                 <Text style={styles.fruitOtherLabel}></Text>

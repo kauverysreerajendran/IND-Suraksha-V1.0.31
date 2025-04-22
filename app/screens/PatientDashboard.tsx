@@ -214,8 +214,19 @@ const PatientDashboardPage: React.FC = () => {
       } else {
         //console.error("Token not found in AsyncStorage");
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error fetching patient details:", error);
+  
+      if (error instanceof Error) {
+        const isNetworkError =
+          error.message.includes("Network request failed") ||
+          error.message.includes("TypeError: Network") ||
+          error.message.includes("fetch");
+  
+        if (isNetworkError) {
+          console.error("Network Failed - Please Check Your Internet Connection");
+        }
+      }
     }
   };
 

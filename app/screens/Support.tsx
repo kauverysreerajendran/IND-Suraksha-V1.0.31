@@ -61,8 +61,23 @@ const SupportPage = () => {
   }, []);
 
   // Function to open dialer with phone number
-  const dialCall = (phoneNumber: string) => {
-    Linking.openURL(`tel:${phoneNumber}`);
+    const dialCall = (phoneNumber: string) => {
+    try {
+      Linking.openURL(`tel:${phoneNumber}`);
+    } catch (error: unknown) {
+      console.error("Error opening dialer:", error);
+  
+      if (error instanceof Error) {
+        const isNetworkError =
+          error.message.includes("Network request failed") ||
+          error.message.includes("TypeError: Network") ||
+          error.message.includes("fetch");
+  
+        if (isNetworkError) {
+          console.error("Network Failed - Please Check Your Internet Connection");
+        }
+      }
+    }
   };
 
   const handleBackPress = () => {

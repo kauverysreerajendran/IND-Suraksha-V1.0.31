@@ -191,11 +191,26 @@ const requestStoragePermission = async () => {
 
         console.log(`✅ File saved at: ${fileUri}`);
         Alert.alert("Download Successful", `Excel file saved as ${fileName} in Downloads.`);
-    } catch (error) {
-        console.error("❌ Download Error:", error instanceof Error ? error.message : String(error));
-        Alert.alert("Download Failed", `Error: ${error instanceof Error ? error.message : String(error)}`);
-    }
-};
+    }     catch (error: unknown) {
+        console.error(
+          "❌ Download Error:",
+          error instanceof Error ? error.message : String(error)
+        );
+    
+        const isNetworkError =
+          error instanceof Error &&
+          (error.message.includes("Network request failed") ||
+            error.message.includes("TypeError: Network") ||
+            error.message.includes("fetch"));
+    
+        Alert.alert(
+          "Download Failed",
+          isNetworkError
+            ? "Network Failed - Please Check Your Internet Connection"
+            : `Error: ${error instanceof Error ? error.message : String(error)}`
+        );
+      }
+    };
 
   
 /*   // ✅ Corrected Function to Open Excel File

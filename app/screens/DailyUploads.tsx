@@ -9,6 +9,7 @@ import {
   ImageSourcePropType,
   SafeAreaView,
   StatusBar,
+  ScrollView,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -428,68 +429,67 @@ const DailyUploads: React.FC = () => {
           backgroundColor="transparent" // Make the background transparent
           translucent={true} // Make status bar translucent
         />
-        <View style={styles.mainWrapper}>
-          <View style={styles.backIconContainer}>
-            <TouchableOpacity
-              style={styles.backButton}
-              onPress={() => {
-                console.log("Back button clicked");
-                navigation.navigate("PatientDashboardPage");
-              }}
-              activeOpacity={0.7}
-            >
-              <Ionicons name="arrow-back" size={18} color="#000" />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.translateContainer}>
-            <TouchableOpacity
-              onPress={handleTranslate}
-              style={styles.translateButton}
-            >
-              <Icon
-                name={isTranslatingToTamil ? "language" : "translate"}
-                size={20}
-                color="#4169E1" // Icon color
-              />
-              <Text style={styles.translateButtonText}>
-                {isTranslatingToTamil
-                  ? "Translate to English"
-                  : "தமிழில் படிக்க"}
-              </Text>
-            </TouchableOpacity>
-          </View>
+        {/* Fixed Top Container */}
+    <View style={styles.topContainer}>
+      {/* Back Button */}
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => {
+          console.log("Back button clicked");
+          navigation.navigate("PatientDashboardPage");
+        }}
+        activeOpacity={0.7}
+      >
+        <Ionicons name="arrow-back" size={18} color="#000" />
+      </TouchableOpacity>
 
-          <View style={styles.container}>
-            <TouchableOpacity onPress={handlePrevious}>
-              <MaterialIcons name="arrow-back-ios" size={24} color="black" />
-            </TouchableOpacity>
-            <Image source={images[currentIndex]} style={styles.image} />
-            <TouchableOpacity onPress={handleNext}>
-              <MaterialIcons name="arrow-forward-ios" size={24} color="black" />
-            </TouchableOpacity>
-          </View>
+      {/* Translate Button */}
+      <TouchableOpacity
+        onPress={handleTranslate}
+        style={styles.translateButton}
+      >
+        <Icon
+          name={isTranslatingToTamil ? "language" : "translate"}
+          size={20}
+          color="#4169E1" // Icon color
+        />
+        <Text style={styles.translateButtonText}>
+          {isTranslatingToTamil ? "Translate to English" : "தமிழில் படிக்க"}
+        </Text>
+      </TouchableOpacity>
+    </View>
 
-          <Text style={styles.title}>
-            {isTranslatingToTamil
-              ? tamilTitles[currentIndex]
-              : titles[currentIndex]}
-          </Text>
+    {/* Main Content */}
+    <ScrollView contentContainerStyle={styles.mainWrapper}>
+      <View style={styles.container}>
+        <TouchableOpacity onPress={handlePrevious}>
+          <MaterialIcons name="arrow-back-ios" size={24} color="black" />
+        </TouchableOpacity>
+        <Image source={images[currentIndex]} style={styles.image} />
+        <TouchableOpacity onPress={handleNext}>
+          <MaterialIcons name="arrow-forward-ios" size={24} color="black" />
+        </TouchableOpacity>
+      </View>
 
-          <Text style={styles.quote}>
-            {isTranslatingToTamil
-              ? tamilQuotes[currentIndex]
-              : englishQuotes[currentIndex]}
-          </Text>
+      <Text style={styles.title}>
+        {isTranslatingToTamil ? tamilTitles[currentIndex] : titles[currentIndex]}
+      </Text>
 
-          <TouchableOpacity
-            onPress={handleExplore}
-            style={styles.buttonContainer}
-          >
-            <Text style={styles.buttonText}>{getButtonText()}</Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
-    </SafeAreaProvider>
+      <Text style={styles.quote}>
+        {isTranslatingToTamil
+          ? tamilQuotes[currentIndex]
+          : englishQuotes[currentIndex]}
+      </Text>
+
+      <TouchableOpacity
+        onPress={handleExplore}
+        style={styles.buttonContainer}
+      >
+        <Text style={styles.buttonText}>{getButtonText()}</Text>
+      </TouchableOpacity>
+    </ScrollView>
+  </SafeAreaView>
+</SafeAreaProvider>
   );
 };
 
@@ -527,13 +527,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 4,
-    marginTop: 50,
-    marginLeft: 10,
   },
   translateContainer: {
+    position: "fixed",
     flexDirection: "row",
     justifyContent: "center",
     marginBottom: 20,
+    marginRight: 10,
+    marginTop: 10,
   },
   translateButton: {
     flexDirection: "row",
@@ -541,8 +542,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 10,
     borderRadius: 20,
-    bottom: 60,
-    left: 80,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4,
   },
   translateButtonText: {
     marginLeft: 5,
@@ -580,6 +584,19 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  topContainer: {
+    position: "absolute", // Make the container fixed at the top
+    top: 20, // Align it to the top of the screen
+    left: 0, // Align it to the left
+    right: 0, // Align it to the right
+    height: 130, // Set a fixed height for the top container
+    backgroundColor: "#fff", // Background color for the container
+    flexDirection: "row", // Align items horizontally
+    justifyContent: "space-between", // Space between back and translate buttons
+    alignItems: "center", // Center items vertically
+    paddingHorizontal: 30, // Add horizontal padding
+    zIndex: 10, // Ensure it stays above other elements
   },
 });
 

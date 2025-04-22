@@ -122,7 +122,7 @@ const ExerciseVideos: React.FC = () => {
       <View style={styles.headerContainer}>
         <Text style={styles.mainTitle}>Exercise Videos</Text>
         <TouchableOpacity onPress={() => setIsTamilVisible(!isTamilVisible)} style={styles.switchButton}>
-          <MaterialIcon name="swap-horiz" size={20} color="#4169E1" />
+          <MaterialIcon name="swap-horiz" size={18} color="#4169E1" />
           <Text style={styles.switchText}>{isTamilVisible ? "Show English" : "தமிழில் பார்க்க"}</Text>
         </TouchableOpacity>
       </View>
@@ -157,6 +157,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F5F5F5',
     padding: 10,
+    paddingHorizontal: 10,
     marginTop: 60,
     marginBottom: 45,
   },
@@ -174,20 +175,21 @@ const styles = StyleSheet.create({
     left: 10,
   },
   mainTitle: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#000',
     flex: 1,
     textAlign: 'center',
+    
   },
   switchButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 5,
+    padding: 2,
     backgroundColor: '#FFF',
     borderRadius: 15,
     marginRight: 5,
-    right: 15,
+    right: 20,
   },
   switchText: {
     color: '#4169E1',

@@ -101,11 +101,22 @@ const PatientMedication: React.FC = () => {
           const patient_id = response.data.patient_id;
           fetchMedications(patient_id);
         }
-      } catch (error) {
+      } catch (error: unknown) {
         console.error("Error fetching patient details:", error);
+  
+        if (error instanceof Error) {
+          const isNetworkError =
+            error.message.includes("Network request failed") ||
+            error.message.includes("TypeError: Network") ||
+            error.message.includes("fetch");
+  
+          if (isNetworkError) {
+            console.error("Network Failed - Please Check Your Internet Connection");
+          }
+        }
       }
     };
-
+  
     fetchLoggedPatientData();
     updateActiveTime();
   }, []);
@@ -124,8 +135,19 @@ const PatientMedication: React.FC = () => {
         );
       }
       setMedications(response.data);
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error fetching medications:", error);
+  
+      if (error instanceof Error) {
+        const isNetworkError =
+          error.message.includes("Network request failed") ||
+          error.message.includes("TypeError: Network") ||
+          error.message.includes("fetch");
+  
+        if (isNetworkError) {
+          console.error("Network Failed - Please Check Your Internet Connection");
+        }
+      }
     }
   };
 
@@ -225,6 +247,17 @@ const PatientMedication: React.FC = () => {
         //Alert.alert("Error", "There was an issue saving the data");
         setAlertTitle(languageText.alertErrorTitle);
         setAlertMessage(languageText.errorSaving);
+      }
+
+      if (error instanceof Error) {
+        const isNetworkError =
+          error.message.includes("Network request failed") ||
+          error.message.includes("TypeError: Network") ||
+          error.message.includes("fetch");
+  
+        if (isNetworkError) {
+          console.error("Network Failed - Please Check Your Internet Connection");
+        }
       }
     }
   }, [date, medications, selectedMedications]);

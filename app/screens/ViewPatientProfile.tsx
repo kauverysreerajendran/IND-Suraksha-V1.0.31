@@ -49,8 +49,21 @@ const ViewPatientProfile: React.FC = () => {
         // Fetch related data after patient data is loaded
         await fetchClinicalData();
         await fetchMetabolicData();
-      } catch (error) {
-        setError("Failed to load patient data");
+      } catch (error: unknown) {
+        console.error("Error fetching patient data:", error);
+    
+        if (error instanceof Error) {
+          const isNetworkError =
+            error.message.includes("Network request failed") ||
+            error.message.includes("TypeError: Network") ||
+            error.message.includes("fetch");
+    
+          if (isNetworkError) {
+            setError("Network Failed - Please Check Your Internet Connection");
+          } else {
+            setError("Failed to load patient data");
+          }
+        }
       } finally {
         setLoading(false);
       }
@@ -62,8 +75,21 @@ const ViewPatientProfile: React.FC = () => {
           `https://indheart.pinesphere.in/api/api/clinical-data/?patient_id=${patientID}`
         );
         setClinicalData(response.data);
-      } catch (error) {
-        setError("Failed to load clinical data");
+      } catch (error: unknown) {
+        console.error("Error fetching clinical data:", error);
+    
+        if (error instanceof Error) {
+          const isNetworkError =
+            error.message.includes("Network request failed") ||
+            error.message.includes("TypeError: Network") ||
+            error.message.includes("fetch");
+    
+          if (isNetworkError) {
+            setError("Network Failed - Please Check Your Internet Connection");
+          } else {
+            setError("Failed to load clinical data");
+          }
+        }
       }
     };
 
@@ -73,11 +99,23 @@ const ViewPatientProfile: React.FC = () => {
           `https://indheart.pinesphere.in/api/api/metabolic-data/?patient_id=${patientID}`
         );
         setMetabolicData(response.data);
-      } catch (error) {
-        setError("Failed to load metabolic data");
+      } catch (error: unknown) {
+        console.error("Error fetching metabolic data:", error);
+    
+        if (error instanceof Error) {
+          const isNetworkError =
+            error.message.includes("Network request failed") ||
+            error.message.includes("TypeError: Network") ||
+            error.message.includes("fetch");
+    
+          if (isNetworkError) {
+            setError("Network Failed - Please Check Your Internet Connection");
+          } else {
+            setError("Failed to load metabolic data");
+          }
+        }
       }
     };
-
     if (patientID) {
       fetchPatientData();
     } else {
