@@ -65,14 +65,14 @@ const tamilTitles: string[] = [
 ];
 
 // Define quotes for each image in English
-const englishQuotes: string[] = [
+/* const englishQuotes: string[] = [
   "A person’s health is a reflection of their internal state of mind. - Integrative Medicine",
   "Biomarkers are critical for diagnosing diseases before symptoms arise. - Clinical Pathology",
   "Epigenetics reveals how our environment can alter gene expression. - Molecular Biology",
   "Chronic inflammation can be the root cause of many chronic diseases. - Rheumatology",
   "Microbiome diversity is crucial for maintaining overall health and immunity. - Gastroenterology",
   "Pharmacogenomics can personalize medicine based on genetic makeup. - Personalized Medicine",
-];
+]; */
 
 // Define Tamil translations for the quotes
 const tamilQuotes: string[] = [
@@ -475,11 +475,11 @@ const DailyUploads: React.FC = () => {
         {isTranslatingToTamil ? tamilTitles[currentIndex] : titles[currentIndex]}
       </Text>
 
-      <Text style={styles.quote}>
+      {/* <Text style={styles.quote}>
         {isTranslatingToTamil
           ? tamilQuotes[currentIndex]
           : englishQuotes[currentIndex]}
-      </Text>
+      </Text> */}
 
       <TouchableOpacity
         onPress={handleExplore}

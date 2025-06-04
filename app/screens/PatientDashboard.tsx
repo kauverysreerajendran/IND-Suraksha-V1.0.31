@@ -519,15 +519,15 @@ const PatientDashboardPage: React.FC = () => {
                 style={styles.coverImage}
                 resizeMode="cover"
               />
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 style={styles.contactButton}
                 onPress={handleContactDoctor}
               >
-                {/* <Text style={styles.contactButtonText}>Contact Doctor</Text> */}
+                
                 <Text style={styles.contactButtonText}>
                   {languageText.contactDoctor}
                 </Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               {/* <Text style={styles.quoteText}>
               For expert advice and reliable guidance, don't hesitate to consult
               your doctor
@@ -763,17 +763,24 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
   },
-  quoteText: {
-    position: "absolute", // Use absolute positioning to place it precisely
-    top: 50, // Adjusted for better visibility
-    left: 30, // Adjusted for better visibility
-    fontSize: 14,
-    color: "#000",
-    textAlign: "left", // Align text to the left
-    zIndex: 1, // Ensure the text is above other content
-    width: 150,
-    fontWeight: "500",
-  },
+    // ...existing code...
+    quoteText: {
+      position: "absolute",
+      top: "47%", // Vertically center relative to the image
+      left: "3%", // Responsive left margin
+      transform: [{ translateY: -15 }], // Adjust for vertical centering
+      fontSize: 18,
+      color: "#000",
+      textAlign: "left",
+      zIndex: 1,
+      width: "60%", // Responsive width
+      fontWeight: "600",
+      
+      paddingVertical: 4,
+      paddingHorizontal: 8,
+      borderRadius: 8,
+    },
+  // ...existing code...
   uploadContainer: {
     bottom: 100,
     width: "97%",

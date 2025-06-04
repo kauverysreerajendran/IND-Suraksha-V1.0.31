@@ -150,7 +150,7 @@ const Walking: React.FC<WalkingProps> = ({ navigation }) => {
   useEffect(() => {
     const fetchData = () => {
       setDateOfOperation(new Date("2024-08-01"));
-      setEligibilityStatus("Eligible");
+      setEligibilityStatus(languageText.eligibilityStatus);
       setSuggestedWalk("30 minutes daily");
     };
     fetchData();
@@ -521,8 +521,8 @@ const Walking: React.FC<WalkingProps> = ({ navigation }) => {
               </Text>
             </TouchableOpacity>
           </View>
-          <Text style={styles.goalText}>
-            {languageText.goalText} &nbsp;{goalDistance} KM
+                    <Text style={styles.goalText}>
+            {languageText.goalText} &nbsp;{goalDistance} {languageText.km}
           </Text>
           <ScrollView
             contentContainerStyle={styles.scrollContainer}
@@ -615,7 +615,7 @@ const Walking: React.FC<WalkingProps> = ({ navigation }) => {
 
             {/* Daily Routine Container */}
             <View style={styles.dailyRoutineContainer}>
-              <Text style={styles.dailyRoutineTitle}>Daily Routine</Text>
+            <Text style={styles.dailyRoutineTitle}>{languageText.dailyRoutine}</Text>
 
               <Text style={styles.dailyRoutineText}>
                 {languageText.enterDistance}{" "}

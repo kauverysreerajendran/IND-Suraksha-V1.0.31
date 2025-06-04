@@ -118,107 +118,72 @@ const SupportPage = () => {
           />
 
           {/* Main Content */}
-          <View style={styles.content}>
-            <Text style={styles.pageTitle}>{languageText.supportTitle}</Text>
-
-            {/* Animated Info Containers */}
-            <Animated.View
-              style={[
-                styles.infoContainer,
-                { transform: [{ translateY: infoContainerSlide }] },
-              ]}
-            >
-              <Text style={styles.containerText}>
-                {languageText.principalInvestigatorName}
+                    
+                    <View style={styles.content}>
+            <Text style={styles.pageTitle}>App – Concept & Content</Text>
+          
+            <View style={styles.infoContainer}>
+              <Text style={styles.mainName}>
+                1. Dr.S.Madhavi M.Sc., Ph.D (N)
               </Text>
-              <Text style={styles.containerSubText}>
-                {languageText.principalInvestigator}
+              <Text style={styles.roleText}>
+                Professor cum Principal
               </Text>
-              <TouchableOpacity
-                style={styles.phoneContainer}
-                onPress={() => dialCall("9444150993")}
-              >
-                <Image
-                  source={require("../../assets/icons/phone.png")}
-                  style={styles.phoneGif}
-                />
-                <Text style={styles.phoneText}>+91 94441 50993</Text>
-              </TouchableOpacity>
-            </Animated.View>
-
-            {/* Duplicate and Customize for Each Info Container */}
-            <Animated.View
-              style={[
-                styles.infoContainer,
-                { transform: [{ translateY: infoContainerSlide }] },
-              ]}
-            >
-              <Text style={styles.containerText}>
-                {languageText.coinvestigatorName}
+              <Text style={styles.orgText}>
+                KMCH College of Nursing
               </Text>
-              <Text style={styles.containerSubText}>
-                {languageText.coinvestigator}
+              <Text style={styles.mainName}>
+                2. Ms.J.V.Jeevitha, M.Sc (N) & Ms. Priyadharshni. V ., M.Sc (N)
               </Text>
-              <TouchableOpacity
-                style={styles.phoneContainer}
-                onPress={() => dialCall("8838312572")}
-              >
-                <Image
-                  source={require("../../assets/icons/phone.png")}
-                  style={styles.phoneGif}
-                />
-                <Text style={styles.phoneText}>+91 88383 12572</Text>
-              </TouchableOpacity>
-            </Animated.View>
-
-            <Animated.View
-              style={[
-                styles.infoContainer,
-                { transform: [{ translateY: infoContainerSlide }] },
-              ]}
-            >
-              <Text style={styles.containerText}>
-                {languageText.coinvestigatorNameSub}
+              <Text style={styles.roleText}>
+                Assistant Professors
               </Text>
-              <Text style={styles.containerSubText}>
-                {languageText.coinvestigator}
+              <Text style={styles.orgText}>
+                KMCH College of Nursing
               </Text>
-              <TouchableOpacity
-                style={styles.phoneContainer}
-                onPress={() => dialCall("9626484936")}
-              >
-                <Image
-                  source={require("../../assets/icons/phone.png")} // Path to your GIF
-                  style={styles.phoneGif} // Add styling for the GIF
-                />
-                <Text style={styles.phoneText}>+91 96264 84936</Text>
-              </TouchableOpacity>
-            </Animated.View>
-
-            <Animated.View
-              style={[
-                styles.infoContainer,
-                { transform: [{ translateY: infoContainerSlide }] },
-              ]}
-            >
-              <Text style={styles.containerText}>
-                {languageText.consultantInterventionName}
+              <Text style={styles.orgText}>
+                Coimbatore
               </Text>
-              <Text style={styles.containerSubText}>
-                {languageText.consultantIntervention}
+            </View>
+          
+            <View style={styles.infoContainer}>
+              <Text style={styles.sectionTitle}>
+                Under the guidance of
               </Text>
-              <TouchableOpacity
-                style={styles.phoneContainer}
-                onPress={() => dialCall("0422-4323123")}
-              >
-                <Image
-                  source={require("../../assets/icons/phone.png")} // Path to your GIF
-                  style={styles.phoneGif} // Add styling for the GIF
-                />
-                <Text style={styles.phoneText}>+91 96264 84936</Text>
-              </TouchableOpacity>
-            </Animated.View>
+              <Text style={styles.mainName}>
+                Dr.J.Balakumaran., MBBS, MD (Internal medicine), DM (Cardiology)
+              </Text>
+              <Text style={styles.roleText}>
+                Consultant Interventional Cardiologist, KMCH & 
+              </Text>
+              
+              <Text style={styles.sectionTitle}>
+                The KMCH Consultant Cardiologist team
+              </Text>
+              <Text style={styles.teamList}>
+                1. Dr. Thomas Alexander, MD., DM., FACC., FICC., FCSI{"\n"}
+                2. Dr. Suresh Kumar Ramasamy,{"\n"}
+                   MBBS., MD (General Medicine)., DM (Cardiology){"\n"}
+                3. Dr. Saravanan D M T,{"\n"}
+                   MBBS., MRCP (UK){"\n"}
+                4. Dr. Mohan M,{"\n"}
+                   MBBS., MD (Internal Medicine)., DM (Cardiology)
+              </Text>
+            </View>
+          
+            <View style={styles.infoContainer}>
+              <Text style={styles.sectionTitle}>
+                Project Sponsors:
+              </Text>
+              <Text style={styles.sponsorList}>
+                1. The Tamil Nadu Dr. M.G.R. Medical University, Chennai.{"\n"}
+                2. The Dr NGP Research & Educational Trust.
+              </Text>
+            </View>
           </View>
+          
+          
+          
         </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -346,6 +311,61 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 50,
   },
+  
+                   
+          mainName: {
+            fontSize: 18,
+            fontWeight: "bold",
+            color: "#0d47a1", // Deeper blue for main names
+            marginBottom: 8,  // More space between lines
+            letterSpacing: 0.2,
+          },
+          roleText: {
+            fontSize: 15,
+            color: "#ea6830", // Orange for roles
+            fontWeight: "600",
+            marginBottom: 8,  // More space between lines
+            letterSpacing: 0.1,
+          },
+          orgText: {
+            fontSize: 14,
+            color: "#00897b", // Teal for organization/location
+            marginBottom: 8,  // More space between lines
+            letterSpacing: 0.1,
+          },
+          sectionTitle: {
+            fontSize: 16,
+            fontWeight: "bold",
+            color: "#6a1b9a", // Purple for section titles
+            marginBottom: 10,
+            marginTop: 10,
+            letterSpacing: 0.2,
+          },
+          andText: {
+            fontSize: 18,
+            fontWeight: "bold",
+            color: "#3a3a3a",
+            textAlign: "center",
+            marginVertical: 8, // More space
+          },
+          teamList: {
+            fontSize: 14,
+            color: "#37474f", // Dark gray for team list
+            marginTop: 8,
+            marginLeft: 8,
+            marginBottom: 8,
+            lineHeight: 22,
+          },
+          sponsorList: {
+            fontSize: 14,
+            color: "#00695c", // Green for sponsors
+            marginTop: 8,
+            marginLeft: 8,
+            marginBottom: 8,
+            lineHeight: 22,
+          },
+          
+          
 });
 
 export default SupportPage;

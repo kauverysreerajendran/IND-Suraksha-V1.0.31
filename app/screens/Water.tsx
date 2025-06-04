@@ -14,6 +14,7 @@ import {
   SafeAreaView,
   StatusBar,
   BackHandler,
+  Dimensions,
 } from "react-native";
 import { Audio } from "expo-av";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -80,6 +81,7 @@ const WaterPage: React.FC = () => {
   const [alertVisible, setAlertVisible] = useState(false); // For custom alert visibility
 
   const [alertMode, setAlertMode] = useState(""); // For alert mode (e.g., success, error)
+  
 
   //Device back button handling
   useFocusEffect(
@@ -147,18 +149,18 @@ const WaterPage: React.FC = () => {
     Animated.sequence([
       Animated.timing(fadeAnim, {
         toValue: 1,
-        duration: 500,
+        duration: 300,
         useNativeDriver: true,
       }),
       Animated.timing(fadeAnim, {
         toValue: 0,
-        duration: 500,
-        delay: 2000,
+        duration: 300,
+        delay: 400,
         useNativeDriver: true,
       }),
     ]).start(() => {
       // Hide the modal after animations are complete
-      setTimeout(() => setShowCongrats(false), 2500); // Hide the modal after 3 seconds
+      setTimeout(() => setShowCongrats(false), 100); // Hide the modal after 3 seconds
     });
   };
 
@@ -580,7 +582,7 @@ const WaterPage: React.FC = () => {
           )}
 
           <View style={styles.tumblerIconsContainer}>
-            {[200, 800, 1000, 2000].map((amount) => (
+            {[500, 1000, 1500, 2000].map((amount) => (
               <TouchableOpacity
                 key={amount}
                 style={[
@@ -638,15 +640,19 @@ const WaterPage: React.FC = () => {
     </SafeAreaProvider>
   );
 };
-
+const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff", // Sky blue background
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 10,
     padding: 10,
+    paddingTop:
+      Platform.OS === "android"
+        ? StatusBar.currentHeight || 0
+        : SCREEN_HEIGHT * 0.03, // 3% of screen height for iOS
+  
   },
   safeArea: {
     flex: 1,
@@ -682,7 +688,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%", // Full width for responsiveness
     paddingHorizontal: 15, // Add padding to prevent content from touching edges
-    marginTop: 10,
+    marginTop: SCREEN_HEIGHT * 0.01,
   },
   translateButton: {
     position: "absolute",

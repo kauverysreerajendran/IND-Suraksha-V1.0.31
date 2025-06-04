@@ -2,9 +2,11 @@
 
 const texts = {
   english: {
+    deleteAccount: "Delete Account",
+    submitFeedback: "Submit Feedback",
     welcome: "Welcome to",
     appName: "IND Heart Suraksha App",
-    phonePlaceholder: "Enter phone number",
+    phonePlaceholder: "Enter Mobile number",
     sendOtp: "Send OTP",
     otpSent: "OTP Sent",
     enterOtp: "Enter OTP",
@@ -22,7 +24,7 @@ const texts = {
 
     dashboard: "Dashboard",
     expertAdvice:
-      "For expert opinions and support, consult your doctor without hesitation", // Add the quote in English
+      "SAVE YOUR HEART", // Add the quote in English
     contactDoctor: "Contact Doctor",
     goalText: "Goal -", // Add Goal - in English
     goalAmount: "2000 ML", // Add amount in English
@@ -134,10 +136,10 @@ const texts = {
     exercisetitle: "Daily Exercise Routines",
     walkingtitle: "Walking Tracker",
     walkinginfo: "Walking Guidelines",
-    dateOfOperation: "Date of Operation",
-    eligibilityStatus: "Eligibility Status",
+    dateOfOperation: "Date of Procedure",
+    eligibilityStatus: "Eligibile",
     suggestedWalk: "Suggested Walk",
-    weeksSinceOperation: "Weeks Since Operation",
+    weeksSinceOperation: "Weeks Since Procedure",
     enterStepsCount: "Enter Steps Count:",
     enterDistance: "Enter Distance (in km/m):",
     enterDuration: "Enter Duration (hh:mm):",
@@ -238,6 +240,8 @@ const texts = {
     weekOnwards: "Week onwards",
     tableNote:
       "After six weeks, we can start swimming, playing badminton, and working in the small garden.",
+      walkingExerciseTitle: "Walking Exercise",
+  walkingExerciseContent: `• Daily regular exercise is essential. Simple walking is very helpful. Active walking should be continued from the second week onwards.\n• Gradually increase the time of exercise. Start with warm-up exercises and end with cool-down exercises.\n\nExercise Table:\n- Week 2nd: Timing 10 minutes, 500 m\n- Week 3rd: Timing 15 minutes, 1 Km\n- Week 4th: Timing 20 minutes, 2 Km\n- Week 5th: Timing 25 minutes, 3 Km\n- Week 6th onwards: Timing 30 minutes, 4 Km`,
     lifeStyleTitle:
       "Lifestyle Changes Required After Percutaneous Coronary Intervention",
     lifeStyleOne: "• Weight loss",
@@ -340,6 +344,8 @@ const texts = {
     pickEatables: "Pick the Additional Eatables",
     pastries: "Pastries",
     sweets: "Sweets",
+     km: "KM",
+     dailyRoutine: "Daily Routine",
     saltedItems: "Salted Items",
     preservedFoods: "Preserved Foods",
     pickles: "Pickles",
@@ -403,13 +409,13 @@ const texts = {
       },
     },
     supportTitle: "Support Teams",
-    principalInvestigatorName: "Prof. Dr. S. Madhavi",
+    /* principalInvestigatorName: "Prof. Dr. S. Madhavi",
     principalInvestigator: "Principal Investigator",
     coinvestigatorName: "Ms. Jeevitha",
     coinvestigator: "Co-Investigator",
     coinvestigatorNameSub: "Ms. Priyadharshini",
     consultantInterventionName: "Dr. J. Balakumaran",
-    consultantIntervention: "Consultant Intervention Cardiologist",
+    consultantIntervention: "Consultant Intervention Cardiologist", */
     startDate: "Start Date",
     endDate: "End Date",
     viewMetricsTitle: "View Metrics",
@@ -456,9 +462,83 @@ const texts = {
     NutrientIntakeQuantityPlaceholder: "Cups",
     quantityPlaceholder: "Qty",
     unexpectedUserType: "Unexpected User Type Error",
+    complications: "Complications, If any!",
+    complicationContent: " Incase of any complications like chest pain, breathlessness please contact the KMCH Emergency-  04224323800"
   },
 
+  support: {
+  title: "App – Concept & Content",
+  main: [
+    {
+      name: "1. Dr.S.Madhavi M.Sc., Ph.D (N)",
+      role: "Professor cum Principal",
+      org: "KMCH College of Nursing",
+    },
+    {
+      name: "2. Ms.J.V.Jeevitha, M.Sc (N) & Ms. Priyadharshni. V ., M.Sc (N)",
+      role: "Assistant Professors",
+      org: "KMCH College of Nursing",
+      location: "Coimbatore",
+    },
+  ],
+  guidanceTitle: "Under the guidance of",
+  guidance: {
+    name: "Dr.J.Balakumaran., MBBS, MD (Internal medicine), DM (Cardiology)",
+    role: "Consultant Interventional Cardiologist, KMCH",
+  },
+  teamTitle: "The KMCH Consultant Cardiologist team",
+  teamList: [
+    "1. Dr. Thomas Alexander, MD., DM., FACC., FICC., FCSI",
+    "2. Dr. Suresh Kumar Ramasamy, MBBS., MD (General Medicine)., DM (Cardiology)",
+    "3. Dr. Saravanan D M T, MBBS., MRCP (UK)",
+    "4. Dr. Mohan M, MBBS., MD (Internal Medicine)., DM (Cardiology)",
+  ],
+  sponsorsTitle: "Project Sponsors:",
+  sponsors: [
+    "1. The Tamil Nadu Dr. M.G.R. Medical University, Chennai.",
+    "2. The Dr NGP Research & Educational Trust.",
+  ],
+},
+
+
+support: {
+  title: "ஆப் – கருத்து மற்றும் உள்ளடக்கம்",
+  main: [
+    {
+      name: "1. டாக்டர் எஸ். மாதவி M.Sc., Ph.D (N)",
+      role: "பேராசிரியர் மற்றும் முதல்வர்",
+      org: "KMCH நர்சிங் கல்லூரி",
+    },
+    {
+      name: "2. திருமதி ஜே.வி.ஜீவிதா, M.Sc (N) &  திருமதி பிரியதர்ஷினி. வி ., M.Sc (N)",
+      role: "உதவி பேராசிரியர்கள்",
+      org: "KMCH நர்சிங் கல்லூரி",
+      location: "கோயம்புத்தூர்",
+    },
+  ],
+  guidanceTitle: "வழிகாட்டுதலுடன்",
+  guidance: {
+    name: "டாக்டர் ஜே. பாலகுமாரன்., MBBS, MD (Internal medicine), DM (Cardiology)",
+    role: "ஆலோசகர் இடைமுக இதய மருத்துவர், KMCH",
+  },
+  teamTitle: "KMCH ஆலோசகர் இதய மருத்துவர்கள் குழு",
+  teamList: [
+    "1. டாக்டர் தாமஸ் அலெக்ஸாண்டர், MD., DM., FACC., FICC., FCSI",
+    "2. டாக்டர் சுரேஷ்குமார் ராமசாமி, MBBS., MD (பொது மருத்துவம்)., DM (இதய மருத்துவம்)",
+    "3. டாக்டர் சரவணன் D M T, MBBS., MRCP (UK)",
+    "4. டாக்டர் மோகன் M, MBBS., MD (Internal Medicine)., DM (Cardiology)",
+  ],
+  sponsorsTitle: "திட்ட ஆதரவாளர்கள்:",
+  sponsors: [
+    "1. தமிழ்நாடு டாக்டர் எம்.ஜி.ஆர். மருத்துவ பல்கலைக்கழகம், சென்னை.",
+    "2. டாக்டர் என்.ஜி.பி. ஆராய்ச்சி மற்றும் கல்வி அறக்கட்டளை.",
+  ],
+},
   tamil: {
+    deleteAccount: "கணக்கை நீக்கு நீக்கு",
+  submitFeedback: "கருத்து தெரிவிக்கவும்",
+    complicationContent: "மாரடைப்பு, மூச்சுத்திணறல் போன்ற சிக்கல்கள் ஏற்பட்டால், KMCH அவசர சேவை - 04224323800 ஐ தொடர்பு கொள்ளவும்",
+    complications: "சிக்கல்கள்",
     quantityPlaceholder: "அளவு",
     NutrientIntakeQuantityPlaceholder: "கப்",
     successExercise: "உங்கள் உடல் நலம் விவரங்களைச் சேமிக்கப்பட்டன!",
@@ -504,6 +584,7 @@ const texts = {
     alertSuccessTitle: "வெற்றி",
     alertSuccessMessage: "உங்கள் தரவு வெற்றிகரமாக சேமிக்கப்பட்டது.",
     alertOk: "சரி",
+    dailyRoutine: "தினசரி நடைமுறை",
     alertYes: "ஆம்",
     alertNo: "இல்லை",
     selectDate: "தேதியைத் தேர்ந்தெடுக்கவும்",
@@ -511,14 +592,14 @@ const texts = {
     startDate: "தொடக்க தேதி",
     warmupexerciseTitle: "தமிழில் காணொளி",
     endDate: "இறுதி தேதி",
-    coinvestigatorName: "திருமதி ஜீவிதா",
+    /* coinvestigatorName: "திருமதி ஜீவிதா",
     coinvestigator: "இணை ஆய்வாளர்",
     coinvestigatorNameSub: "செல்வி பிரியதர்ஷினி",
     consultantInterventionName: "டாக்டர் ஜே.பாலகுமாரன்",
-    consultantIntervention: "ஆலோசகர் தலையீடு கார்டியலஜிஸ்ட்",
+    consultantIntervention: "ஆலோசகர் தலையீடு கார்டியலஜிஸ்ட்", */
     supportTitle: "ஆதரவு அணிகள்",
-    principalInvestigatorName: "பேராசிரியர் டாக்டர் எஸ்.மாதவி",
-    principalInvestigator: "முதன்மை ஆய்வாளர்",
+    /* principalInvestigatorName: "பேராசிரியர் டாக்டர் எஸ்.மாதவி",
+    principalInvestigator: "முதன்மை ஆய்வாளர்", */
     tiles: {
       wholeGrains: {
         title: "முழு தானியங்கள்",
@@ -691,7 +772,10 @@ const texts = {
     lifeStyleSeven: "• மது அருந்துவதை தவிர்த்தல்",
     lifeStyleTitle:
       "இருதய நுண்துளை சிகிச்சை முடிந்த பின் தேவைப்படும் வாழ்க்கை முறை மாற்றம்",
-    tableNote:
+    walkingExerciseTitle: "நடை பயிற்சி",
+  walkingExerciseContent: `• தினசரி நடை பயிற்சி மிகவும் அவசியம். எளிய நடை பயிற்சி மிகவும் பயனுள்ளது. இரண்டாவது வாரத்திலிருந்து சுறுசுறுப்பான நடை தொடர வேண்டும்.\n• நடை நேரத்தை படிப்படியாக அதிகரிக்கவும். ஆரம்பத்தில் வெப்பமூட்டும் பயிற்சியுடன் தொடங்கி, சூடகுறைக்கும் பயிற்சியுடன் முடிக்கவும்.\n\nநடை பயிற்சி அட்டவணை:\n- வாரம் 2வது: நேரம் 10 நிமிடம், 500 மீட்டர்\n- வாரம் 3வது: நேரம் 15 நிமிடம், 1 கி.மீ\n- வாரம் 4வது: நேரம் 20 நிமிடம், 2 கி.மீ\n- வாரம் 5வது: நேரம் 25 நிமிடம், 3 கி.மீ\n- வாரம் 6வது முதல்: நேரம் 30 நிமிடம், 4 கி.மீ`,
+
+      tableNote:
       "ஆறுவாரங்களுக்கு பிறகு நீச்சல், சிறகு பந்து சிறிய தோட்ட வேலைகளில் ஈடுபடாலாம்.",
     weekOnwards: "வாரம் முதல்",
     minutes: "நிமிடங்கள்",
@@ -732,7 +816,7 @@ const texts = {
     insightsTitle: "நுண்ணறிவு",
     welcome: "இருதய சுரக்க்ஷா செயலிக்கு ",
     appName: "வரவேற்கிறோம்",
-    phonePlaceholder: "தொலைபேசி எண் உள்ளிடவும்",
+    phonePlaceholder: "தொலைபேசி எண்",
     sendOtp: "OTP அனுப்பவும்",
     otpSent: "OTP அனுப்பப்பட்டது",
     enterOtp: "OTP ஐ உள்ளிடவும்",
@@ -748,7 +832,7 @@ const texts = {
     error: "பிழை",
     unexpectedUserType: "எதிர்பாராத பயனர் வகை",
     dashboard: "அறிக்கை",
-    expertAdvice: "உதவிக்காக உங்கள் மருத்துவரை அணுகுங்கள்",
+    expertAdvice: "உங்கள் இதயத்தை காப்பாற்றுங்கள்",
     contactDoctor: "மருத்துவரை அணுகவும்",
     goalText: "இலக்கு -",
     goalAmount: "2000 மில்லி லிட்டர்",
@@ -866,6 +950,7 @@ const texts = {
     exercisetitle: "தினசரி உடற்பயிற்சி முறைகள்",
     walkingtitle: "நடை பயிற்சி",
     dateOfOperation: "சிகிச்சை தேதி",
+    km: "கிமீ",
     eligibilityStatus: "தகுதி நிலை",
     suggestedWalk: "பரிந்துரைக்கப்பட்ட நடை",
     weeksSinceOperation: "அறுவை சிகிச்சையிலிருந்து ஒரு வாரம்",

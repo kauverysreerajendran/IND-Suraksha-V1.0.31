@@ -356,15 +356,14 @@ const PatientProfile: React.FC = () => {
     style={[styles.feedbackButton, styles.feedbackButton]}
     onPress={handleFeedbackSubmit}
   >
-    <Text style={styles.feedbackButtonText}>Submit Feedback</Text>
-  </TouchableOpacity>
+   
+    <Text style={styles.feedbackButtonText}>{languageText.submitFeedback}</Text>  </TouchableOpacity>
 
   <TouchableOpacity
   style={[styles.deleteButton, styles.deleteButton]}
   onPress={() => Linking.openURL("https://sites.google.com/view/indheartsuraksha/home")}
 >
-  <Text style={styles.deleteButtonText}>Delete Account</Text>
-</TouchableOpacity>
+ <Text style={styles.deleteButtonText}>{languageText.deleteAccount}</Text></TouchableOpacity>
 </View>
         </ScrollView>
       </SafeAreaView>
@@ -385,31 +384,43 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 15,
   },
-  feedbackButton: {
+    feedbackButton: {
     backgroundColor: "#3a8cb4",
     borderRadius: 30,
     marginHorizontal: 5,
+    minWidth: 90,
+    alignItems: "center",
+    flexShrink: 1,           // Allow button to shrink if needed
+    maxWidth: "48%",         // Prevent button from exceeding half the row
   },
   deleteButton: {
     backgroundColor: "#f15252",
     borderRadius: 30,
     marginHorizontal: 5,
+    minWidth: 90,
+    alignItems: "center",
+    flexShrink: 1,           // Allow button to shrink if needed
+    maxWidth: "48%",         // Prevent button from exceeding half the row
   },
   feedbackButtonText: {
     color: "#fffcfc",
     fontSize: 16,
     fontWeight: "600",
     textAlign: "center",
-    padding: 13,
-    
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    flexWrap: "wrap",        // Allow text to wrap
+    maxWidth: "100%",        // Prevent text from overflowing button
   },
   deleteButtonText: {
     color: "#fffcfc",
     fontSize: 16,
     fontWeight: "600",
     textAlign: "center",
-    padding: 13,
-    
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    flexWrap: "wrap",        // Allow text to wrap
+    maxWidth: "100%",        // Prevent text from overflowing button
   },
  
   

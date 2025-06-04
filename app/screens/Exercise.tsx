@@ -207,7 +207,7 @@ export default function Exercise() {
             >
               <View style={styles.puzzledTile1}>
                 <Image
-                  source={require("../../assets/images/tile1.jpg")}
+                  source={require("../../assets/images/tile6.jpg")}
                   style={styles.tile1Image}
                 />
               </View>
@@ -243,7 +243,7 @@ export default function Exercise() {
             >
               <View style={styles.puzzledTile3}>
                 <Image
-                  source={require("../../assets/images/tile3.jpg")}
+                  source={require("../../assets/images/tile7.jpg")}
                   style={styles.tile3Image}
                 />
               </View>
@@ -301,10 +301,10 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: "absolute",
-    left: -70,
+    left: -50,
     bottom: 50,
     backgroundColor: "#d7d7d7",
-    padding: 5,
+    padding: 1,
     width: 35,
     height: 35,
     justifyContent: "center",
@@ -323,7 +323,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   scrollContainer: {
-    padding: 16,
+    padding: 17,
   },
   container: {
     flex: 1,
@@ -404,34 +404,35 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   puzzledTile1: {
-    height: 220, // Tile 1 height
+    height: 230, // Tile 1 height
     backgroundColor: "transparent",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 50,
   },
   puzzledTile2: {
-    height: 170, // Tile 2 height
+    height: 210, // Tile 2 height
     backgroundColor: "transparent",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 30,
   },
-  puzzledTile3: {
-    height: 180, // Tile 3 height
-    backgroundColor: "transparent",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 30,
-  },
-  puzzledTile4: {
-    height: 240, // Tile 4 height
+   puzzledTile4: {
+    height: 300, // Tile 4 height
     backgroundColor: "transparent",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 20,
-    bottom: 60,
+    bottom: 20,
   },
+  puzzledTile3: {
+    height: 280, // Tile 3 height
+    backgroundColor: "transparent",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 30,
+  },
+ 
   tile1Image: {
     width: "100%",
     height: "100%",

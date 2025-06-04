@@ -124,15 +124,21 @@ const LoginPage: React.FC = () => {
           <View style={styles.formWrapper}>
             <View style={styles.formContainer}>
               <View style={styles.phoneContainer}>
-                <TextInput
-                  style={[styles.phoneInput, !phoneNumber ? styles.placeholder : null]}
-                  placeholder="Enter Mobile Number"
-                  placeholderTextColor="#888"
-                  value={phoneNumber}
-                  onChangeText={(text) => setPhoneNumber(text.replace(/\D/g, "").slice(0, 10))}
-                  keyboardType="number-pad"
-                  allowFontScaling={false}
-                />
+                                <View style={{ width: "100%" }}>
+                  <TextInput
+                    style={[
+                      styles.phoneInput,
+                      !phoneNumber ? styles.placeholder : null,
+                      { width: "100%" }
+                    ]}
+                    placeholder={languageText.phonePlaceholder}
+                    placeholderTextColor="#888"
+                    value={phoneNumber}
+                    onChangeText={(text) => setPhoneNumber(text.replace(/\D/g, "").slice(0, 10))}
+                    keyboardType="number-pad"
+                    allowFontScaling={false}
+                  />
+                </View>
                 <TouchableOpacity style={styles.button} onPress={handleLogin}>
                   <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
@@ -162,7 +168,7 @@ const styles = StyleSheet.create({
   formWrapper: { marginTop: 10, width: "85%", alignSelf: "center" },
   formContainer: { backgroundColor: "white", borderRadius: 35, padding: 20, shadowColor: "#D73F6E", elevation: 15 },
   phoneContainer: { marginBottom: 10, width: "100%", marginTop: 20, paddingHorizontal: 10, alignItems: "center" },
-  phoneInput: { flex: 1, minHeight: 50, paddingHorizontal: 10, color: "#2F4F4F", fontWeight: "600", fontSize: 18, textAlign: "left" },
+  phoneInput: { minHeight: 50, paddingHorizontal: 10, color: "#2F4F4F", fontWeight: "600", fontSize: 17, textAlign: "center", width: "100%" },
   placeholder: { fontSize: 18, fontWeight: "400", color: "#888", textAlign: "center" },
   button: { backgroundColor: "#D73F6E", borderRadius: 25, paddingVertical: 15, paddingHorizontal: 30, alignItems: "center" },
   buttonText: { color: "white", fontSize: 18, fontWeight: "bold" },

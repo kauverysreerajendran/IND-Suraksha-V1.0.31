@@ -26,6 +26,7 @@ type VideoItem = {
 const ExerciseVideos: React.FC = () => {
   const [isTamilVisible, setIsTamilVisible] = useState(false);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList, "Exercise">>();
+  const languageText = isTamilVisible ? texts.tamil : texts.english;
 
   const englishVideos: VideoItem[] = [
     {
@@ -120,7 +121,7 @@ const ExerciseVideos: React.FC = () => {
       </TouchableOpacity>
       
       <View style={styles.headerContainer}>
-        <Text style={styles.mainTitle}>Exercise Videos</Text>
+                <Text style={styles.mainTitle}>{languageText.exerciseVideos}</Text>
         <TouchableOpacity onPress={() => setIsTamilVisible(!isTamilVisible)} style={styles.switchButton}>
           <MaterialIcon name="swap-horiz" size={18} color="#4169E1" />
           <Text style={styles.switchText}>{isTamilVisible ? "Show English" : "தமிழில் பார்க்க"}</Text>

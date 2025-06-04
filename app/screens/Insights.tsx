@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   StatusBar,
   Button,
-  
+  Linking,
 } from "react-native";
 import React, { useState } from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -38,9 +38,9 @@ const [expanded, setExpanded] = useState(false);
 const [selectedCardIndex, setSelectedCardIndex] = useState<number | null>(null);
 
 const mutedRainbowColors = [
-  '#cb9e96', '#8fa9b8', '#cbacc2', '#86cab9',
-  '#d6b7aa', '#b88893', '#a5ba9f', '#ccd09a',
-  '#c6c6ac', '#99ba7d', '#c8b6d6', '#ac9f95'
+  '#e4c6c0', '#b7d6e7', '#e0c8da', '#ade5d7',
+  '#e2c7bc', '#dec2c9', '#ccdcc8', '#e5e8c0',
+  '#cceae4', '#bfdea3', '#e2d4ed', '#cfc4bb', '#d2e7f8'
 ];
 
 // 2. Add this function to your component (before the return statement)
@@ -57,7 +57,8 @@ const getCardIcon = (index: number) => {
     require('../../assets/images/myFoodCard.png'),
     require('../../assets/images/healthy.png'),
     require('../../assets/images/PeacefulMan.png'),
-    require('../../assets/images/no.png')
+    require('../../assets/images/no.png'),
+
   ];
   return icons[index % icons.length];
 };
@@ -94,9 +95,9 @@ const getCardIcon = (index: number) => {
       content: `${languageText.lifeStyleOne}\n${languageText.lifeStyleTwo}\n${languageText.lifeStyleThree}\n${languageText.lifeStyleFour}\n${languageText.lifeStyleFive}\n${languageText.lifeStyleSix}\n${languageText.lifeStyleSeven}`,
       image: null,
     },
-    {
-      title: "Walking Exercise",
-      content: `• Daily regular exercise is essential. Simple walking is very helpful. Active walking should be continued from the second week onwards.\n• Gradually increase the time of exercise. Start with warm-up exercises and end with cool-down exercises.\n\nExercise Table:\n- ${languageText.week} 2nd: ${languageText.timing} 10 ${languageText.minutes}, 500 m\n- ${languageText.week} 3rd: ${languageText.timing} 15 ${languageText.minutes}, 1 Km\n- ${languageText.week} 4th: ${languageText.timing} 20 ${languageText.minutes}, 2 Km\n- ${languageText.week} 5th: ${languageText.timing} 25 ${languageText.minutes}, 3 Km\n- ${languageText.week} 6th: ${languageText.weekOnwards} ${languageText.timing} 30 ${languageText.minutes}, 4 Km`,
+        {
+      title: languageText.walkingExerciseTitle,
+      content: languageText.walkingExerciseContent,
       image: require("../../assets/images/InsightsExercise.jpg"),
     },
     {
@@ -123,6 +124,11 @@ const getCardIcon = (index: number) => {
       title: languageText.avoidaandsTitle,
       content: `• ${languageText.avoidandsOne}\n• ${languageText.avoidandsTwo}\n• ${languageText.avoidandsThree}\n• ${languageText.avoidandsFour}`,
       image: require("../../assets/images/noSmokeImg.jpg"),
+    },
+    {
+      title: languageText.complications,
+      content: `• ${languageText.complicationContent}\n• ${languageText.avoidandsTwo}\n• ${languageText.avoidandsThree}\n• ${languageText.avoidandsFour}`,
+      
     },
   ];
 
@@ -277,7 +283,21 @@ const getCardIcon = (index: number) => {
     
     {selectedCardIndex === index && (
       <View style={styles.expandedCardContent}>
-        <Text style={styles.cardContent}>{page.content}</Text>
+                               
+                                {page.title === languageText.complications ? (
+                  <Text style={styles.cardContent}>
+                    {languageText.complicationContent.split('04224323800')[0]}
+                    <Text
+                      style={{ color: '#1976d2', textDecorationLine: 'underline' }}
+                      onPress={() => Linking.openURL('tel:04224323800')}
+                    >
+                      04224323800
+                    </Text>
+                    {languageText.complicationContent.split('04224323800')[1]}
+                  </Text>
+                ) : (
+                  <Text style={styles.cardContent}>{page.content}</Text>
+                )}
         {page.image && (
           <Image source={page.image} style={styles.cardImage} />
         )}
