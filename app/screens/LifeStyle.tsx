@@ -360,7 +360,7 @@ const LifeStyleMonitoring: React.FC<WalkingProps> = ({ navigation }) => {
       {/* ✅ Success Alert */}
       <CustomAlert
       title="Success"
-      message="Walking data saved successfully!"
+      message="Data saved successfully!"
       visible={successAlertVisible}
       // onClose={() => setSuccessAlertVisible(false)} // closes on OK
       onClose={() => {

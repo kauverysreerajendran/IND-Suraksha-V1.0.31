@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import {
   View,
   Text as RNText,
@@ -13,11 +13,11 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
-import { useCallback, useState } from "react";
 import texts from "../translation/texts";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../../type";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+
 // Custom Text component to disable font scaling globally
 const Text = (props: any) => {
   return <RNText {...props} allowFontScaling={false} />;
@@ -32,51 +32,27 @@ const SupportPage = () => {
   // Select appropriate text based on language
   const languageText = isTranslatingToTamil ? texts.tamil : texts.english;
 
-  const language: "english" | "tamil" = isTranslatingToTamil
-    ? "tamil"
-    : "english";
-
   const handleTranslate = () => {
     setIsTranslatingToTamil(!isTranslatingToTamil);
-    console.log("Translate button pressed");
   };
 
   // Animation references
   const coverImageOpacity = useRef(new Animated.Value(0)).current;
-  const infoContainerSlide = useRef(new Animated.Value(50)).current;
 
-  // Slide-in animation for info containers
   useEffect(() => {
     Animated.timing(coverImageOpacity, {
       toValue: 1,
       duration: 800,
       useNativeDriver: true,
     }).start();
-
-    Animated.timing(infoContainerSlide, {
-      toValue: 0,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
   }, []);
 
   // Function to open dialer with phone number
-    const dialCall = (phoneNumber: string) => {
+  const dialCall = (phoneNumber: string) => {
     try {
       Linking.openURL(`tel:${phoneNumber}`);
     } catch (error: unknown) {
       console.error("Error opening dialer:", error);
-  
-      if (error instanceof Error) {
-        const isNetworkError =
-          error.message.includes("Network request failed") ||
-          error.message.includes("TypeError: Network") ||
-          error.message.includes("fetch");
-  
-        if (isNetworkError) {
-          console.error("Network Failed - Please Check Your Internet Connection");
-        }
-      }
     }
   };
 
@@ -92,98 +68,136 @@ const SupportPage = () => {
           backgroundColor="transparent"
           translucent={true}
         />
-        <ScrollView style={styles.container}>
-          <TouchableOpacity onPress={handleBackPress} style={styles.backButton}>
-            <Icon name="arrow-back" size={24} color="#020202" />
-          </TouchableOpacity>
-          {/* Translation */}
-          <TouchableOpacity
-            onPress={handleTranslate}
-            style={styles.translateButton}
-          >
-            <Icon
-              name={isTranslatingToTamil ? "language" : "translate"}
-              size={20}
-              color="#4169E1"
-            />
-            <Text style={styles.translateButtonText}>
-              {isTranslatingToTamil ? "Translate to English" : "தமிழில் படிக்க"}
-            </Text>
-          </TouchableOpacity>
+        <ScrollView style={styles.container} contentContainerStyle={styles.scrollContent}>
+          {/* Header */}
+          <View style={styles.headerRow}>
+            <TouchableOpacity onPress={handleBackPress} style={styles.backButton}>
+              <Icon name="arrow-back" size={24} color="#222" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleTranslate}
+              style={styles.translateButton}
+            >
+              <Icon
+                name={isTranslatingToTamil ? "language" : "translate"}
+                size={20}
+                color="#4169E1"
+              />
+              <Text style={styles.translateButtonText}>
+                {isTranslatingToTamil ? "Translate to English" : "தமிழில் படிக்க"}
+              </Text>
+            </TouchableOpacity>
+          </View>
 
           {/* Cover Image with Fade-In Animation */}
           <Animated.Image
-            source={require("../../assets/images/s.png")}
+            source={require("../../assets/images/s7.jpg")}
             style={[styles.coverImage, { opacity: coverImageOpacity }]}
           />
 
           {/* Main Content */}
-                    
-                    <View style={styles.content}>
-            <Text style={styles.pageTitle}>App – Concept & Content</Text>
-          
-            <View style={styles.infoContainer}>
-              <Text style={styles.mainName}>
-                1. Dr.S.Madhavi M.Sc., Ph.D (N)
-              </Text>
-              <Text style={styles.roleText}>
-                Professor cum Principal
-              </Text>
-              <Text style={styles.orgText}>
-                KMCH College of Nursing
-              </Text>
-              <Text style={styles.mainName}>
-                2. Ms.J.V.Jeevitha, M.Sc (N) & Ms. Priyadharshni. V ., M.Sc (N)
-              </Text>
-              <Text style={styles.roleText}>
-                Assistant Professors
-              </Text>
-              <Text style={styles.orgText}>
-                KMCH College of Nursing
-              </Text>
-              <Text style={styles.orgText}>
-                Coimbatore
-              </Text>
+          <View style={styles.proContent}>
+            <Text style={styles.proPageTitle}>App – Concept & Content</Text>
+
+            <View style={styles.proCard}>
+              <Text style={styles.proSectionHeader}>Development Team</Text>
+              <View style={styles.proListItemRow}>
+                <Icon name="person" size={20} color="#0d253f" style={styles.proIcon} />
+                <View>
+                  <Text style={styles.proName}>Dr. S. Madhavi, M.Sc., Ph.D (N)</Text>
+                  <View style={styles.proRoleRow}>
+                    <Icon name="school" size={16} color="#374151" style={styles.proIconSmall} />
+                    <Text style={styles.proRole}>Professor & Principal</Text>
+                  </View>
+                  <View style={styles.proRoleRow}>
+                    <Icon name="location-city" size={16} color="#6b7280" style={styles.proIconSmall} />
+                    <Text style={styles.proOrg}>KMCH College of Nursing</Text>
+                  </View>
+                </View>
+              </View>
+              <View style={styles.proListItemRow}>
+                <Icon name="people" size={20} color="#0d253f" style={styles.proIcon} />
+                <View>
+                  <Text style={styles.proName}>Ms. J.V. Jeevitha, M.Sc (N)</Text>
+                  <Text style={styles.proName}>Ms. Priyadharshni. V, M.Sc (N)</Text>
+                  <View style={styles.proRoleRow}>
+                    <Icon name="school" size={16} color="#374151" style={styles.proIconSmall} />
+                    <Text style={styles.proRole}>Assistant Professors</Text>
+                  </View>
+                  <View style={styles.proRoleRow}>
+                    <Icon name="location-city" size={16} color="#6b7280" style={styles.proIconSmall} />
+                    <Text style={styles.proOrg}>KMCH College of Nursing, Coimbatore</Text>
+                  </View>
+                </View>
+              </View>
             </View>
-          
-            <View style={styles.infoContainer}>
-              <Text style={styles.sectionTitle}>
-                Under the guidance of
-              </Text>
-              <Text style={styles.mainName}>
-                Dr.J.Balakumaran., MBBS, MD (Internal medicine), DM (Cardiology)
-              </Text>
-              <Text style={styles.roleText}>
-                Consultant Interventional Cardiologist, KMCH & 
-              </Text>
-              
-              <Text style={styles.sectionTitle}>
-                The KMCH Consultant Cardiologist team
-              </Text>
-              <Text style={styles.teamList}>
-                1. Dr. Thomas Alexander, MD., DM., FACC., FICC., FCSI{"\n"}
-                2. Dr. Suresh Kumar Ramasamy,{"\n"}
-                   MBBS., MD (General Medicine)., DM (Cardiology){"\n"}
-                3. Dr. Saravanan D M T,{"\n"}
-                   MBBS., MRCP (UK){"\n"}
-                4. Dr. Mohan M,{"\n"}
-                   MBBS., MD (Internal Medicine)., DM (Cardiology)
-              </Text>
+
+            <View style={styles.proCard}>
+              <Text style={styles.proSectionHeader}>Guidance</Text>
+              <View style={styles.proListItemRow}>
+                <Icon name="local-hospital" size={20} color="#0d253f" style={styles.proIcon} />
+                <View>
+                  <Text style={styles.proName}>Dr. J. Balakumaran, MBBS, MD, DM (Cardiology)</Text>
+                  <View style={styles.proRoleRow}>
+                    <Icon name="medical-services" size={16} color="#374151" style={styles.proIconSmall} />
+                    <Text style={styles.proRole}>Consultant Interventional Cardiologist, KMCH</Text>
+                  </View>
+                </View>
+              </View>
+              <Text style={styles.proSectionSubHeader}>Consultant Cardiologist Team</Text>
+              <View style={styles.proTeamList}>
+                <View style={styles.proTeamRow}>
+                  <Icon name="person" size={16} color="#374151" style={styles.proIconSmall} />
+                  <Text style={styles.proTeamMember}>Dr. Thomas Alexander, MD, DM, FACC, FICC, FCSI</Text>
+                </View>
+                <View style={styles.proTeamRow}>
+                  <Icon name="person" size={16} color="#374151" style={styles.proIconSmall} />
+                  <Text style={styles.proTeamMember}>Dr. Suresh Kumar Ramasamy, MBBS, MD, DM</Text>
+                </View>
+                <View style={styles.proTeamRow}>
+                  <Icon name="person" size={16} color="#374151" style={styles.proIconSmall} />
+                  <Text style={styles.proTeamMember}>Dr. Saravanan D M T, MBBS, MRCP (UK)</Text>
+                </View>
+                <View style={styles.proTeamRow}>
+                  <Icon name="person" size={16} color="#374151" style={styles.proIconSmall} />
+                  <Text style={styles.proTeamMember}>Dr. Mohan M, MBBS, MD, DM</Text>
+                </View>
+              </View>
             </View>
-          
-            <View style={styles.infoContainer}>
-              <Text style={styles.sectionTitle}>
-                Project Sponsors:
-              </Text>
-              <Text style={styles.sponsorList}>
-                1. The Tamil Nadu Dr. M.G.R. Medical University, Chennai.{"\n"}
-                2. The Dr NGP Research & Educational Trust.
-              </Text>
+
+            <View style={styles.proCard}>
+              <Text style={styles.proSectionHeader}>Sincere Thanks to  Sponsors</Text>
+              <View style={styles.proListItemRow}>
+                <Icon name="star" size={20} color="#0d253f" style={styles.proIcon} />
+                <View>
+                  <Text style={styles.proName}>Dr. K. Narayanasamy</Text>
+                  <View style={styles.proRoleRow}>
+                    <Icon name="work" size={16} color="#374151" style={styles.proIconSmall} />
+                    <Text style={styles.proRole}>Vice Chancellor</Text>
+                  </View>
+                  <View style={styles.proRoleRow}>
+                    <Icon name="location-city" size={16} color="#6b7280" style={styles.proIconSmall} />
+                    <Text style={styles.proOrg}>The Tamil Nadu Dr. MGR Medical University</Text>
+                  </View>
+                </View>
+              </View>
+              <View style={styles.proListItemRow}>
+                <Icon name="star" size={20} color="#0d253f" style={styles.proIcon} />
+                <View>
+                  <Text style={styles.proName}>Dr. Thavamani D. Palaniswami</Text>
+                  <View style={styles.proRoleRow}>
+                    <Icon name="work" size={16} color="#374151" style={styles.proIconSmall} />
+                    <Text style={styles.proRole}>Managing Trustee</Text>
+                  </View>
+                  <View style={styles.proRoleRow}>
+                    <Icon name="location-city" size={16} color="#6b7280" style={styles.proIconSmall} />
+                    <Text style={styles.proOrg}>Dr. N.G.P Research and Educational Trust</Text>
+                  </View>
+                </View>
+              </View>
             </View>
           </View>
-          
-          
-          
+
         </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -191,32 +205,45 @@ const SupportPage = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f7f9fc",
-    marginTop: 60,
-    marginBottom: 20,
-  },
   safeArea: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f7f9fb",
+  },
+  container: {
+    flex: 1,
+    backgroundColor: "#f7f9fb",
+    marginTop: 30,
+  },
+  scrollContent: {
+    paddingBottom: 32,
+  },
+  headerRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 16,
+    marginHorizontal: 16,
+    marginBottom: 8,
+  },
+  backButton: {
+    backgroundColor: "#a2eeff",
+    padding: 8,
+    borderRadius: 24,
+    alignItems: "center",
+    justifyContent: "center",
   },
   translateButton: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 4,
-    borderRadius: 50,
-    backgroundColor: "#ffffff",
-    // iOS Shadow
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+    borderRadius: 24,
+    backgroundColor: "#fff",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    // Android Shadow
-    elevation: 5,
-    position: "absolute", // Add absolute positioning
-    top: 5, // Align to the top
-    right: 20, // Align to the right
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 2,
+    elevation: 2,
   },
   translateButtonText: {
     color: "#4169E1",
@@ -224,148 +251,183 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     marginLeft: 8,
   },
+  coverImage: {
+    width: "92%",
+    height: 200,
+    resizeMode: "cover",
+    borderRadius: 16,
+    alignSelf: "center",
+    marginTop: 8,
+    marginBottom: 16,
+    backgroundColor: "#e3e7ee",
+  },
+  content: {
+    paddingHorizontal: 18,
+    paddingTop: 8,
+  },
   pageTitle: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#3a3a3a",
+    color: "#1a2233",
     textAlign: "center",
     marginBottom: 20,
-    marginTop: -35,
-  },
-  coverImage: {
-    width: "100%",
-    height: 240,
-    resizeMode: "cover",
-    borderRadius: 8,
-    marginBottom: 0,
-    marginTop: -10,
-  },
-  content: {
-    paddingHorizontal: 20,
   },
   infoContainer: {
-    backgroundColor: "#ebebeb",
-    padding: 20,
-    borderRadius: 20,
-    marginBottom: 7,
+    backgroundColor: "#fff",
+    padding: 18,
+    borderRadius: 14,
+    marginBottom: 14,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 4,
+    shadowOpacity: 0.06,
+    shadowRadius: 6,
+    elevation: 2,
+    borderWidth: 1,
+    borderColor: "#e3e7ee",
   },
-  infoContainer3: {
-    backgroundColor: "#ebebeb",
-    padding: 20,
-    borderRadius: 20,
-    marginBottom: 7,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 4,
+  mainName: {
+    fontSize: 17,
+    fontWeight: "bold",
+    color: "#0d47a1",
+    marginBottom: 6,
+    letterSpacing: 0.2,
   },
-  infoContainer4: {
-    backgroundColor: "#ebebeb",
-    padding: 20,
-    borderRadius: 20,
-    marginBottom: 7,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 4,
-  },
-  containerText: {
-    fontSize: 18,
+  roleText: {
+    fontSize: 15,
+    color: "#ea6830",
     fontWeight: "600",
-    color: "#3a3a3a",
+    marginBottom: 6,
+    letterSpacing: 0.1,
   },
-  containerSubText: {
+  orgText: {
     fontSize: 14,
-    color: "#495057",
-    marginTop: 4,
+    color: "#00897b",
+    marginBottom: 6,
+    letterSpacing: 0.1,
   },
-  phoneContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+  sectionTitle: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "#6a1b9a",
+    marginBottom: 8,
     marginTop: 8,
+    letterSpacing: 0.2,
   },
-  phoneText: {
+  teamList: {
+    fontSize: 14,
+    color: "#37474f",
+    marginTop: 6,
+    marginLeft: 8,
+    marginBottom: 6,
+    lineHeight: 22,
+  },
+  sponsorList: {
+    fontSize: 14,
+    color: "#00695c",
+    marginTop: 6,
+    marginLeft: 8,
+    marginBottom: 6,
+    lineHeight: 22,
+  },
+  proContent: {
+    paddingHorizontal: 18,
+    paddingTop: 8,
+    gap: 18,
+  },
+  proPageTitle: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: "#222",
+    textAlign: "center",
+    marginBottom: 12,
+    fontFamily: "System",
+    letterSpacing: 0.2,
+  },
+  proCard: {
+    backgroundColor: "#f9fafb",
+    borderRadius: 12,
+    padding: 18,
+    marginBottom: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.04,
+    shadowRadius: 2,
+    elevation: 1,
+    borderWidth: 1,
+    borderColor: "#e5e7eb",
+  },
+  proSectionHeader: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#ea6830",
-    marginLeft: 5,
+    color: "#1a2233",
+    marginBottom: 8,
+    letterSpacing: 0.1,
   },
-  phoneGif: {
-    width: 20,
-    height: 20,
-    marginRight: 5,
+  proSectionSubHeader: {
+    fontSize: 15,
+    fontWeight: "500",
+    color: "#4b5563",
+    marginTop: 10,
+    marginBottom: 6,
+    letterSpacing: 0.1,
   },
-  backButton: {
-    marginLeft: 20,
-    marginTop: 5,
-    backgroundColor: "#d7d7d7",
-    padding: 7,
-    width: "10%",
+  proListItem: {
+    marginBottom: 10,
+  },
+  proListItemRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    marginBottom: 12,
+    gap: 8,
+  },
+  proIcon: {
+    marginTop: 2,
+    marginRight: 8,
+  },
+  proIconSmall: {
+    marginRight: 4,
+    marginTop: 1,
+  },
+  proRoleRow: {
+    flexDirection: "row",
     alignItems: "center",
-    borderRadius: 50,
+    marginBottom: 2,
   },
-  
-                   
-          mainName: {
-            fontSize: 18,
-            fontWeight: "bold",
-            color: "#0d47a1", // Deeper blue for main names
-            marginBottom: 8,  // More space between lines
-            letterSpacing: 0.2,
-          },
-          roleText: {
-            fontSize: 15,
-            color: "#ea6830", // Orange for roles
-            fontWeight: "600",
-            marginBottom: 8,  // More space between lines
-            letterSpacing: 0.1,
-          },
-          orgText: {
-            fontSize: 14,
-            color: "#00897b", // Teal for organization/location
-            marginBottom: 8,  // More space between lines
-            letterSpacing: 0.1,
-          },
-          sectionTitle: {
-            fontSize: 16,
-            fontWeight: "bold",
-            color: "#6a1b9a", // Purple for section titles
-            marginBottom: 10,
-            marginTop: 10,
-            letterSpacing: 0.2,
-          },
-          andText: {
-            fontSize: 18,
-            fontWeight: "bold",
-            color: "#3a3a3a",
-            textAlign: "center",
-            marginVertical: 8, // More space
-          },
-          teamList: {
-            fontSize: 14,
-            color: "#37474f", // Dark gray for team list
-            marginTop: 8,
-            marginLeft: 8,
-            marginBottom: 8,
-            lineHeight: 22,
-          },
-          sponsorList: {
-            fontSize: 14,
-            color: "#00695c", // Green for sponsors
-            marginTop: 8,
-            marginLeft: 8,
-            marginBottom: 8,
-            lineHeight: 22,
-          },
-          
-          
+  proName: {
+    fontSize: 15,
+    fontWeight: "500",
+    color: "#0d253f",
+    marginBottom: 2,
+    fontFamily: "System",
+  },
+  proRole: {
+    fontSize: 14,
+    color: "#374151",
+    marginBottom: 2,
+    fontFamily: "System",
+  },
+  proOrg: {
+    fontSize: 13,
+    color: "#6b7280",
+    marginBottom: 2,
+    fontFamily: "System",
+  },
+  proTeamList: {
+    marginLeft: 8,
+    marginTop: 2,
+    gap: 2,
+  },
+  proTeamRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 2,
+  },
+  proTeamMember: {
+    fontSize: 13,
+    color: "#374151",
+    marginLeft: 4,
+    fontFamily: "System",
+  },
 });
 
 export default SupportPage;

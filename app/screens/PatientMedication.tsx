@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Platform,
   Image,
-  Alert,
   SafeAreaView,
   StatusBar,
 } from "react-native";
@@ -19,21 +18,16 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../../type";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { AxiosError } from "axios";
 import texts from "../translation/texts";
 import CustomAlert from "../components/CustomAlert";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
 // Custom Text component to disable font scaling globally
 const Text = (props: any) => {
   return <RNText {...props} allowFontScaling={false} />;
 };
 
 type TimeOfDay = "Morning" | "Afternoon" | "Evening" | "Night";
-
-interface Translations {
-  [key: string]: {
-    [key in `${TimeOfDay}Medication`]: string;
-  };
-}
 
 type SelectedMedicationsState = {
   [key in TimeOfDay]: number[];
@@ -42,9 +36,7 @@ type SelectedMedicationsState = {
 interface MedicationToSave {
   patient_id: string;
   date: string;
-  medication_name: string;
   route: string;
-  dosage_amount: number; // Change type based on your backend requirements
   dosage_type: string;
   drug_take: TimeOfDay;
   consume: string;
@@ -52,17 +44,17 @@ interface MedicationToSave {
   start_date: string;
   end_date: string;
   taken: boolean;
+  food_timing: string;
 }
 
 type NavigationProp = StackNavigationProp<RootStackParamList, "DailyUploads">;
 
 const PatientMedication: React.FC = () => {
-  const [toggleCount, setToggleCount] = useState(0); // Add a counter to track toggle clicks
+  const [toggleCount, setToggleCount] = useState(0);
   const navigation = useNavigation<NavigationProp>();
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [activeTime, setActiveTime] = useState("");
-  const [customAlertVisible, setCustomAlertVisible] = useState(false);
   const [selectedMedications, setSelectedMedications] =
     useState<SelectedMedicationsState>({
       Morning: [],
@@ -70,24 +62,21 @@ const PatientMedication: React.FC = () => {
       Evening: [],
       Night: [],
     });
-  const [medications, setMedications] = useState<any[]>([]); // Holds medication data
-  // Inside the Insights component
+  const [medications, setMedications] = useState<any[]>([]);
   const [isTranslatingToTamil, setIsTranslatingToTamil] = useState(false);
 
-  // Toggle between Tamil and English based on the button click
   const languageText = isTranslatingToTamil ? texts.tamil : texts.english;
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
   const [alertMode, setAlertMode] = useState<
     "success" | "error" | "confirm" | null
-  >(null); // Define the possible modes
+  >(null);
   const [cancelAlertVisible, setCancelAlertVisible] = useState(false);
 
   // Handle Translation
   const handleTranslate = () => {
     setIsTranslatingToTamil(!isTranslatingToTamil);
-    console.log("Translate button pressed");
   };
 
   useEffect(() => {
@@ -102,21 +91,10 @@ const PatientMedication: React.FC = () => {
           fetchMedications(patient_id);
         }
       } catch (error: unknown) {
-        console.error("Error fetching patient details:", error);
-  
-        if (error instanceof Error) {
-          const isNetworkError =
-            error.message.includes("Network request failed") ||
-            error.message.includes("TypeError: Network") ||
-            error.message.includes("fetch");
-  
-          if (isNetworkError) {
-            console.error("Network Failed - Please Check Your Internet Connection");
-          }
-        }
+        // handle error
       }
     };
-  
+
     fetchLoggedPatientData();
     updateActiveTime();
   }, []);
@@ -126,46 +104,35 @@ const PatientMedication: React.FC = () => {
       const response = await axios.get(
         `https://indheart.pinesphere.in/api/api/medical-manager/?patient_id=${patient_id}`
       );
-      if (response.data.length === 0) {
-        console.log("No medication data available.");
-      } else {
-        console.log(
-          `Fetched medications for patient ${patient_id}:`,
-          response.data
-        );
-      }
       setMedications(response.data);
     } catch (error: unknown) {
-      console.error("Error fetching medications:", error);
-  
-      if (error instanceof Error) {
-        const isNetworkError =
-          error.message.includes("Network request failed") ||
-          error.message.includes("TypeError: Network") ||
-          error.message.includes("fetch");
-  
-        if (isNetworkError) {
-          console.error("Network Failed - Please Check Your Internet Connection");
-        }
-      }
+      // handle error
     }
+  };
+
+  // Helper function to get food timing text
+  /* const getFoodTimingText = (timeOfDay: TimeOfDay, consume: string) => {
+    const foodTiming = consume || "Before Food";
+    return `${timeOfDay} ${foodTiming}`;
+  }; */
+
+  const getFoodTimingText = (timeOfDay: TimeOfDay, consume: string) => {
+    // Only show "After Food" or "Before Food" (no session)
+    return consume || "Before Food";
   };
 
   const handleSubmit = useCallback(async () => {
     if (!date) {
-      //Alert.alert("Missing required fields", "Please select a date.");
       setAlertTitle(languageText.medicationSuccessAlert);
       setAlertMessage(languageText.selectDate);
-      setCustomAlertVisible(true); // Show custom alert
-
+      setAlertVisible(true);
+      setAlertMode("error");
       return;
     }
 
     try {
       const selectedMedicationsToSave: MedicationToSave[] = [];
-      const errors: string[] = [];
 
-      // Check for duplicates before adding to the list
       Object.entries(selectedMedications).forEach(([timeOfDay, indexes]) => {
         indexes.forEach((index) => {
           const medication = medications.filter(
@@ -173,92 +140,49 @@ const PatientMedication: React.FC = () => {
           )[index];
 
           if (medication) {
-            // Check if this medication has already been added for the same date and time
-            const isDuplicate = selectedMedicationsToSave.some(
-              (med) =>
-                med.patient_id === medication.patient_id &&
-                med.medication_name === medication.medication_name &&
-                med.date === date.toISOString().split("T")[0] &&
-                med.drug_take === timeOfDay
+            const foodTiming = getFoodTimingText(
+              timeOfDay as TimeOfDay,
+              medication.consume
             );
 
-            if (isDuplicate) {
-              errors.push(
-                `Duplicate entry for ${
-                  medication.medication_name
-                } at ${timeOfDay} on ${date.toISOString().split("T")[0]}.`
-              );
-            } else {
-              selectedMedicationsToSave.push({
-                patient_id: medication.patient_id,
-                date: date.toISOString().split("T")[0],
-                medication_name: medication.medication_name,
-                route: medication.route,
-                dosage_amount: medication.dosage_amount || 0,
-                dosage_type: medication.dosage_type,
-                drug_take: timeOfDay as TimeOfDay,
-                consume: medication.consume,
-                drug_action: medication.drug_action,
-                start_date: medication.start_date,
-                end_date: medication.end_date,
-                taken: true,
-              });
-            }
+            selectedMedicationsToSave.push({
+              patient_id: medication.patient_id,
+              date: date.toISOString().split("T")[0],
+              route: medication.route,
+              dosage_type: medication.dosage_type,
+              drug_take: timeOfDay as TimeOfDay,
+              consume: medication.consume,
+              drug_action: medication.drug_action,
+              start_date: medication.start_date,
+              end_date: medication.end_date,
+              taken: true,
+              food_timing: foodTiming,
+            });
           }
         });
       });
 
-      if (errors.length > 0) {
-        //Alert.alert("Duplicate Entry", errors.join("\n"));
-        setAlertTitle(languageText.duplicateEntry);
-        setAlertMessage(errors.join("\n"));
-        return;
-      }
-
-      console.log("Data to be saved:", selectedMedicationsToSave);
-
-      // Make the POST request to save each medication instance
-      const response = await axios.post(
+      await axios.post(
         "https://indheart.pinesphere.in/patient/medications/",
         selectedMedicationsToSave
       );
 
-      console.log("Response from server:", response.data);
-      /*  Alert.alert("Success", "Medication details saved successfully.", [
-        {
-          text: "OK",
-          onPress: () => navigation.navigate("DailyExercise"), // Redirect to the Dashboard
-        },
-      ]);   */
       setAlertTitle(languageText.alertSuccessTitle);
       setAlertMessage(languageText.medicationSuccessAlert);
       setAlertVisible(true);
       setAlertMode("success");
     } catch (error: any) {
-      // Handle duplicate entry or other errors
       if (error.response && error.response.status === 400) {
-        // Check if the error is due to a unique constraint violation
         const errorMessage =
           error.response.data?.detail || languageText.alreadyExists;
-        //Alert.alert("Duplicate Entry", errorMessage);
         setAlertTitle(languageText.duplicateEntry);
         setAlertMessage(errorMessage);
       } else {
-        //Alert.alert("Error", "There was an issue saving the data");
         setAlertTitle(languageText.alertErrorTitle);
         setAlertMessage(languageText.errorSaving);
       }
-
-      if (error instanceof Error) {
-        const isNetworkError =
-          error.message.includes("Network request failed") ||
-          error.message.includes("TypeError: Network") ||
-          error.message.includes("fetch");
-  
-        if (isNetworkError) {
-          console.error("Network Failed - Please Check Your Internet Connection");
-        }
-      }
+      setAlertVisible(true);
+      setAlertMode("error");
     }
   }, [date, medications, selectedMedications]);
 
@@ -269,21 +193,14 @@ const PatientMedication: React.FC = () => {
       Evening: [],
       Night: [],
     });
-    //Alert.alert("Cleared", "Your data has been cleared successfully.");
     setAlertTitle(languageText.clearTitle);
     setAlertMessage(languageText.clearedMessage);
   }, []);
 
-  /* const handleCancel = () => {
-    Alert.alert("Cancel", "Are you sure you want to cancel?", [
-      { text: "No", style: "cancel" },
-      { text: "Yes", onPress: () => navigation.navigate("DailyUploads") }, // Navigate to PatientDashboard
-    ]);
-  }; */
   const handleCancel = () => {
-    // Trigger the custom alert instead of the default Alert
     setCancelAlertVisible(true);
   };
+
   const updateActiveTime = () => {
     const hours = new Date().getHours();
     if (hours < 12) {
@@ -296,6 +213,7 @@ const PatientMedication: React.FC = () => {
       setActiveTime("Night");
     }
   };
+
   const toggleSelection = (timeOfDay: TimeOfDay, index: number) => {
     setSelectedMedications((prevSelected) => {
       const currentSelection = prevSelected[timeOfDay] || [];
@@ -303,21 +221,13 @@ const PatientMedication: React.FC = () => {
         ? currentSelection.filter((i) => i !== index)
         : [...currentSelection, index];
 
-      // Identify the medication object based on the time of day and index
       const medication = medications.filter(
         (med) => med.drug_take === timeOfDay
       )[index];
 
-      // Check if the medication is being selected or deselected
       const isSelected = !currentSelection.includes(index);
       if (isSelected && medication) {
-        setToggleCount((prevCount) => {
-          const newCount = prevCount + 1;
-          console.log(
-            `Toggle click ${newCount} - Medication name: ${medication.medication_name}`
-          );
-          return newCount;
-        });
+        setToggleCount((prevCount) => prevCount + 1);
       }
 
       return { ...prevSelected, [timeOfDay]: updatedSelection };
@@ -326,7 +236,6 @@ const PatientMedication: React.FC = () => {
 
   return (
     <SafeAreaProvider>
-      {/* Custom alert for cancel action */}
       <CustomAlert
         title={languageText.alertCancelTitle}
         message={languageText.alertCancelMessage}
@@ -334,61 +243,64 @@ const PatientMedication: React.FC = () => {
         onClose={() => setCancelAlertVisible(false)}
         mode="confirm"
         onYes={() => {
-          navigation.navigate("PatientDashboardPage"); // Navigate to PatientDashboardPage
+          navigation.navigate("PatientDashboardPage");
         }}
-        onNo={() => setCancelAlertVisible(false)} // Close the alert on No
-        okText={languageText.alertOk} // Translated OK text
-        yesText={languageText.alertYes} // Translated Yes text
-        noText={languageText.alertNo} // Translated No text
+        onNo={() => setCancelAlertVisible(false)}
+        okText={languageText.alertOk}
+        yesText={languageText.alertYes}
+        noText={languageText.alertNo}
       />
 
-      {/* Success Custom Alert */}
       <CustomAlert
         title={alertTitle}
         message={alertMessage}
         visible={alertVisible}
         onClose={() => {
-          setAlertVisible(false); // Close the alert
+          setAlertVisible(false);
           if (alertMode === "success") {
-            navigation.navigate("DailyExercise"); // Redirect to the Dashboard
+            navigation.navigate("DailyExercise");
           }
         }}
         onYes={() => {
-          setAlertVisible(false); // Close the alert
+          setAlertVisible(false);
           if (alertMode === "success") {
-            navigation.navigate("DailyExercise"); // Redirect to the Dashboard
+            navigation.navigate("DailyExercise");
           }
         }}
-        okText={languageText.alertOk} // Translated OK text
-        yesText={languageText.alertYes} // Translated Yes text
-        noText={languageText.alertNo} // Translated No text
+        okText={languageText.alertOk}
+        yesText={languageText.alertYes}
+        noText={languageText.alertNo}
       />
 
       <SafeAreaView style={styles.safeArea}>
-        {/* Adjust StatusBar visibility */}
         <StatusBar
-          barStyle="dark-content" // Set the color of status bar text
-          backgroundColor="transparent" // Make the background transparent
-          translucent={true} // Make status bar translucent
+          barStyle="dark-content"
+          backgroundColor="transparent"
+          translucent={true}
         />
 
-        <View style={styles.outerContainer}>
-          <View style={styles.coverContainer}>
-            <Text style={styles.title}>{languageText.medicationTitle}</Text>
-          </View>
+        {/* Professional Medical Header */}
+        <View style={styles.headerContainer}>
+          <Image
+            source={require("../../assets/gif/medication.gif")}
+            style={styles.headerIcon}
+            resizeMode="contain"
+          />
+          <Text style={styles.headerTitle}>{languageText.medicationTitle}</Text>
+        </View>
 
+        <View style={styles.outerContainer}>
           <View style={styles.datePickerTranslateContainer}>
             <View style={styles.datePickerContainer}>
               <TouchableOpacity
                 style={styles.datePickerButton}
                 onPress={() => setShowDatePicker(true)}
               >
-                <Icon name="calendar" size={22} color="#808080" />
+                <Icon name="calendar" size={22} color="#00838f" />
                 <Text style={styles.datePickerText}>
                   {date.toLocaleDateString()}
                 </Text>
               </TouchableOpacity>
-
               {showDatePicker && (
                 <DateTimePicker
                   value={date}
@@ -413,35 +325,67 @@ const PatientMedication: React.FC = () => {
             </TouchableOpacity>
           </View>
 
+          <View style={styles.noteContainer}>
+            <Text style={styles.noteText}>{languageText.note}</Text>
+            <Text style={styles.noteContent}>
+              {languageText.medicationNote}
+            </Text>
+          </View>
+
           <ScrollView
             style={styles.container}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 30 }}
           >
             {(["Morning", "Afternoon", "Evening", "Night"] as TimeOfDay[]).map(
               (timeOfDay) => (
-                <View key={timeOfDay}>
-                  <Text style={styles.morningMedicationText}>
-                    {isTranslatingToTamil
-                      ? texts.tamil[
-                          `${
-                            timeOfDay.toLowerCase() as
-                              | "morning"
-                              | "afternoon"
-                              | "evening"
-                              | "night"
-                          }Medication`
-                        ]
-                      : texts.english[
-                          `${
-                            timeOfDay.toLowerCase() as
-                              | "morning"
-                              | "afternoon"
-                              | "evening"
-                              | "night"
-                          }Medication`
-                        ]}
-                  </Text>
+                <View key={timeOfDay} style={styles.sessionCard}>
+                  {/* Session Label */}
+                  <View style={styles.sessionHeaderRow}>
+                    <View style={styles.sessionLabelRow}>
+                      <Text style={styles.sessionLabel}>
+                        {isTranslatingToTamil
+                          ? texts.tamil[
+                              `${
+                                timeOfDay.toLowerCase() as
+                                  | "morning"
+                                  | "afternoon"
+                                  | "evening"
+                                  | "night"
+                              }Medication`
+                            ]
+                          : texts.english[
+                              `${
+                                timeOfDay.toLowerCase() as
+                                  | "morning"
+                                  | "afternoon"
+                                  | "evening"
+                                  | "night"
+                              }Medication`
+                            ]}
+                      </Text>
+                    </View>
+                    {/* Time Slot Display */}
+                    <View style={styles.timeSlotContainer}>
+                      <Text style={styles.timeSlotLabel}>
+                        {(() => {
+                          switch (timeOfDay) {
+                            case "Morning":
+                              return "6:00 AM - 11:59 AM";
+                            case "Afternoon":
+                              return "12:00 PM - 2:59 PM";
+                            case "Evening":
+                              return "3:00 PM - 8:59 PM";
+                            case "Night":
+                              return "9:00 PM - 5:59 AM";
+                            default:
+                              return "";
+                          }
+                        })()}
+                      </Text>
+                    </View>
+                  </View>
 
                   <View style={styles.morningMedicationContainer}>
                     {medications.filter((med) => med.drug_take === timeOfDay)
@@ -458,41 +402,59 @@ const PatientMedication: React.FC = () => {
                             key={index}
                             style={[
                               styles.medicationContainer,
-                              selectedMedications[timeOfDay].includes(
-                                index
-                              ) && {
-                                backgroundColor: "#f4fff3",
-                                borderColor: "#13bd13",
-                                borderWidth: 1,
-                              },
+                              selectedMedications[timeOfDay].includes(index)
+                                ? styles.medicationSelected
+                                : {},
                             ]}
                             onPress={() => toggleSelection(timeOfDay, index)}
+                            activeOpacity={0.85}
                           >
                             <View style={styles.medicationItemContainer}>
                               <Image
                                 source={
                                   medication.dosage_type === "Syrup/ml"
-                                    ? require("../../assets/images/syrup.png") // Show syrup image
+                                    ? require("../../assets/images/syrup.png")
                                     : medication.dosage_type === "Tablet/mg" ||
                                       medication.dosage_type === "Capsule/mg"
-                                    ? require("../../assets/images/pill.png") // Show pill image for Tablet or Capsule
-                                    : require("../../assets/images/syrup.png") // Optional: Provide a default image if needed
+                                    ? require("../../assets/images/pill.png")
+                                    : require("../../assets/images/syrup.png")
                                 }
                                 style={styles.iconMedication}
                               />
                               <View style={styles.medicationTextContainer}>
                                 <Text style={styles.medicationItem}>
                                   <Text style={styles.boldText}>
-                                    {medication.medication_name}
+                                    {getFoodTimingText(
+                                      timeOfDay,
+                                      medication.consume
+                                    )}
                                   </Text>
                                 </Text>
                                 <Text style={styles.medicationDetails}>
-                                  {`${medication.dosage_amount} - ${medication.consume}`}
+                                  {medication.dosage_type}
+                                </Text>
+                              </View>
+                              {/* Taken Status */}
+                              <View style={styles.takenStatusContainer}>
+                                <Text
+                                  style={[
+                                    styles.takenStatusLabel,
+                                    selectedMedications[timeOfDay].includes(
+                                      index
+                                    )
+                                      ? styles.takenYes
+                                      : styles.takenNo,
+                                  ]}
+                                >
+                                  {selectedMedications[timeOfDay].includes(
+                                    index
+                                  )
+                                    ? "Yes"
+                                    : ""}
                                 </Text>
                               </View>
                             </View>
-                            <Text style={styles.morningMedicationDetail}>
-                              {/* Start and End Dates from Previous Screen */}
+                            <View style={styles.morningMedicationDetailRow}>
                               <View style={styles.datesContainer}>
                                 <Text style={styles.medicationDetails}>
                                   <Text style={styles.dateText}>
@@ -509,25 +471,23 @@ const PatientMedication: React.FC = () => {
                                   </Text>
                                 </Text>
                               </View>
-
-                              {/* Note Text */}
-                            </Text>
+                            </View>
                           </TouchableOpacity>
                         ))
                     )}
                   </View>
-                  <View style={styles.noteContainer}>
+                  {/* <View style={styles.noteContainer}>
                     <Text style={styles.noteText}>{languageText.note}</Text>
                     <Text style={styles.noteContent}>
                       {languageText.medicationNote}
                     </Text>
-                  </View>
-
+                  </View> */}
                   <View style={styles.separator} />
                 </View>
               )
             )}
           </ScrollView>
+
           <View style={styles.footer}>
             <TouchableOpacity
               style={styles.submitButton}
@@ -552,52 +512,57 @@ const PatientMedication: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  outerContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 10,
-    marginTop: 40,
-  },
   safeArea: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f5f5f5",
   },
-
-  container: {
+  headerContainer: {
     width: "100%",
-    height: "50%", // Adjust height to 50% to show half of the container
-    backgroundColor: "#F5F5F5",
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#b2ebf2",
+    paddingTop: 60,
+    paddingBottom: 18,
+    paddingHorizontal: 18,
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
-    paddingTop: 20,
+    marginBottom: 10,
+    elevation: 2,
   },
-  buttonTranslateText: {
-    marginLeft: 5,
-    color: "#4169E1",
-    fontWeight: "500",
-    fontSize: 12,
-    flexShrink: 1,
+  headerIcon: {
+    width: 55,
+    height: 55,
+    marginRight: 5,
+    marginLeft: 10,
   },
-  coverContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: -10,
-  },
-  title: {
-    fontSize: 20,
+  headerTitle: {
+    fontSize: 22,
     fontWeight: "bold",
-    color: "#36454F",
+    color: "#00838f",
     textAlign: "center",
-    marginVertical: 5,
-    marginBottom: 30,
+    letterSpacing: 0.5,
+    marginLeft: 13,
+  },
+  outerContainer: {
+    flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "center",
+    padding: 0,
+    marginTop: 0,
+    width: "100%",
+  },
+  container: {
+    width: "100%",
+    backgroundColor: "transparent",
+    paddingTop: 10,
+    flex: 1,
   },
   datePickerTranslateContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 10,
+    width: "100%",
   },
   datePickerContainer: {
     width: "50%",
@@ -614,10 +579,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "85%",
+    elevation: 2,
+    borderWidth: 1,
+    borderColor: "#b2ebf2",
   },
   datePickerText: {
     fontSize: 15,
-    color: "#36454F",
+    color: "#00838f",
     fontWeight: "500",
     textAlign: "center",
     marginLeft: 20,
@@ -629,150 +597,203 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: "43%",
     marginLeft: 10,
+    elevation: 2,
+    borderWidth: 1,
+    borderColor: "#b2ebf2",
   },
   translateButtonText: {
-    color: "#4164f0",
+    color: "#00838f",
     fontSize: 15,
     textAlign: "center",
     fontWeight: "600",
   },
-  tilesContainer: {
-    alignItems: "center",
-    paddingBottom: 10,
-    marginTop: -10,
-  },
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-around", // Distributes tiles equally
-    width: "100%",
-    marginBottom: 10,
-  },
-  tile: {
-    borderRadius: 10,
-    padding: 10,
-    width: "42%", // Adjust the width to reduce space between tiles
-    marginHorizontal: 5, // Add small margins between the tiles
-  },
-
-  tileContent: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  activeTile: {
+  sessionCard: {
     backgroundColor: "#fff",
+    borderRadius: 22,
+    marginHorizontal: 10,
+    marginBottom: 18,
+    paddingVertical: 10,
+    paddingHorizontal: 8,
+    elevation: 2,
+    shadowColor: "#b2ebf2",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.09,
+    shadowRadius: 6,
   },
-  inactiveTile: {
-    backgroundColor: "#D3D3D3",
+  sessionHeaderRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginHorizontal: 4,
+    marginBottom: 5,
+    marginTop: 2,
   },
-  activeText: {
-    color: "#00796B", // Dark green for active text
+  sessionLabelRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
   },
-  inactiveText: {
-    color: "#36454F", // Dark gray for inactive text
+  sessionIcon: {
+    width: 32,
+    height: 32,
+    marginRight: 8,
   },
-  separator: {
-    height: 0.5,
-    backgroundColor: "#c0c0c0", // Light gray color for the separator line
-    marginVertical: 10, // Space above and below the line
-    width: "100%", // Full width of the container
-  },
-  morningMedicationText: {
-    fontSize: 16,
+  sessionLabel: {
+    fontSize: 17,
     fontWeight: "700",
-    marginVertical: 0,
+    color: "#00838f",
     textAlign: "left",
-    color: "#585858",
-    marginLeft: 20,
-    marginBottom: 10,
-    paddingBottom: 10,
+    marginLeft: 2,
+    marginBottom: 0,
+    paddingBottom: 0,
+    letterSpacing: 0.2,
+  },
+  timeSlotContainer: {
+    backgroundColor: "#ededed",
+    borderRadius: 14,
+    paddingVertical: 4,
+    paddingHorizontal: 12,
+    marginLeft: 10,
+    alignSelf: "flex-end",
+    borderWidth: 1,
+    borderColor: "#b2ebf2",
+  },
+  timeSlotLabel: {
+    fontSize: 13,
+    color: "#00838f",
+    fontWeight: "600",
+    textAlign: "center",
   },
   morningMedicationContainer: {
-    marginBottom: -15,
-    flex: 1, // Allow the container to expand
-    paddingHorizontal: 10,
-    padding: 5,
-  },
-  medicationList: {
-    paddingVertical: 5,
+    marginBottom: -5,
+    flex: 1,
+    paddingHorizontal: 2,
+    padding: 2,
   },
   medicationContainer: {
     marginBottom: 15,
-    padding: 10,
-    backgroundColor: "#fff",
-    borderRadius: 30,
-    elevation: 1,
-    flexWrap: "wrap", // Allow content to wrap
+    borderRadius: 18,
+    elevation: 0,
+    flexWrap: "wrap",
     flexDirection: "row",
     alignItems: "flex-start",
-    minHeight: 100, // Increase this value as necessary
+    minHeight: 100,
     width: "100%",
+    backgroundColor: "transparent",
+  },
+  medicationSelected: {
+    borderColor: "#51d751",
+    borderWidth: 0.5,
+    elevation: 2,
+    backgroundColor: "#f4fff3",
+    padding: 10,
   },
   medicationItemContainer: {
     flexDirection: "row",
     alignItems: "center",
+    marginBottom: 2,
   },
   iconMedication: {
-    width: 50,
-    height: 40,
+    width: 44,
+    height: 44,
     marginRight: 10,
-    backgroundColor: "#f5f5f5", // Light background for medication details
-    borderRadius: 30,
+    backgroundColor: "#e0f7fa",
+    borderRadius: 22,
     alignSelf: "center",
     alignItems: "center",
-    top: 10,
+    borderWidth: 1,
+    borderColor: "#b2ebf2",
   },
   medicationTextContainer: {
     flex: 1,
+    minWidth: 100,
   },
   medicationItem: {
     fontSize: 16,
+    color: "#00838f",
   },
   medicationDetails: {
     fontSize: 14,
-    color: "#457aec",
+    color: "#00796B",
     fontWeight: "600",
-    marginBottom: 5,
-    marginTop: 5,
-    marginVertical: 5,
-    flexWrap: "wrap", // Allows the content to wrap
-    textAlign: "left", // Align text to the left
-    width: "100%", // Ensure it takes full width of the container
-    lineHeight: 22, // Makes the line height more comfortable for readability
+    marginBottom: 2,
+    marginTop: 2,
+    marginVertical: 2,
+    flexWrap: "wrap",
+    textAlign: "left",
+    width: "100%",
+    lineHeight: 20,
   },
-  morningMedicationDetail: {
-    fontSize: 12,
-    marginTop: 0,
-    marginLeft: 60, // Ensure proper alignment
-    textAlign: "left", // Align text to the left
-    color: "#B0B0B0",
-    flexWrap: "wrap", // Allow text to wrap if needed
-    flex: 1, // Allow container to expand
-    width: "auto", // Ensure it doesn't have a fixed width
+  morningMedicationDetailRow: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    marginLeft: 54,
+    marginTop: 2,
   },
   boldText: {
     fontWeight: "700",
-    color: "#505050",
+    color: "#00838f",
+  },
+  takenStatusContainer: {
+    marginLeft: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    minWidth: 50, // Increased width to avoid overlap
+    minHeight: 28, // Add height for better spacing
+    alignSelf: "center",
+    padding: 10,
+  },
+  takenStatusLabel: {
+    fontSize: 15,
+    fontWeight: "700",
+    paddingVertical: 2,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+    overflow: "hidden",
+    textAlign: "center",
+  },
+  takenYes: {
+    backgroundColor: "#d4f8e8",
+    color: "#19ca19",
+    borderColor: "#6dd66d",
+    borderWidth: 0.5,
+  },
+  takenNo: {
+    backgroundColor: "transparent",
+    color: "#ccc",
   },
   noteContainer: {
     marginLeft: 10,
-    marginBottom: 5, // Space below the note content
+    marginBottom: 5,
+    marginTop: 10,
+    backgroundColor: "#e0f7fa",
+    borderRadius: 10,
+    padding: 8,
+    borderWidth: 1,
+    borderColor: "#b2ebf2",
   },
   noteText: {
     fontWeight: "700",
-    color: "#505050",
-    marginTop: 10,
-    marginBottom: 5,
+    color: "#00838f",
+    marginBottom: 2,
     textAlign: "left",
-    marginLeft: 15,
+    marginLeft: 2,
+    fontSize: 14,
   },
   noteContent: {
     fontWeight: "400",
-    marginLeft: 15,
+    marginLeft: 2,
     color: "#505050",
-    marginBottom: 15,
-    textAlign: "left", // Ensure text is aligned left under the note
+    marginBottom: 0,
+    textAlign: "left",
+    fontSize: 13,
+  },
+  separator: {
+    height: 0.5,
+    backgroundColor: "#b2ebf2",
+    marginVertical: 10,
+    width: "100%",
+    borderRadius: 1,
   },
   footer: {
     flexDirection: "row",
@@ -781,37 +802,46 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     elevation: 5,
     width: "100%",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderColor: "#b2ebf2",
+    borderTopWidth: 1,
   },
   submitButton: {
     flex: 1,
-    marginHorizontal: 10,
-    backgroundColor: "#3CB371",
+    marginHorizontal: 8,
+    backgroundColor: "#00838f",
     borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: 10,
+    paddingVertical: 12,
+    elevation: 2,
   },
   clearButton: {
     flex: 1,
-    marginHorizontal: 10,
+    marginHorizontal: 8,
     backgroundColor: "#FFD700",
     borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: 10,
+    paddingVertical: 12,
+    elevation: 2,
   },
   cancelButton: {
     flex: 1,
-    marginHorizontal: 10,
+    marginHorizontal: 8,
     backgroundColor: "#FF6347",
     borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: 10,
+    paddingVertical: 12,
+    elevation: 2,
   },
   footerButtonText: {
     color: "#fff",
     fontWeight: "600",
+    fontSize: 16,
+    letterSpacing: 0.2,
   },
   noDataText: {
     fontSize: 14,
@@ -820,18 +850,34 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   datesContainer: {
-    marginBottom: 5,
-    padding: 5,
-    width: "100%",
+    marginBottom: 0,
+    padding: 0,
+    width: "auto",
+    marginRight: 10,
   },
-
   dateText: {
     fontWeight: "700",
     color: "#505050",
-    fontSize: 14,
-    flexWrap: "wrap", // Allow text to wrap within its container
-    textAlign: "left", // Align text to the left for better readability
+    fontSize: 13,
+    flexWrap: "wrap",
+    textAlign: "left",
     width: "100%",
+  },
+  commonNoteContainer: {
+    width: "95%",
+    alignSelf: "center",
+    backgroundColor: "#e0f7fa",
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: "#b2ebf2",
+  },
+  commonNoteText: {
+    color: "#00838f",
+    fontWeight: "600",
+    fontSize: 15,
+    textAlign: "center",
   },
 });
 

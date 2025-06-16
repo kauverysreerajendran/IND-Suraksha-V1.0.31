@@ -18,8 +18,6 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
 import RNFS from "react-native-fs";
 
-
-
 // Custom Text component to disable font scaling globally 
 const Text = (props: any) => { return <RNText {...props} allowFontScaling={false} />; };
 
@@ -57,7 +55,7 @@ const PatientDailyLogScreen = () => {
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertTitle, setExcelAlertTitle] = useState('');
   const [alertMessage, setExcelAlertMessage] = useState('');
-
+  const [isLoading, setIsLoading] = useState(false);
 
 // ✅ Request Storage Permission (Keeps Your Existing Logic Intact)
 const requestStoragePermission = async () => {
@@ -84,37 +82,51 @@ const requestStoragePermission = async () => {
   }
 };
 
+ // ✅ 1. FIXED: Fetch all data function with proper date handling
+// ✅ 6. UPDATE fetchDataForAllPatients with loading state:
+const fetchDataForAllPatients = async (selectedDate?: Date) => {
+  const dateToUse = selectedDate || date;
+  console.log("Fetching data for all patients for date:", dateToUse.toLocaleDateString());
+  setIsLoading(true);
+  try {
+    await Promise.all([
+      fetchSleepDataForAllPatients(dateToUse),
+      fetchVegDataForAllPatients(dateToUse),
+      fetchNonVegDataForAllPatients(dateToUse),
+      fetchWaterDataForAllPatients(dateToUse),
+      fetchExerciseDataForAllPatients(dateToUse),
+      fetchWalkingDataForAllPatients(dateToUse),
+      fetchYogaDataForAllPatients(dateToUse),
+      fetchMedicineForAllPatients(dateToUse),
+      fetchLifestyleForAllPatients(dateToUse)
+    ]);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  } finally {
+    setIsLoading(false);
+  }
+};
+// ✅ 3. FIXED: Clear filter function
+const onClearFilter = () => {
+  setSelectedPatientId("");
+  const currentDate = new Date();
+  setDate(currentDate);
+  console.log("Clearing filters, fetching data for:", currentDate.toLocaleDateString());
+  fetchDataForAllPatients(currentDate);
+};
 
-
-
-
-
-
-  // Fetch all data functions here
-  const fetchDataForAllPatients = async () => {
-    console.log("Fetching data for all patients...");
-    await fetchSleepDataForAllPatients(date);
-    await fetchVegDataForAllPatients(date);
-    await fetchNonVegDataForAllPatients(date);
-    await fetchWaterDataForAllPatients(date);
-    await fetchExerciseDataForAllPatients(date);
-    await fetchWalkingDataForAllPatients(date);
-    await fetchYogaDataForAllPatients(date);
-    await fetchMedicineForAllPatients(date);
-    await fetchLifestyleForAllPatients(date);
-  };
-  const onClearFilter = () => {
-    setSelectedPatientId("");
-    setDate(new Date()); // Reset date to the current date
-    fetchDataForAllPatients(); // Fetch all data again without filters
-  };
-
-  const onDateChange = (event: any, selectedDate?: Date) => {
-    const currentDate = selectedDate || date;
-    setShowDatePicker(false);
-    setDate(currentDate);
-    fetchDataForAllPatients(); // Fetch data when the date changes
-  };
+// ✅ 2. FIXED: Date change handler
+const onDateChange = (event: any, selectedDate?: Date) => {
+  const currentDate = selectedDate || date;
+  setShowDatePicker(false);
+  setDate(currentDate);
+ 
+  console.log("Date changed to:", currentDate.toLocaleDateString());
+  // Immediately fetch data for the new date
+  if (patientIds.length > 0) {
+    fetchDataForAllPatients(currentDate);
+  }
+};
 
   // Fetch existing patient IDs from API
   useEffect(() => {
@@ -134,13 +146,24 @@ const requestStoragePermission = async () => {
     fetchPatientIds();
   }, []);
 
+  // Second useEffect: Handle data fetching when patientIds, date, or selectedPatientId changes
+
+  useEffect(() => {
+  console.log("useEffect triggered - patientIds length:", patientIds.length, "date:", date.toLocaleDateString(), "selectedPatientId:", selectedPatientId);
+  if (patientIds.length > 0) {
+    fetchDataForAllPatients(date);
+  }
+}, [patientIds.length, date.toISOString().split('T')[0], selectedPatientId]);
+ 
+
   useEffect(() => {
     if (patientIds.length > 0) {
       fetchDataForAllPatients(); // Fetch all data when patientIds are available
     }
   }, [patientIds]);
 
- 
+  
+
   // ✅ Helper function: Convert Blob to Base64 properly
   const blobToBase64 = (blob: Blob): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -211,18 +234,6 @@ const requestStoragePermission = async () => {
         );
       }
     };
-
-  
-/*   // ✅ Corrected Function to Open Excel File
-  const openFile = async (filePath: string) => {
-    try {
-      console.log("Opening file:", filePath);
-      await Linking.openURL(`file://${filePath}`);
-    } catch (error) {
-      console.error("❌ Error opening file:", error);
-      Alert.alert("Error", "Unable to open the Excel file.");
-    }
-  }; */
 
   const handlePatientSelect = (patientId: string) => {
     setSelectedPatientId(patientId); // Store the selected patient ID
@@ -479,12 +490,11 @@ const requestStoragePermission = async () => {
     }
   };
 
-  const filteredData = patientIds
-    .filter((patientId) => {
-      // Only include patients with the selected ID
-      return selectedPatientId ? patientId === selectedPatientId : true;
-    })
-    .map((patientId) => ({
+  
+ const formattedDate = date.toISOString().split("T")[0];
+const filteredData = patientIds
+  .filter(patientId => selectedPatientId ? patientId === selectedPatientId : true)
+  .map(patientId => ({
       patientId: patientId,
       hasSleepData: sleepData[patientId] || false,
       hasVegData: vegData[patientId] || false,

@@ -23,13 +23,12 @@ const texts = {
       "Phone number already verified. Automatically logging you in.", // Patient message
 
     dashboard: "Dashboard",
-    expertAdvice:
-      "SAVE YOUR HEART", // Add the quote in English
+    expertAdvice: "SAVE YOUR HEART", // Add the quote in English
     contactDoctor: "Contact Doctor",
     goalText: "Goal -", // Add Goal - in English
     goalAmount: "2000 ML", // Add amount in English
     perDay: "Per Day",
-    goalSteps: "500 steps",
+    goalSteps: "30 Minutes",
     upload: "Upload Daily Routines", // Add Upload Daily Routines in English
     healthBetterment: "For Health Betterment", // Add For Health Betterment in English
     lifestyle: "Lifestyle", // Full English text
@@ -212,7 +211,7 @@ const texts = {
     heartAttackContent:
       "Heart is a vital organ that supplies  oxygenated blood and nutrients to the entire body. Heart starts working  life  in the womb from 6th week of baby development  .  Heart attack or Coronary Artery Disease is a condition that occurs due to blockage in the coronary blood vessels which supply blood to the heart. The excess of bad fat  starts accumulating inside the lumen of the blood vessel. When the blockage exceeds 70% in any coronary artery causes symptoms  of heart attack such as unbearable chest pain, shortness of breath, giddiness, vomiting, palpitation and extreme tiredness. Heart attack patients need immediate medical attention and appropriate treatment.",
     heartAttackFactors: "What are the Factors that Cause Heart Attack?",
-    factorOne: "• Uncontrolled  high Blood Pressure ( BP<140/85 mm of Hg).",
+    factorOne: "• Uncontrolled  high Blood Pressure ( BP>140/85 mm of Hg).",
     factorTwo:
       "• Low levels of good Cholesterol - HDL level is 40 mg/dL for men and 50 mg/dL for women",
     factorThree: "• High levels of bad Cholesterol – LDL > 100 mg/dL",
@@ -240,8 +239,8 @@ const texts = {
     weekOnwards: "Week onwards",
     tableNote:
       "After six weeks, we can start swimming, playing badminton, and working in the small garden.",
-      walkingExerciseTitle: "Walking Exercise",
-  walkingExerciseContent: `• Daily regular exercise is essential. Simple walking is very helpful. Active walking should be continued from the second week onwards.\n• Gradually increase the time of exercise. Start with warm-up exercises and end with cool-down exercises.\n\nExercise Table:\n- Week 2nd: Timing 10 minutes, 500 m\n- Week 3rd: Timing 15 minutes, 1 Km\n- Week 4th: Timing 20 minutes, 2 Km\n- Week 5th: Timing 25 minutes, 3 Km\n- Week 6th onwards: Timing 30 minutes, 4 Km`,
+    walkingExerciseTitle: "Walking Exercise",
+    walkingExerciseContent: `• Daily regular exercise is essential. Simple walking is very helpful. Active walking should be continued from the second week onwards.\n• Gradually increase the time of exercise. Start with warm-up exercises and end with cool-down exercises.\n\nExercise Table:\n- Week 2nd: Timing 10 minutes, 500 m\n- Week 3rd: Timing 15 minutes, 1 Km\n- Week 4th: Timing 20 minutes, 2 Km\n- Week 5th: Timing 25 minutes, 3 Km\n- Week 6th onwards: Timing 30 minutes, 4 Km`,
     lifeStyleTitle:
       "Lifestyle Changes Required After Percutaneous Coronary Intervention",
     lifeStyleOne: "• Weight loss",
@@ -344,8 +343,8 @@ const texts = {
     pickEatables: "Pick the Additional Eatables",
     pastries: "Pastries",
     sweets: "Sweets",
-     km: "KM",
-     dailyRoutine: "Daily Routine",
+    km: "KM",
+    dailyRoutine: "Daily Routine",
     saltedItems: "Salted Items",
     preservedFoods: "Preserved Foods",
     pickles: "Pickles",
@@ -461,83 +460,87 @@ const texts = {
     successExercise: "Your Exercise details have been saved!",
     NutrientIntakeQuantityPlaceholder: "Cups",
     quantityPlaceholder: "Qty",
+    legumesPulsesquantityPlaceholder: "Grams",
     unexpectedUserType: "Unexpected User Type Error",
     complications: "Complications, If any!",
-    complicationContent: " Incase of any complications like chest pain, breathlessness please contact the KMCH Emergency-  04224323800"
+    complicationContent:
+      " Incase of any complications like chest pain, breathlessness please contact the KMCH Emergency-  04224323800",
   },
 
   support: {
-  title: "App – Concept & Content",
-  main: [
-    {
-      name: "1. Dr.S.Madhavi M.Sc., Ph.D (N)",
-      role: "Professor cum Principal",
-      org: "KMCH College of Nursing",
+    title: "App – Concept & Content",
+    main: [
+      {
+        name: "1. Dr.S.Madhavi M.Sc., Ph.D (N)",
+        role: "Professor cum Principal",
+        org: "KMCH College of Nursing",
+      },
+      {
+        name: "2. Ms.J.V.Jeevitha, M.Sc (N) & Ms. Priyadharshni. V ., M.Sc (N)",
+        role: "Assistant Professors",
+        org: "KMCH College of Nursing",
+        location: "Coimbatore",
+      },
+    ],
+    guidanceTitle: "Under the guidance of",
+    guidance: {
+      name: "Dr.J.Balakumaran., MBBS, MD (Internal medicine), DM (Cardiology)",
+      role: "Consultant Interventional Cardiologist, KMCH",
     },
-    {
-      name: "2. Ms.J.V.Jeevitha, M.Sc (N) & Ms. Priyadharshni. V ., M.Sc (N)",
-      role: "Assistant Professors",
-      org: "KMCH College of Nursing",
-      location: "Coimbatore",
-    },
-  ],
-  guidanceTitle: "Under the guidance of",
-  guidance: {
-    name: "Dr.J.Balakumaran., MBBS, MD (Internal medicine), DM (Cardiology)",
-    role: "Consultant Interventional Cardiologist, KMCH",
+    teamTitle: "The KMCH Consultant Cardiologist team",
+    teamList: [
+      "1. Dr. Thomas Alexander, MD., DM., FACC., FICC., FCSI",
+      "2. Dr. Suresh Kumar Ramasamy, MBBS., MD (General Medicine)., DM (Cardiology)",
+      "3. Dr. Saravanan D M T, MBBS., MRCP (UK)",
+      "4. Dr. Mohan M, MBBS., MD (Internal Medicine)., DM (Cardiology)",
+    ],
+    sponsorsTitle: "Project Sponsors:",
+    sponsors: [
+      "1. The Tamil Nadu Dr. M.G.R. Medical University, Chennai.",
+      "2. The Dr NGP Research & Educational Trust.",
+    ],
   },
-  teamTitle: "The KMCH Consultant Cardiologist team",
-  teamList: [
-    "1. Dr. Thomas Alexander, MD., DM., FACC., FICC., FCSI",
-    "2. Dr. Suresh Kumar Ramasamy, MBBS., MD (General Medicine)., DM (Cardiology)",
-    "3. Dr. Saravanan D M T, MBBS., MRCP (UK)",
-    "4. Dr. Mohan M, MBBS., MD (Internal Medicine)., DM (Cardiology)",
-  ],
-  sponsorsTitle: "Project Sponsors:",
-  sponsors: [
-    "1. The Tamil Nadu Dr. M.G.R. Medical University, Chennai.",
-    "2. The Dr NGP Research & Educational Trust.",
-  ],
-},
 
-
-support: {
-  title: "ஆப் – கருத்து மற்றும் உள்ளடக்கம்",
-  main: [
-    {
-      name: "1. டாக்டர் எஸ். மாதவி M.Sc., Ph.D (N)",
-      role: "பேராசிரியர் மற்றும் முதல்வர்",
-      org: "KMCH நர்சிங் கல்லூரி",
+  support: {
+    title: "ஆப் – கருத்து மற்றும் உள்ளடக்கம்",
+    main: [
+      {
+        name: "1. டாக்டர் எஸ். மாதவி M.Sc., Ph.D (N)",
+        role: "பேராசிரியர் மற்றும் முதல்வர்",
+        org: "KMCH நர்சிங் கல்லூரி",
+      },
+      {
+        name: "2. திருமதி ஜே.வி.ஜீவிதா, M.Sc (N) &  திருமதி பிரியதர்ஷினி. வி ., M.Sc (N)",
+        role: "உதவி பேராசிரியர்கள்",
+        org: "KMCH நர்சிங் கல்லூரி",
+        location: "கோயம்புத்தூர்",
+      },
+    ],
+    guidanceTitle: "வழிகாட்டுதலுடன்",
+    guidance: {
+      name: "டாக்டர் ஜே. பாலகுமாரன்., MBBS, MD (Internal medicine), DM (Cardiology)",
+      role: "ஆலோசகர் இடைமுக இதய மருத்துவர், KMCH",
     },
-    {
-      name: "2. திருமதி ஜே.வி.ஜீவிதா, M.Sc (N) &  திருமதி பிரியதர்ஷினி. வி ., M.Sc (N)",
-      role: "உதவி பேராசிரியர்கள்",
-      org: "KMCH நர்சிங் கல்லூரி",
-      location: "கோயம்புத்தூர்",
-    },
-  ],
-  guidanceTitle: "வழிகாட்டுதலுடன்",
-  guidance: {
-    name: "டாக்டர் ஜே. பாலகுமாரன்., MBBS, MD (Internal medicine), DM (Cardiology)",
-    role: "ஆலோசகர் இடைமுக இதய மருத்துவர், KMCH",
+    teamTitle: "KMCH ஆலோசகர் இதய மருத்துவர்கள் குழு",
+    teamList: [
+      "1. டாக்டர் தாமஸ் அலெக்ஸாண்டர், MD., DM., FACC., FICC., FCSI",
+      "2. டாக்டர் சுரேஷ்குமார் ராமசாமி, MBBS., MD (பொது மருத்துவம்)., DM (இதய மருத்துவம்)",
+      "3. டாக்டர் சரவணன் D M T, MBBS., MRCP (UK)",
+      "4. டாக்டர் மோகன் M, MBBS., MD (Internal Medicine)., DM (Cardiology)",
+    ],
+    sponsorsTitle: "திட்ட ஆதரவாளர்கள்:",
+    sponsors: [
+      "1. தமிழ்நாடு டாக்டர் எம்.ஜி.ஆர். மருத்துவ பல்கலைக்கழகம், சென்னை.",
+      "2. டாக்டர் என்.ஜி.பி. ஆராய்ச்சி மற்றும் கல்வி அறக்கட்டளை.",
+    ],
   },
-  teamTitle: "KMCH ஆலோசகர் இதய மருத்துவர்கள் குழு",
-  teamList: [
-    "1. டாக்டர் தாமஸ் அலெக்ஸாண்டர், MD., DM., FACC., FICC., FCSI",
-    "2. டாக்டர் சுரேஷ்குமார் ராமசாமி, MBBS., MD (பொது மருத்துவம்)., DM (இதய மருத்துவம்)",
-    "3. டாக்டர் சரவணன் D M T, MBBS., MRCP (UK)",
-    "4. டாக்டர் மோகன் M, MBBS., MD (Internal Medicine)., DM (Cardiology)",
-  ],
-  sponsorsTitle: "திட்ட ஆதரவாளர்கள்:",
-  sponsors: [
-    "1. தமிழ்நாடு டாக்டர் எம்.ஜி.ஆர். மருத்துவ பல்கலைக்கழகம், சென்னை.",
-    "2. டாக்டர் என்.ஜி.பி. ஆராய்ச்சி மற்றும் கல்வி அறக்கட்டளை.",
-  ],
-},
   tamil: {
+    legumesPulsesquantityPlaceholder: "கிராம்",
+    medicationTitle: "மருந்து தகவல்",
     deleteAccount: "கணக்கை நீக்கு நீக்கு",
-  submitFeedback: "கருத்து தெரிவிக்கவும்",
-    complicationContent: "மாரடைப்பு, மூச்சுத்திணறல் போன்ற சிக்கல்கள் ஏற்பட்டால், KMCH அவசர சேவை - 04224323800 ஐ தொடர்பு கொள்ளவும்",
+    submitFeedback: "கருத்து தெரிவிக்கவும்",
+    complicationContent:
+      "மாரடைப்பு, மூச்சுத்திணறல் போன்ற சிக்கல்கள் ஏற்பட்டால், KMCH அவசர சேவை - 04224323800 ஐ தொடர்பு கொள்ளவும்",
     complications: "சிக்கல்கள்",
     quantityPlaceholder: "அளவு",
     NutrientIntakeQuantityPlaceholder: "கப்",
@@ -773,9 +776,9 @@ support: {
     lifeStyleTitle:
       "இருதய நுண்துளை சிகிச்சை முடிந்த பின் தேவைப்படும் வாழ்க்கை முறை மாற்றம்",
     walkingExerciseTitle: "நடை பயிற்சி",
-  walkingExerciseContent: `• தினசரி நடை பயிற்சி மிகவும் அவசியம். எளிய நடை பயிற்சி மிகவும் பயனுள்ளது. இரண்டாவது வாரத்திலிருந்து சுறுசுறுப்பான நடை தொடர வேண்டும்.\n• நடை நேரத்தை படிப்படியாக அதிகரிக்கவும். ஆரம்பத்தில் வெப்பமூட்டும் பயிற்சியுடன் தொடங்கி, சூடகுறைக்கும் பயிற்சியுடன் முடிக்கவும்.\n\nநடை பயிற்சி அட்டவணை:\n- வாரம் 2வது: நேரம் 10 நிமிடம், 500 மீட்டர்\n- வாரம் 3வது: நேரம் 15 நிமிடம், 1 கி.மீ\n- வாரம் 4வது: நேரம் 20 நிமிடம், 2 கி.மீ\n- வாரம் 5வது: நேரம் 25 நிமிடம், 3 கி.மீ\n- வாரம் 6வது முதல்: நேரம் 30 நிமிடம், 4 கி.மீ`,
+    walkingExerciseContent: `• தினசரி நடை பயிற்சி மிகவும் அவசியம். எளிய நடை பயிற்சி மிகவும் பயனுள்ளது. இரண்டாவது வாரத்திலிருந்து சுறுசுறுப்பான நடை தொடர வேண்டும்.\n• நடை நேரத்தை படிப்படியாக அதிகரிக்கவும். ஆரம்பத்தில் வெப்பமூட்டும் பயிற்சியுடன் தொடங்கி, சூடகுறைக்கும் பயிற்சியுடன் முடிக்கவும்.\n\nநடை பயிற்சி அட்டவணை:\n- வாரம் 2வது: நேரம் 10 நிமிடம், 500 மீட்டர்\n- வாரம் 3வது: நேரம் 15 நிமிடம், 1 கி.மீ\n- வாரம் 4வது: நேரம் 20 நிமிடம், 2 கி.மீ\n- வாரம் 5வது: நேரம் 25 நிமிடம், 3 கி.மீ\n- வாரம் 6வது முதல்: நேரம் 30 நிமிடம், 4 கி.மீ`,
 
-      tableNote:
+    tableNote:
       "ஆறுவாரங்களுக்கு பிறகு நீச்சல், சிறகு பந்து சிறிய தோட்ட வேலைகளில் ஈடுபடாலாம்.",
     weekOnwards: "வாரம் முதல்",
     minutes: "நிமிடங்கள்",
@@ -837,7 +840,7 @@ support: {
     goalText: "இலக்கு -",
     goalAmount: "2000 மில்லி லிட்டர்",
     perDay: "ஒரு நாளில்",
-    goalSteps: "500 அடிகள்",
+    goalSteps: "30 நிமிட நடைபயிற்சி",
     upload: "தினசரி பதிவேற்றம்",
     healthBetterment: "ஆரோக்கியத்தை மேம்படுத்த",
     lifestyle: "வாழ்க்கை",
@@ -1025,4 +1028,4 @@ support: {
   },
 };
 
-export default texts; // Export as default
+export default texts;

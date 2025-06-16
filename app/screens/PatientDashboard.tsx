@@ -29,7 +29,6 @@ const Text = (props: TextProps) => {
   return <RNText {...props} allowFontScaling={false} />;
 };
 
-
 Icon.loadFont();
 
 type PatientDashboardPageNavigationProp = StackNavigationProp<
@@ -73,7 +72,7 @@ const PatientDashboardPage: React.FC = () => {
   useEffect(() => {
     const checkPopupShown = async () => {
       const popupStatus = await AsyncStorage.getItem("hasShownPopup");
-  
+
       if (
         notificationCount &&
         notificationCount > 0 &&
@@ -83,25 +82,22 @@ const PatientDashboardPage: React.FC = () => {
         setPopupVisible(true);
         setHasShownPopup(true);
         await AsyncStorage.setItem("hasShownPopup", "true"); // save it
-  
+
         const timer = setTimeout(() => {
           setPopupVisible(false);
         }, 5000);
-  
+
         return () => clearTimeout(timer);
       }
     };
-  
+
     checkPopupShown();
   }, [notificationCount, popupVisible]);
-  
-  
-  
 
   useEffect(() => {
     const intervalId = setInterval(async () => {
       // Perform your patient dashboard refresh logic here (e.g., fetch data, update state)
-      console.log('Patient dashboard refreshed'); // Placeholder for now
+      console.log("Patient dashboard refreshed"); // Placeholder for now
     }, 30000); // 30000 milliseconds = 30 seconds
 
     return () => clearInterval(intervalId); // Cleanup interval on unmount
@@ -130,7 +126,6 @@ const PatientDashboardPage: React.FC = () => {
 
     fetchNotificationCount();
   }, [patientDetails]); // Fetch the count whenever patientDetails change
-
 
   // Auto-refresh the page every 30 seconds
   useEffect(() => {
@@ -202,29 +197,34 @@ const PatientDashboardPage: React.FC = () => {
       setPatientDetails(response.data);
 
       // Fetch the actual token from AsyncStorage
-      const token = await AsyncStorage.getItem('authToken');
-      
+      const token = await AsyncStorage.getItem("authToken");
+
       // Run the additional API to save token, patient name, and group name
       if (token) {
-        await axios.post('https://indheart.pinesphere.in/patient/api/save-token/', {
-          patient_id: response.data.patient_id,
-          token: token,
-          group_name: 'Patient', // Set group_name to 'Patient'
-        });
+        await axios.post(
+          "https://indheart.pinesphere.in/patient/api/save-token/",
+          {
+            patient_id: response.data.patient_id,
+            token: token,
+            group_name: "Patient", // Set group_name to 'Patient'
+          }
+        );
       } else {
         //console.error("Token not found in AsyncStorage");
       }
     } catch (error: unknown) {
       console.error("Error fetching patient details:", error);
-  
+
       if (error instanceof Error) {
         const isNetworkError =
           error.message.includes("Network request failed") ||
           error.message.includes("TypeError: Network") ||
           error.message.includes("fetch");
-  
+
         if (isNetworkError) {
-          console.error("Network Failed - Please Check Your Internet Connection");
+          console.error(
+            "Network Failed - Please Check Your Internet Connection"
+          );
         }
       }
     }
@@ -248,7 +248,7 @@ const PatientDashboardPage: React.FC = () => {
   }, [patientDetails]);
 
   const checkVegDietData = async () => {
-    if (phoneNumber && patientDetails?.diet !== "Non-Vegetarian") { 
+    if (phoneNumber && patientDetails?.diet !== "Non-Vegetarian") {
       try {
         const response = await axios.get(
           `https://indheart.pinesphere.in/patient/patient/${phoneNumber}/vegdiet-data/`
@@ -262,25 +262,22 @@ const PatientDashboardPage: React.FC = () => {
   useEffect(() => {
     checkVegDietData();
   }, [phoneNumber, patientDetails]); // Re-run when phone number or patient details change
-  
-  
 
   const checkNonVegDietData = async () => {
-    if (phoneNumber && patientDetails?.diet !== "Vegetarian") { 
+    if (phoneNumber && patientDetails?.diet !== "Vegetarian") {
       try {
         const response = await axios.get(
           `https://indheart.pinesphere.in/patient/patient/${phoneNumber}/nonvegdiet-data/`
         );
         setHasnonvegDietData(response.data.exists);
       } catch (error) {
-       // console.error("Error fetching nonvegdiet data:", error);
+        // console.error("Error fetching nonvegdiet data:", error);
       }
     }
   };
   useEffect(() => {
     checkNonVegDietData();
   }, [phoneNumber, patientDetails]); // Re-run when phone number or patient details change
-  
 
   const checkWaterData = async () => {
     if (patientDetails) {
@@ -560,7 +557,7 @@ const PatientDashboardPage: React.FC = () => {
               >
                 <View style={styles.imageWrapper}>
                   <Image
-                    source={require("../../assets/images/waterglass.png")}
+                    source={require("../../assets/icons/3.png")}
                     style={styles.infoTileImage}
                   />
                 </View>
@@ -576,7 +573,7 @@ const PatientDashboardPage: React.FC = () => {
               >
                 <View style={styles.imageWrapper}>
                   <Image
-                    source={require("../../assets/images/walkingman.png")}
+                    source={require("../../assets/icons/2.png")}
                     style={styles.infoTileImage}
                   />
                 </View>
@@ -610,15 +607,20 @@ const PatientDashboardPage: React.FC = () => {
               style={styles.graphContainer}
               onPress={() => navigation.navigate("ActivitiesBottomMenu")}
             >
-              <Icon
-                name="bar-chart"
-                size={24}
-                color="black"
-                style={styles.iconGraph}
+              <Image
+                source={require("../../assets/gif/graph.gif")}
+                style={styles.graphGif}
+                resizeMode="contain"
               />
               <Text style={styles.graphTitle}>
                 {languageText.viewMetricsTitle}
               </Text>
+              <Icon
+                name="chevron-right"
+                size={50}
+                color="#c5c9cf"
+                style={{ marginLeft: 55 }}
+              />
             </TouchableOpacity>
           </ScrollView>
 
@@ -719,7 +721,7 @@ const styles = StyleSheet.create({
   coverImage: {
     width: "97%",
     height: 200,
-    borderRadius: 50,
+    borderRadius: 30,
     marginVertical: 10, // Adjusted margin for top and bottom
   },
   backButton: {
@@ -763,23 +765,23 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
   },
-    // ...existing code...
-    quoteText: {
-      position: "absolute",
-      top: "47%", // Vertically center relative to the image
-      left: "3%", // Responsive left margin
-      transform: [{ translateY: -15 }], // Adjust for vertical centering
-      fontSize: 18,
-      color: "#000",
-      textAlign: "left",
-      zIndex: 1,
-      width: "60%", // Responsive width
-      fontWeight: "600",
-      
-      paddingVertical: 4,
-      paddingHorizontal: 8,
-      borderRadius: 8,
-    },
+  // ...existing code...
+  quoteText: {
+    position: "absolute",
+    top: "47%", // Vertically center relative to the image
+    left: "3%", // Responsive left margin
+    transform: [{ translateY: -15 }], // Adjust for vertical centering
+    fontSize: 18,
+    color: "#000",
+    textAlign: "left",
+    zIndex: 1,
+    width: "60%", // Responsive width
+    fontWeight: "600",
+
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 8,
+  },
   // ...existing code...
   uploadContainer: {
     bottom: 100,
@@ -1104,8 +1106,8 @@ const styles = StyleSheet.create({
   infoTile1: {
     width: "49%", // Slightly adjusted width to fit well within the container
     height: 180,
-    backgroundColor: "#f5f5f5", // White background
-    borderRadius: 50,
+    backgroundColor: "#e2edfd", // White background
+    borderRadius: 10,
     borderColor: "#f5f5f5", // Light grey border
     borderWidth: 1,
 
@@ -1115,8 +1117,8 @@ const styles = StyleSheet.create({
   infoTile2: {
     width: "49%", // Slightly adjusted width to fit well within the container
     height: 180,
-    backgroundColor: "#f5f5f5", // White background
-    borderRadius: 50, // Circular border radius
+    backgroundColor: "#f9dfdd", // White background
+    borderRadius: 10, // Circular border radius
     borderColor: "#f5f5f5", // Light grey border
     borderWidth: 2,
     justifyContent: "center",
@@ -1166,8 +1168,6 @@ const styles = StyleSheet.create({
   },
   iconGraph: {
     marginRight: 10,
-
-    // Space between icon and text
   },
   graphTitle: {
     fontSize: 18, // Font size for the text
@@ -1175,6 +1175,12 @@ const styles = StyleSheet.create({
     color: "#333",
     alignItems: "center",
     marginLeft: 90, // Text color
+  },
+  graphGif: {
+    width: 80, // Adjust the width and height based on the size of the icon
+    height: 80,
+
+    borderRadius: 15,
   },
 });
 

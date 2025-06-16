@@ -290,7 +290,7 @@ const AddClinicalProfilePage: React.FC = () => {
           mode="ok"
           onOk={() => {
             setSuccessAlertVisible(false);
-            navigation.navigate("AddMetabolicProfilePage");
+            navigation.navigate("ViewPatientTablePage");
           }}
         />
 

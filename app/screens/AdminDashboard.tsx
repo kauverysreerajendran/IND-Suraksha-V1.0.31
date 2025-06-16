@@ -298,9 +298,9 @@ const AdminDashboardPage: React.FC = () => {
                 </TouchableOpacity>
               </View>
             </View>
-
+{/* Metabolic Info Section */}
             <View style={styles.tilesRow}>
-              <View style={styles.metabolicContainer}>
+            {/*   <View style={styles.metabolicContainer}>
                 <Image
                   source={require("../../assets/images/metabolic.jpg")}
                   style={styles.userImage}
@@ -312,7 +312,7 @@ const AdminDashboardPage: React.FC = () => {
                 >
                   <Text style={styles.buttonText}>Add</Text>
                 </TouchableOpacity>
-              </View>
+              </View> */}
 
               <View style={styles.logContainer}>
                 <Image

@@ -7,7 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-  Linking
+  Linking,
 } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
@@ -19,9 +19,10 @@ import texts from "../translation/texts";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-// Custom Text component to disable font scaling globally 
-const Text = (props: any) => { return <RNText {...props} allowFontScaling={false} />; };
-
+// Custom Text component to disable font scaling globally
+const Text = (props: any) => {
+  return <RNText {...props} allowFontScaling={false} />;
+};
 
 type OccupationKeys = "sedentaryworker" | "moderateworker" | "heavyworker";
 type EducationKeys = "highSchool" | "bachelor" | "master" | "phd";
@@ -88,22 +89,24 @@ const PatientProfile: React.FC = () => {
     );
   }, [isTranslatingToTamil]);
 
-    const handleFeedbackSubmit = async () => {
+  const handleFeedbackSubmit = async () => {
     try {
       console.log("Submit Feedback button pressed");
       // Add your feedback submission logic here
       navigation.navigate("UserFeedbackForm"); // Adjust navigation to your feedback screen
     } catch (error: unknown) {
       console.error("Error submitting feedback:", error);
-  
+
       if (error instanceof Error) {
         const isNetworkError =
           error.message.includes("Network request failed") ||
           error.message.includes("TypeError: Network") ||
           error.message.includes("fetch");
-  
+
         if (isNetworkError) {
-          console.error("Network Failed - Please Check Your Internet Connection");
+          console.error(
+            "Network Failed - Please Check Your Internet Connection"
+          );
         }
       }
     }
@@ -162,6 +165,12 @@ const PatientProfile: React.FC = () => {
                 </View>
                 <View style={styles.detailsContainer}>
                   <View style={styles.profileDetail}>
+                    <Icon
+                      name="badge"
+                      size={18}
+                      color="#acacac"
+                      style={{ marginRight: 8 }}
+                    />
                     <Text style={styles.boldText}>
                       {languageText.patientId}:{" "}
                     </Text>
@@ -172,12 +181,23 @@ const PatientProfile: React.FC = () => {
                   <View style={styles.separator} />
 
                   <View style={styles.profileDetail}>
+                    <Icon
+                      name="person"
+                      size={18}
+                      color="#4169E1"
+                      style={{ marginRight: 8 }}
+                    />
                     <Text style={styles.boldText}>{languageText.name}: </Text>
                     <Text style={styles.valueText}>{patientDetails.name}</Text>
                   </View>
                   <View style={styles.separator} />
-
                   <View style={styles.profileDetail}>
+                    <Icon
+                      name="cake"
+                      size={18}
+                      color="#4169E1"
+                      style={{ marginRight: 8 }}
+                    />
                     <Text style={styles.boldText}>{languageText.age}: </Text>
                     <Text style={styles.valueText}>{patientDetails.age}</Text>
                   </View>
@@ -352,19 +372,28 @@ const PatientProfile: React.FC = () => {
           </LinearGradient>
 
           <View style={styles.buttonContainer}>
-  <TouchableOpacity
-    style={[styles.feedbackButton, styles.feedbackButton]}
-    onPress={handleFeedbackSubmit}
-  >
-   
-    <Text style={styles.feedbackButtonText}>{languageText.submitFeedback}</Text>  </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.feedbackButton, styles.feedbackButton]}
+              onPress={handleFeedbackSubmit}
+            >
+              <Text style={styles.feedbackButtonText}>
+                {languageText.submitFeedback}
+              </Text>{" "}
+            </TouchableOpacity>
 
-  <TouchableOpacity
-  style={[styles.deleteButton, styles.deleteButton]}
-  onPress={() => Linking.openURL("https://sites.google.com/view/indheartsuraksha/home")}
->
- <Text style={styles.deleteButtonText}>{languageText.deleteAccount}</Text></TouchableOpacity>
-</View>
+            <TouchableOpacity
+              style={[styles.deleteButton, styles.deleteButton]}
+              onPress={() =>
+                Linking.openURL(
+                  "https://sites.google.com/view/indheartsuraksha/home"
+                )
+              }
+            >
+              <Text style={styles.deleteButtonText}>
+                {languageText.deleteAccount}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -374,7 +403,6 @@ const PatientProfile: React.FC = () => {
 export default PatientProfile;
 
 const styles = StyleSheet.create({
-
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "center", // Center align the buttons horizontally
@@ -384,14 +412,14 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 15,
   },
-    feedbackButton: {
+  feedbackButton: {
     backgroundColor: "#3a8cb4",
     borderRadius: 30,
     marginHorizontal: 5,
     minWidth: 90,
     alignItems: "center",
-    flexShrink: 1,           // Allow button to shrink if needed
-    maxWidth: "48%",         // Prevent button from exceeding half the row
+    flexShrink: 1, // Allow button to shrink if needed
+    maxWidth: "48%", // Prevent button from exceeding half the row
   },
   deleteButton: {
     backgroundColor: "#f15252",
@@ -399,8 +427,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     minWidth: 90,
     alignItems: "center",
-    flexShrink: 1,           // Allow button to shrink if needed
-    maxWidth: "48%",         // Prevent button from exceeding half the row
+    flexShrink: 1, // Allow button to shrink if needed
+    maxWidth: "48%", // Prevent button from exceeding half the row
   },
   feedbackButtonText: {
     color: "#fffcfc",
@@ -409,8 +437,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingVertical: 10,
     paddingHorizontal: 12,
-    flexWrap: "wrap",        // Allow text to wrap
-    maxWidth: "100%",        // Prevent text from overflowing button
+    flexWrap: "wrap", // Allow text to wrap
+    maxWidth: "100%", // Prevent text from overflowing button
   },
   deleteButtonText: {
     color: "#fffcfc",
@@ -419,12 +447,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingVertical: 10,
     paddingHorizontal: 12,
-    flexWrap: "wrap",        // Allow text to wrap
-    maxWidth: "100%",        // Prevent text from overflowing button
+    flexWrap: "wrap", // Allow text to wrap
+    maxWidth: "100%", // Prevent text from overflowing button
   },
- 
-  
- 
+
   container: {
     flex: 1,
     backgroundColor: "#fff",
@@ -537,9 +563,6 @@ const styles = StyleSheet.create({
     marginLeft: 8, // Space between icon and text
   },
 
-
-
- 
   icon: {
     marginRight: 0,
   },

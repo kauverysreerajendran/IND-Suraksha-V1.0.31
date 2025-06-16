@@ -263,7 +263,7 @@ const WaterPage: React.FC = () => {
       if (response.status === 201) {
         setAlertTitle(languageText.success);
         setAlertMessage(
-          `${languageText.recorded} ${waterIntake} ml ${languageText.intake}`
+          `${languageText.recorded} ${waterIntake}  ${languageText.intake}`
         );
         setAlertMode("success");
         setCustomAlertVisible(true); // Show custom alert

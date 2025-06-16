@@ -12,6 +12,7 @@ import {
   ScrollView,
   SafeAreaView,
   StatusBar,
+  Modal,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -36,6 +37,49 @@ const LoginPage: React.FC = () => {
   const navigation = useNavigation<LoginPageNavigationProp>();
   const languageText = isTranslatingToTamil ? texts.english : texts.tamil;
   const scale = useRef(new Animated.Value(1)).current;
+
+  /* Dev Test Screens */
+  const [testModalVisible, setTestModalVisible] = useState(false);
+
+const testScreens = [
+  "AdminDashboardPage",
+  "AddPatientProfile",
+  "AddUserProfilePage",
+  "ViewPatientProfile",
+  "AddClinicalProfilePage",
+  "ViewPatientTablePage",
+  "AddMetabolicProfilePage",
+  "PatientDashboardPage",
+  "VegDietPage",
+  "WaterPage",
+  "YogaPage",
+  "SleepRitualsPage",
+  "LifestyleMonitoring",
+  "NonVegDietPage",
+  "Insights",
+  "Exercise",
+  "ExerciseVideos",
+  "BreathingExercise",
+  "DailyExercise",
+  "Walking",
+  "MedicationManager",
+  "MedicationInclusion",
+  "PatientMedication",
+  "PatientProfile",
+  "DailyUploads",
+  "BottomTabs",
+  "PatientDailyLogTableScreen",
+  "UserFeedbackForm",
+  "NotificationPage",
+  "DietaryChange",
+  "MyFoodPlate",
+  "WalkingGuidelines",
+  "ReviewFeedbackScreen",
+  "SupportPage",
+  "ActivitiesBottomMenu",
+  "TempTestNavigation",
+];
+
 
   useEffect(() => {
     const animate = () => {
@@ -150,6 +194,38 @@ const LoginPage: React.FC = () => {
               </View>
             </View>
           </View>
+
+
+{/* Dev Test Link */}
+<View style={{ alignItems: "center", marginTop: 20 }}>
+  <TouchableOpacity onPress={() => setTestModalVisible(true)}>
+    <Text style={{ color: "#D73F6E", fontWeight: "bold", fontSize: 16, textDecorationLine: "underline", bottom: -40, }}>
+      Test -- Open All Forms
+    </Text>
+  </TouchableOpacity>
+</View>
+
+
+<Modal visible={testModalVisible} transparent animationType="slide">
+  <View style={{ flex: 1, backgroundColor: "#0008", justifyContent: "center", alignItems: "center" }}>
+    <View style={{ backgroundColor: "#fff", borderRadius: 10, padding: 20, width: "80%", maxHeight: 350 }}>
+      <ScrollView>
+        {testScreens.map((screen) => (
+          <TouchableOpacity key={screen} onPress={() => { setTestModalVisible(false); navigation.navigate(screen as any); }}>
+            <Text style={{ fontSize: 16, marginVertical: 6 }}>{screen}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+      <TouchableOpacity onPress={() => setTestModalVisible(false)}>
+        <Text style={{ color: "#D73F6E", marginTop: 16, textAlign: "center" }}>Close</Text>
+      </TouchableOpacity>
+    </View>
+  </View>
+</Modal>
+
+
+
+
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
